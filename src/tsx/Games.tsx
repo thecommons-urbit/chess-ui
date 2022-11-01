@@ -1,10 +1,11 @@
 import React from 'react'
+import { CHESS } from '../ts/constants/chess'
 import { pokeAction, resign, offerDraw } from '../ts/helpers/urbitChess'
 import { Side, GameID, GameInfo, ActiveGameInfo } from '../ts/types/urbitChess'
 import useChessStore from '../ts/state/chessStore'
 
 export function Games () {
-  const { urbit, displayGame, activeGames, setDisplayGame, offeredDraw } = useChessStore()
+  const { urbit, displayGame, activeGames, setDisplayGame, offeredDraw, practiceBoard, setPracticeBoard } = useChessStore()
   const hasGame: boolean = (displayGame !== null)
 
   const extractDate = (gameID: GameID) => {
@@ -35,11 +36,18 @@ export function Games () {
           disabled={!hasGame}
           onClick={resignOnClick}>
           resign</button>
-        <button
-          className='option'
-          disabled={!hasGame}
-          onClick={() => setDisplayGame(null)}>
-          practice board</button>
+        {hasGame ? (
+          <button
+            className='option'
+            onClick={() => setDisplayGame(null)}>
+            practice board</button>
+        ) : (
+          <button
+            className='option'
+            disabled={practiceBoard === CHESS.defaultFEN}
+            onClick={() => setPracticeBoard(null)}>
+            reset practice board</button>
+        )}
       </div>
       <ul className='game-list'>
         {
