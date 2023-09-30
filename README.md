@@ -16,6 +16,32 @@ chess app.
 
 **NOTE:** The above advice is not only for users, but also developers. Developing / testing with a backend is *much*
 easier.
+In September, 2022, `~bonbud-macryg`, `~nordus-mocwyl`, and `~rovmug-ticfyn` began working on `%chess` in their spare
+time for an [Urbit Foundation bounty](https://urbit.org/grants/chess-bounty), which they completed in September, 2023.
+
+## Mission
+
+`%chess` seeks to be a community sandbox for Urbit apps. As Urbit evolves, so too should `%chess`. `%chess` should seek
+at all times to incorporate the most modern Urbit programming techniques. It should strive to provide well-documented,
+clear, concise code that beginner Hoon coders can use as a reference.
+
+Whether or not `%chess` meets all of these goals at any particular moment, they are the aspirations of the repo.
+
+## News
+
+The "Chess Improvements Bounty" has been completed. Pharaoh has set the chess slaves free!
+
+![go now be free](https://0x0.st/HV0I.png)
+
+## Installation
+
+You can find `%chess` on Urbit using the App Search in Grid. Search for `~finmep-lanteb` and you should see
+`%chess` as an available app.
+
+Alternatively, you can install from your ship's Terminal:
+```
+|install ~finmep-lanteb %chess
+```
 
 ## Development
 
