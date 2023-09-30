@@ -27,6 +27,7 @@ usage() {
   echo -e ""
   echo -e "Options:"
   echo -e "  -h\tPrint script usage info"
+  echo -e "  -k\tSet alternative kelvin version to use (default: $DEFAULT_KELVIN)"
   echo -e "  -l\tFix formatting errors raised by eslint"
   echo -e "  -n\tUse npm natively instead of through Docker"
   echo -e ""
@@ -45,6 +46,7 @@ ROOT_DIR=$(dirname $SCRIPT_DIR)
 BUILD_DIR="$ROOT_DIR/build"
 
 DOCKER_IMAGE="urbit-chess"
+LINT_FIX=0
 
 VERSION="latest"
 
@@ -57,6 +59,8 @@ VERSION_FULL="$VERSION_MAJOR.$VERSION_MINOR.$VERSION_PATCH"
 
 DEFAULT_KELVIN=412
 DEFAULT_SHIP="finmep-lanteb"
+
+KELVIN=$DEFAULT_KELVIN
 SHIP=$DEFAULT_SHIP
 
 # --------------------------------------
@@ -64,7 +68,7 @@ SHIP=$DEFAULT_SHIP
 # --------------------------------------
 
 # Parse arguments
-OPTS=":hnlv:"
+OPTS=":hns:u:k:l"
 while getopts ${OPTS} opt; do
   case ${opt} in
     h)
@@ -78,6 +82,12 @@ while getopts ${OPTS} opt; do
       ;;
     v)
       VERSION=$OPTARG
+      ;;
+    k)
+      KELVIN=$OPTARG
+      ;;
+    l)
+      LINT_FIX=1
       ;;
     :)
       echo "$SCRIPT_NAME: Missing argument for '-${OPTARG}'" >&2
