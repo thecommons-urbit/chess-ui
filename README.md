@@ -1,179 +1,82 @@
-# `%chess`
+# Chess GUI
 
-![Urbit Chess Demo](https://raw.githubusercontent.com/ashelkovnykov/urbit-chess/master/images/urbit-chess-demo.png)
+![GUI Demo](./images/demo.png)
 
 ## About
 
-`%chess` is an [Urbit](https://urbit.org) app which allows you to play chess with other Urbit users. It is a
-fully-decentralized, peer-to-peer chess application.
+[`%chess`](https://github.com/thecommons-urbit/chess-app) is an [Urbit](https://urbit.org) app which allows you to play
+chess with other Urbit users. It is a fully-decentralized, peer-to-peer chess application. This repo contains a
+browser-based GUI for `%chess`.
 
-The original `%chess` was made by Raymond E. Pasco for several reasons:
-- To practice Hoon
-- As a hobby project
-- As a proof-of-concept that users could share software between ships using Urbit "desks"
-You can find his original repository for Urbit Chess [here](https://git.sr.ht/~ray/urbit-chess) and his Urbit Chess
-Announcements page [here](https://lists.sr.ht/~ray).
+## Install
 
-Ray paused work on `%chess` in March 2021 due to personal reasons. In August 2021, Tlon released full-fledged software
-distribution in an update to Arvo. `~finmep-lanteb` updated `%chess` to work with this update as a broadly-visible
-example of app distribution for Assembly 2021.
+This repo contains only frontend code, without any of the backend Urbit logic. See the
+[chess distribution repo](https://github.com/thecommons-urbit/chess) for detailed instructions on how to install the
+chess app.
 
-In September, 2022, `~bonbud-macryg`, `~nordus-mocwyl`, and `~rovmug-ticfyn` began working on `%chess` in their spare
-time for an [Urbit Foundation bounty](https://urbit.org/grants/chess-bounty), which they completed in September, 2023.
-
-## Mission
-
-`%chess` seeks to be a community sandbox for Urbit apps. As Urbit evolves, so too should `%chess`. `%chess` should seek
-at all times to incorporate the most modern Urbit programming techniques. It should strive to provide well-documented,
-clear, concise code that beginner Hoon coders can use as a reference.
-
-Whether or not `%chess` meets all of these goals at any particular moment, they are the aspirations of the repo.
-
-## News
-
-The "Chess Improvements Bounty" has been completed. Pharaoh has set the chess slaves free!
-
-![go now be free](https://0x0.st/HV0I.png)
-
-## Installation
-
-You can find `%chess` on Urbit using the App Search in Grid. Search for `~finmep-lanteb` and you should see
-`%chess` as an available app.
-
-Alternatively, you can install from your ship's Terminal:
-```
-|install ~finmep-lanteb %chess
-```
+**NOTE:** The above advice is not only for users, but also developers. Developing / testing with a backend is *much*
+easier.
 
 ## Development
 
-Below is a step-by-step guide for developing `%chess` and testing changes. This section assumes at least minor Urbit
-development experience, i.e.:
-- familiarity with Unix-based systems
-- familiarity with git
-- completion of at least some (preferably all) of
-  [Hoon School](https://developers.urbit.org/guides/core/hoon-school/A-intro) and
-  [App School](https://developers.urbit.org/guides/core/app-school/intro)
-
-The above is not to say that people with no prior development experience are barred from contributing, just that this is
-not a place to receive guided help. There are plenty of issues with `%chess` that need fixing, many of which are simple
-and would be good "first-time" Urbit contributions.
-
 ### 0. Setup your development environment
 
-#### Urbit binaries
-
-See [this guide](https://developers.urbit.org/guides/core/environment) on the Urbit developers portal for information on
-how to get the Urbit binaries and what sort of software may be useful for developing Urbit applications.
-
-#### Docker & Vite
-
-To spare you from the nightmare that is the JS development environment, `%chess`'s build script is equipped to use
+To spare you from the nightmare that is the JS development environment, the build script is equipped to use
 [Docker](https://www.docker.com). If you'd like to use Docker, make sure that you have it
 [installed](https://docs.docker.com/engine/install/) and that your user account on your machine has `sudo` privileges.
 
-(NOTE: [Do not use the 'docker' group](https://fosterelli.co/privilege-escalation-via-docker.html).)
+**NOTE:** [Do not use the 'docker' group](https://fosterelli.co/privilege-escalation-via-docker.html)
 
-If you are already in the nightmare that is the JS development environment, and cannot wake up, you can build `%chess`
-natively with [Vite](https://vitejs.dev/).
-
-This guide will cover both workflows. For the native Vite build, we only assume you have
+If you already inhabit the nightmare realm that is the JS development environment, you can build natively with
+[Vite](https://vitejs.dev/). The native Vite build assumes that you have
 [npm](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm) installed already.
 
-### 1. Pull a copy of the `%chess` code
+### 1. Do development stuff
 
+![development stuff](./images/dev.gif)
+
+### 2. Build `%chess` code
+
+The `./bin/` directory contains a helper script `build.sh` that will build the source code for you. If the script succeeds,
+the output will be located in `./build/`.
+
+#### Docker build
+
+The Docker build is the default. To run it, simply run the build script:
 ```
-git clone https://github.com/ashelkovnykov/urbit-chess.git
-```
-
-### 2. Do development stuff
-
-Check out the [IDEA Hoon plugin](https://github.com/ashelkovnykov/idea-hoon-plugin) if you want to work on Hoon in a
-fully-fledged IDE, instead of vim/emacs/VSC!
-
-### 3. Setup test ship
-
-Create a development ship of your choice:
-```
-./urbit -F zod
-```
-
-Create a `%chess` desk from inside your dev ship:
-```
-|merge %chess our %base
-```
-
-Mount the `%chess` desk, so that we can push our updated code to it:
-```
-|mount %chess
-```
-
-### 4. Build `%chess` code
-
-Run the provided build script from `/urbit-chess` to compile the `%chess` frontend.
-
-To run the Docker build, substitute the name of your dev ship using the `-s`
-option:
-```
-./bin/build.sh -s zod
+./bin/build.sh
 ```
 
 #### Vite build
 
 To run the build script without Docker, add an `-n` flag like so:
 ```
-./bin/build.sh -s zod -n
+./bin/build.sh -n
 ```
 
-### 5. Install the `%chess` app
-
-Clear the default files from cloning the `%base` desk:
+You can also use the `-l` option to run the JS linter and have it auto-fix issues for you:
 ```
-rm -rf ../Urbit/zod/chess/*
+./bin/build.sh -n -l
 ```
 
-Push the core desk files to the `%chess` app on the dev ship:
-```
-cp -rfL ~/[path to urbit source code]/urbit/pkg/base-dev/* ../Urbit/zod/chess/
-cp -rfL ~/[path to urbit source code]/urbit/pkg/garden-dev/* ../Urbit/zod/chess/
-```
+### 3. Install the frontend
 
-Run the provided installation script to copy the `%chess` backend files to the dev ship. Substitute the path to the pier
-using the `-p` option and your pier's name using the `-s` option:
-```
-./bin/install.sh -p /home/user/Urbit -s zod
-```
+Assuming you have [a test ship with `%chess` installed](https://github.com/thecommons-urbit/chess-app#Install), you can
+link `%chess` to the compiled frontend for testing.
 
-Commit the changes from inside your dev ship:
-```
-|commit %chess
-```
+Login to your dev ship through your browser (the URL at which the ship's interface is running is posted on launch; it
+should look something like `http://localhost:8080`). Navigate to the docket glob interface
+(`http://localhost:8080/docket/upload`). Follow the instructions on the page to upload the frontend files to your dev
+ship. Once globbing is completed, you can access the chess app on the dev ship to confirm that the frontend was
+correctly installed.
 
-The dev ship is now awaiting the frontend files to link to the app. Installation is not complete until these files are
-provided.
+### 4. Testing the frontend
 
-Before you can link your frontend, you'll need to install your app if you haven't already:
-```
-|install our %chess
-```
-
-#### Globbing the frontend
-
-The dev ship is now awaiting the frontend files to link to the app. Installation is not complete until these files are
-provided. Login to your dev ship through your browser (the URL at which the ship's interface is running is posted on
-launch; it should look something like `http://localhost:8080`). Navigate to the docket glob interface (e.g.
-`http://localhost:8080/docket/upload`). Follow the instructions on the page to upload the frontend files to your dev
-ship.
-
-Once globbing is completed, you can return to the main page for your dev ship and see that the Chess app is installed.
-
-#### Testing the frontend
-
-You can use Vite to test changes to the frontend as soon as you save those changes in your editor. Run your fakeship at
+You can use Vite to test changes to the frontend as soon as you save those changes in your editor. Run your dev ship at
 `localhost:8080` and run `npm run dev` in the `/src/frontend` folder, then open `localhost:5173/apps/chess` in any
-browser in which you're logged into the fakeship.
+browser in which you're logged into the dev ship.
 
-You may need to run the following commands in your fakeship's Dojo for it to accept requests from Vite.
+You may need to run the following commands in your dev ship's dojo for it to accept requests from Vite:
 ```
 > |cors-approve 'http://localhost:5173'
 > |cors-approve 'http://localhost:8080'
@@ -182,36 +85,7 @@ You may need to run the following commands in your fakeship's Dojo for it to acc
 #### NOTE: About browsers
 
 Google Chrome and Chromium-based browsers have a tough time clearing the cache and picking up changes made to the
-frontend. If you're developing the frontend, it's recommended to use Firefox for testing.
-
-### 6. Testing with other ships
-
-Once installed, you need to publish `%chess` so that other dev ships on your computer will be able to find it:
-```
-:treaty|publish %chess
-```
-
-Now, any additional dev ships on your computer will be able to install `%chess` through Grid,
-just like they would if they were real ships:
-```
-|install ~zod %chess
-```
-
-You can launch multiple test ships to communicate with each other and/or your dev ship to test
-the `%chess` Hoon and network functionality.
-
-#### NOTE: About fake-ships
-
-Fake-ships hosted on the same computer can talk to each other, but they still have 'realistic' packet routing. This
-means that fake galaxies can talk to each other, but fake planets cannot, unless they have appropriate fake stars and
-fake galaxies also active on the computer to route for them. Examples:
-
-```
-~tex & ~mex:            GOOD
-~tex & ~bintex:         GOOD
-~mex & ~bintex:         BAD
-~tex, ~mex, & ~bintex:  GOOD
-```
+frontend. If you're developing the frontend, it's recommended to use Firefox for final testing.
 
 ## Contributors
 

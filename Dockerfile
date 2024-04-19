@@ -9,11 +9,11 @@ ENV NODE_ENV=prod
 WORKDIR /app/frontend
 
 # Install dependencies
-COPY ["src/frontend/package.json", "./"]
+COPY ["src/package.json", "./"]
 RUN npm install --verbose
 
 # Copy files from source
-COPY ["src/frontend/", "./"]
+COPY ["src/", "./"]
 RUN rm package-lock.json
 
 # Build frontend
