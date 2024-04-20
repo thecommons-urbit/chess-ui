@@ -217,6 +217,14 @@ export function GamePanel () {
             }
           </p>
         </div>
+        <div id="our-captured" className='captured row'>
+          <p>
+            { (displayGame.white === '~' + window.ship)
+              ? (materialDifference(lastFen)).white
+              : (materialDifference(lastFen)).black
+            }
+          </p>
+        </div>
         <div id="opp-timer" className='timer row'>
           <p>00:00</p>
         </div>
@@ -233,14 +241,6 @@ export function GamePanel () {
         </div>
         <div id="our-timer" className='timer row'>
           <p>00:00</p>
-        </div>
-        <div id="our-captured" className='captured row'>
-          <p>
-            { (displayGame.white === '~' + window.ship)
-              ? (materialDifference(lastFen)).white
-              : (materialDifference(lastFen)).black
-            }
-          </p>
         </div>
         {/* buttons */}
         {/* resign button */}
