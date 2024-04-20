@@ -131,6 +131,7 @@ div.game-panel .moves {
   "~sampel-palnet" above */
   padding-left: 0.8em;
   border: 1px black solid;
+  font-variation-settings: 'xtab' 500;
 }
 
 div.game-panel .move-item span {
