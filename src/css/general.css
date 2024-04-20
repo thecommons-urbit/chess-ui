@@ -1,9 +1,17 @@
 
 /* fundamental containers, positioning, etc. */
 
+@font-face {
+  font-family: "Urbit Sans";
+  src: url('https://media.urbit.org/fonts/UrbitSans/UrbitSansVFWeb-Regular.woff2')
+       format('woff2');
+  font-weight: 100 700;
+  font-style: normal;
+}
+
 body {
   margin: 0px;
-  font-family: 'Courier Prime', 'Courier New', monospace;
+  font-family: 'Urbit Sans', sans-serif;
   background-color: #F2EFE7;
 }
 
