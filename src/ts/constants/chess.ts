@@ -18,8 +18,21 @@ const PROMOTION_ROLES: RoleDictionary[] = [
   { cgRole: 'bishop', chessRole: BISHOP, urbitRole: PromotionRole.Bishop }
 ]
 
+export interface PieceCount {
+  [key: string]: number;
+}
+
 interface PieceValues {
   [key: string]: number;
+}
+
+const INITIAL_PIECES_COUNT: PieceCount = {
+  'p': 8,
+  'n': 2,
+  'b': 2,
+  'r': 2,
+  'q': 1,
+  'k': 1
 }
 
 const PIECE_VALUES: PieceValues = {
@@ -53,6 +66,7 @@ const PIECE_ICONS_BLACK: PieceIcons = {
 export const CHESS = {
   defaultFEN: DEFAULT_FEN,
   promotionRoles: PROMOTION_ROLES,
+  initialPiecesCount: INITIAL_PIECES_COUNT,
   pieceValues: PIECE_VALUES,
   pieceIconsWhite: PIECE_ICONS_WHITE,
   pieceIconsBlack: PIECE_ICONS_BLACK
