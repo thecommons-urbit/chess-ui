@@ -3,8 +3,9 @@ import { Chess, ChessInstance } from 'chess.js'
 import Popup from 'reactjs-popup'
 import useChessStore from '../ts/state/chessStore'
 import { pokeAction, offerDrawPoke, revokeDrawPoke, declineDrawPoke, acceptDrawPoke, claimSpecialDrawPoke, resignPoke, requestUndoPoke, revokeUndoPoke, declineUndoPoke, acceptUndoPoke } from '../ts/helpers/urbitChess'
-import { CHESS } from '../ts/constants/chess'
+import { CHESS, PieceCount } from '../ts/constants/chess'
 import { Ship, Side, GameID, SAN, GameInfo, ActiveGameInfo } from '../ts/types/urbitChess'
+import { Piece } from 'chessground/types'
 
 export function GamePanel () {
   const { urbit, displayGame, setDisplayGame, practiceBoard, setPracticeBoard, displayIndex, setDisplayIndex } = useChessStore()
@@ -82,56 +83,46 @@ export function GamePanel () {
     }
   }
 
-  const materialDifference = (fen: string) => {
-    let board = fen.split(' ')[0]
-    if (displayIndex !== 0) {
-      board = displayGame.moves[displayIndex].fen.split(' ')[0]
-    }
-    const whitePieces: { [key: string]: number } = { 'q': 0, 'r': 0, 'b': 0, 'n': 0, 'p': 0 }
-    const blackPieces: { [key: string]: number } = { 'q': 0, 'r': 0, 'b': 0, 'n': 0, 'p': 0 }
-    let whiteDisplay = ''
-    let blackDisplay = ''
+  const materialDifference = (fen: string): { white: string; black: string } => {
+    const board = fen.split(' ')[0];
+    const whitePieces: PieceCount = { k: 0, q: 0, r: 0, b: 0, n: 0, p: 0 };
+    const blackPieces: PieceCount = { k: 0, q: 0, r: 0, b: 0, n: 0, p: 0 };
 
-    for (let i = 0; i < board.length; i++) {
-      const piece = board.charAt(i)
-      if (piece === '/') {
-        continue
-      }
-      if (isNaN(parseInt(piece))) {
-        if (piece === piece.toUpperCase()) {
-          whitePieces[piece.toLowerCase()] += 1
-        } else {
-          blackPieces[piece] += 1
-        }
-      } else {
-        continue
-      }
+    // Count pieces on the current board
+    for (const char of board) {
+      if (char === '/') continue;
+      const num = parseInt(char, 10);
+      if (!isNaN(num)) continue;
+
+      const piece = char.toLowerCase();
+      const isWhite = char === char.toUpperCase();
+      const count = isWhite ? whitePieces : blackPieces;
+      count[piece]++;
     }
 
-    for (let key in whitePieces) {
-      if (whitePieces[key] > blackPieces[key]) {
-        whiteDisplay += Array(whitePieces[key] - blackPieces[key]).fill(CHESS.pieceIconsBlack[key]).join('')
-      } else if (blackPieces[key] > whitePieces[key]) {
-        blackDisplay += Array(blackPieces[key] - whitePieces[key]).fill(CHESS.pieceIconsWhite[key]).join('')
-      }
-    }
+    let whiteDisplay = '';
+    let blackDisplay = '';
+    Object.keys(CHESS.initialPiecesCount).forEach((key: keyof PieceCount) => {
+      const whiteTaken = CHESS.initialPiecesCount[key] - whitePieces[key];
+      const blackTaken = CHESS.initialPiecesCount[key] - blackPieces[key];
+      whiteDisplay += Array(whiteTaken).fill(CHESS.pieceIconsBlack[key]).join('');
+      blackDisplay += Array(blackTaken).fill(CHESS.pieceIconsWhite[key]).join('');
+    });
 
-    const materialDifference = Object.keys(CHESS.pieceValues).reduce(
-      (diff, key) => diff + (whitePieces[key] - blackPieces[key]) * CHESS.pieceValues[key],
-      0
-    )
+    // Calculate material score
+    const materialDifference = Object.keys(whitePieces).reduce((diff, key) => {
+      const whitePieceCount = whitePieces[key as keyof PieceCount];
+      const blackPieceCount = blackPieces[key as keyof PieceCount];
+      const pieceValue = key === 'k' ? 0 : CHESS.pieceValues[key as keyof PieceCount];
 
-    if (materialDifference > 0) {
-      whiteDisplay += '+' + materialDifference
-    } else if (materialDifference < 0) {
-      blackDisplay += '+' + Math.abs(materialDifference)
-    }
+      return diff + (whitePieceCount - blackPieceCount) * pieceValue;
+    }, 0);
 
-    return {
-      white: whiteDisplay,
-      black: blackDisplay
-    }
-  }
+    whiteDisplay += materialDifference > 0 ? ` +${materialDifference}` : '';
+    blackDisplay += materialDifference < 0 ? ` +${-materialDifference}` : '';
+
+    return { white: whiteDisplay, black: blackDisplay };
+  };
 
   //
   // HTML element generation functions
