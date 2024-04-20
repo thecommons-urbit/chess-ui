@@ -228,11 +228,13 @@ export function GamePanel () {
         <div id="opp-player" className='player row'>
           <p>{opponent}</p>
         </div>
+        <div className='moves-container'>
         <div className='moves col'>
           <ol>
-            { moveList() }
+            {moveList()}
           </ol>
         </div>
+      </div>
         <div id="our-player" className='player row'>
           <p>~{window.ship}</p>
         </div>

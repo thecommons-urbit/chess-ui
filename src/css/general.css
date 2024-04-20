@@ -130,7 +130,6 @@ div.game-panel .moves {
   align with "s" in
   "~sampel-palnet" above */
   padding-left: 0.8em;
-  border: 1px black solid;
   font-variation-settings: 'xtab' 500;
 }
 
@@ -141,6 +140,39 @@ div.game-panel .move-item span {
 div.game-panel .moves p {
   font-size: 1em;
   line-height: 1.4em;
+}
+
+.game-panel .moves-container {
+  position: relative;
+  min-height: 250px;
+  overflow: hidden;
+  padding-bottom: 30px;
+}
+
+.game-panel .moves {
+  height: 100%;
+  overflow-y: auto;
+}
+
+.game-panel .moves-container::before,
+.game-panel .moves-container::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 20px;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.game-panel .moves-container::before {
+  top: 0;
+  background: linear-gradient(to bottom, rgba(242, 239, 231, 1), transparent);
+}
+
+.game-panel .moves-container::after {
+  bottom: 0;
+  background: linear-gradient(to top, rgba(242, 239, 231, 1), transparent);
 }
 
 div.game-panel #our-player {
