@@ -83,10 +83,10 @@ export function GamePanel () {
     }
   }
 
-  const materialDifference = (fen: string): { white: string; black: string } => {
+  const materialDifference = (fen: string): { white: JSX.Element[], black: JSX.Element[] } => {
     const board = fen.split(' ')[0];
-    const whitePieces: PieceCount = { k: 0, q: 0, r: 0, b: 0, n: 0, p: 0 };
-    const blackPieces: PieceCount = { k: 0, q: 0, r: 0, b: 0, n: 0, p: 0 };
+    const whitePieces: PieceCount = { q: 0, r: 0, b: 0, n: 0, p: 0 };
+    const blackPieces: PieceCount = { q: 0, r: 0, b: 0, n: 0, p: 0 };
 
     // Count pieces on the current board
     for (const char of board) {
@@ -100,26 +100,36 @@ export function GamePanel () {
       count[piece]++;
     }
 
-    let whiteDisplay = '';
-    let blackDisplay = '';
+    let whiteDisplay: JSX.Element[] = [];
+    let blackDisplay: JSX.Element[] = [];
+
     Object.keys(CHESS.initialPiecesCount).forEach((key: keyof PieceCount) => {
       const whiteTaken = CHESS.initialPiecesCount[key] - whitePieces[key];
       const blackTaken = CHESS.initialPiecesCount[key] - blackPieces[key];
-      whiteDisplay += Array(whiteTaken).fill(CHESS.pieceIconsBlack[key]).join('');
-      blackDisplay += Array(blackTaken).fill(CHESS.pieceIconsWhite[key]).join('');
+
+      for (let i = 0; i < whiteTaken; i++) {
+        whiteDisplay.push(<img className="material-diff-icon" key={`${key}-white-${i}`} src={CHESS.pieceIconsBlack[key]} alt={`White ${key}`} />);
+      }
+      for (let i = 0; i < blackTaken; i++) {
+        blackDisplay.push(<img className="material-diff-icon" key={`${key}-black-${i}`} src={CHESS.pieceIconsWhite[key]} alt={`Black ${key}`} />);
+      }
     });
 
     // Calculate material score
-    const materialDifference = Object.keys(whitePieces).reduce((diff, key) => {
+    const materialScore = Object.keys(whitePieces).reduce((diff, key) => {
+      if (key === 'k') return diff;
       const whitePieceCount = whitePieces[key as keyof PieceCount];
       const blackPieceCount = blackPieces[key as keyof PieceCount];
-      const pieceValue = key === 'k' ? 0 : CHESS.pieceValues[key as keyof PieceCount];
+      const pieceValue = CHESS.pieceValues[key as keyof PieceCount];
 
       return diff + (whitePieceCount - blackPieceCount) * pieceValue;
     }, 0);
 
-    whiteDisplay += materialDifference > 0 ? ` +${materialDifference}` : '';
-    blackDisplay += materialDifference < 0 ? ` +${-materialDifference}` : '';
+    if (materialScore > 0) {
+      whiteDisplay.push(<span key="score">+{materialScore}</span>);
+    } else if (materialScore < 0) {
+      blackDisplay.push(<span key="score">+{-materialScore}</span>);
+    }
 
     return { white: whiteDisplay, black: blackDisplay };
   };
@@ -200,22 +210,18 @@ export function GamePanel () {
   return (
     <div className='game-panel-container col' style={{ display: 'flex' }}>
       <div className="game-panel col">
-        <div id="opp-captured" className='captured row'>
-          <p>
-            { (displayGame.white === '~' + window.ship)
-              ? (materialDifference(lastFen)).black
-              : (materialDifference(lastFen)).white
-            }
-          </p>
-        </div>
-        <div id="our-captured" className='captured row'>
-          <p>
-            { (displayGame.white === '~' + window.ship)
-              ? (materialDifference(lastFen)).white
-              : (materialDifference(lastFen)).black
-            }
-          </p>
-        </div>
+      <div id="opp-captured" className='captured row'>
+        {displayGame.white === `~${window.ship}`
+        ? materialDifference(lastFen).black
+        : materialDifference(lastFen).white
+        }
+      </div>
+      <div id="our-captured" className='captured row'>
+        {displayGame.white === `~${window.ship}`
+        ? materialDifference(lastFen).white
+        : materialDifference(lastFen).black
+        }
+      </div>
         <div id="opp-timer" className='timer row'>
           <p>00:00</p>
         </div>

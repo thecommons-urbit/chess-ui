@@ -37,6 +37,11 @@
   background-size: 240px;
 }
 
+.material-diff-icon {
+  height: 30px;
+  width: 30px;
+}
+
 ul.theme-list {
   align-self: center;
   margin-bottom: 1rem;

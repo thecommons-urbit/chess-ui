@@ -1,6 +1,16 @@
 import { KNIGHT, BISHOP, ROOK, QUEEN } from 'chess.js'
 import * as cg from 'chessground/types'
 import { PromotionRole } from '../types/urbitChess'
+import wP from '$cburnett/wP.svg'
+import wN from '$cburnett/wN.svg'
+import wB from '$cburnett/wB.svg'
+import wR from '$cburnett/wR.svg'
+import wQ from '$cburnett/wQ.svg'
+import bP from '$cburnett/bP.svg'
+import bN from '$cburnett/bN.svg'
+import bB from '$cburnett/bB.svg'
+import bR from '$cburnett/bR.svg'
+import bQ from '$cburnett/bQ.svg'
 
 type Role = typeof QUEEN | typeof ROOK | typeof KNIGHT | typeof BISHOP
 type RoleDictionary = {
@@ -48,19 +58,19 @@ interface PieceIcons {
 }
 
 const PIECE_ICONS_WHITE: PieceIcons = {
-  'p': '♙',
-  'n': '♘',
-  'b': '♗',
-  'r': '♖',
-  'q': '♕'
+  'p': wP,
+  'n': wN,
+  'b': wB,
+  'r': wR,
+  'q': wQ,
 }
 
 const PIECE_ICONS_BLACK: PieceIcons = {
-  'p': '♟︎',
-  'n': '♞',
-  'b': '♝',
-  'r': '♜',
-  'q': '♛'
+  'p': bP,
+  'n': bN,
+  'b': bB,
+  'r': bR,
+  'q': bQ,
 }
 
 export const CHESS = {
