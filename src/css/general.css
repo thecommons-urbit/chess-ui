@@ -152,7 +152,7 @@ div.game-panel #our-timer {
 }
 
 div.game-panel #our-captured {
-  justify-content: right;
+  justify-content: left;
 }
 
 div.game-panel .player {
