@@ -6,6 +6,7 @@ import { pokeAction, offerDrawPoke, revokeDrawPoke, declineDrawPoke, acceptDrawP
 import { CHESS, PieceCount } from '../ts/constants/chess'
 import { Ship, Side, GameID, SAN, GameInfo, ActiveGameInfo } from '../ts/types/urbitChess'
 import { Piece } from 'chessground/types'
+import resignIcon from '../assets/buttons/resign.svg'
 
 export function GamePanel () {
   const { urbit, displayGame, setDisplayGame, practiceBoard, setPracticeBoard, displayIndex, setDisplayIndex } = useChessStore()
@@ -243,11 +244,13 @@ export function GamePanel () {
         </div>
         {/* buttons */}
         {/* resign button */}
-        <button
-          className='option'
-          disabled={!hasActiveGame}
-          onClick={resignOnClick}>
-          Resign</button>
+        <img
+          src={resignIcon}
+          alt="Resign"
+          onClick={resignOnClick}
+          className='game-panel-button'
+          style={{ opacity: hasActiveGame ? 1.0 : 0.5 }}
+        />
         {/* offer/revoke/accept draw button */}
         {(!hasActiveGame || (!(displayGame as ActiveGameInfo).gotDrawOffer && !(displayGame as ActiveGameInfo).sentDrawOffer))
           ? <button
@@ -288,11 +291,6 @@ export function GamePanel () {
               onClick={revokeUndoOnClick}>
               Revoke Undo Request</button>
         }
-        {/* practice board */}
-        <button
-          className='option'
-          onClick={() => setDisplayGame(null)}>
-          Practice Board</button>
       </div>
       { hasActiveGame ? renderDrawPopup((displayGame as ActiveGameInfo)) : <div/> }
       { hasActiveGame ? renderUndoPopup((displayGame as ActiveGameInfo)) : <div/> }
