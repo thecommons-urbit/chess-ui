@@ -252,28 +252,18 @@ export function GamePanel () {
           style={{ opacity: hasActiveGame ? 1.0 : 0.5 }}
         />
         {/* offer/revoke/accept draw button */}
-        {(!hasActiveGame || (!(displayGame as ActiveGameInfo).gotDrawOffer && !(displayGame as ActiveGameInfo).sentDrawOffer))
-          ? <button
-            className='option'
-            disabled={!hasActiveGame}
-            onClick={offerDrawOnClick}>
-            Send Draw Offer</button>
-          : ((displayGame as ActiveGameInfo).gotDrawOffer)
-            ? <button
-              className='option'
-              onClick={acceptDrawOnClick}>
-              Accept Draw Offer</button> // accept
-            : <button
-              className='option'
-              onClick={revokeDrawOnClick}>
-              Revoke Draw Offer</button> // revoke
+        {
+          hasActiveGame &&
+          (displayGame as ActiveGameInfo).gotDrawOffer
+          ? <button className='option' onClick={acceptDrawOnClick}>Accept Draw Offer</button>
+          : (displayGame as ActiveGameInfo).sentDrawOffer
+          ? <button className='option' onClick={revokeDrawOnClick}>Revoke Draw Offer</button>
+          : (displayGame as ActiveGameInfo).threefoldDrawAvailable
+          ? <button className='option' onClick={claimSpecialDrawOnClick}>Claim Threefold Draw</button>
+          : (displayGame as ActiveGameInfo).fiftyMoveDrawAvailable
+          ? <button className='option' onClick={claimSpecialDrawOnClick}>Claim Fifty-Move Draw</button>
+          : <button className='option' onClick={offerDrawOnClick}>Offer Draw</button>
         }
-        {/* claim special draw */}
-        <button
-          className='option'
-          disabled={!hasActiveGame || !(displayGame as ActiveGameInfo).drawClaimAvailable}
-          onClick={claimSpecialDrawOnClick}>
-          Claim Special Draw</button>
         {/* request/revoke/accept undo button */}
         {(!hasActiveGame || (!(displayGame as ActiveGameInfo).gotUndoRequest && !(displayGame as ActiveGameInfo).sentUndoRequest))
           ? <button
