@@ -62,7 +62,7 @@ const PIECE_ICONS_WHITE: PieceIcons = {
   'n': wN,
   'b': wB,
   'r': wR,
-  'q': wQ,
+  'q': wQ
 }
 
 const PIECE_ICONS_BLACK: PieceIcons = {
@@ -70,7 +70,7 @@ const PIECE_ICONS_BLACK: PieceIcons = {
   'n': bN,
   'b': bB,
   'r': bR,
-  'q': bQ,
+  'q': bQ
 }
 
 export const CHESS = {
