@@ -264,7 +264,7 @@ export function GamePanel () {
             onClick={resignOnClick}
             className='game-panel-button'
             style={{
-              opacity: hasActiveGame ? 1.0 : 0.25,
+              opacity: hasActiveGame ? 1.0 : 0.1,
               cursor: hasActiveGame ? 'cursor' : 'default'
             }}
           />
@@ -277,7 +277,10 @@ export function GamePanel () {
                   alt="Accept Draw Offer"
                   onClick={acceptDrawOnClick}
                   className='game-panel-button'
-                  style={{ opacity: hasActiveGame && ourMove ? 1.0 : 0.25 }}
+                  style={{
+                    opacity: hasActiveGame ? 1.0 : 0.1,
+                    cursor: hasActiveGame ? 'pointer' : 'default'
+                  }}
                 />
               : (displayGame as ActiveGameInfo).sentDrawOffer
                 ? <img
@@ -285,7 +288,10 @@ export function GamePanel () {
                     alt="Revoke Draw Offer"
                     onClick={revokeDrawOnClick}
                     className='game-panel-button'
-                    style={{ opacity: hasActiveGame && ourMove ? 1.0 : 0.25 }}
+                    style={{
+                      opacity: hasActiveGame ? 1.0 : 0.1,
+                      cursor: hasActiveGame ? 'pointer' : 'default'
+                    }}
                   />
                 : (displayGame as ActiveGameInfo).fiftyMoveDrawAvailable
                   ? <img
@@ -293,7 +299,10 @@ export function GamePanel () {
                       alt="Claim Fifty-Move Draw"
                       onClick={claimSpecialDrawOnClick}
                       className='game-panel-button'
-                      style={{ opacity: hasActiveGame && ourMove ? 1.0 : 0.25 }}
+                      style={{
+                        opacity: hasActiveGame ? 1.0 : 0.1,
+                        cursor: hasActiveGame ? 'pointer' : 'default'
+                      }}
                     />
                   : (displayGame as ActiveGameInfo).threefoldDrawAvailable
                     ? <img
@@ -301,7 +310,10 @@ export function GamePanel () {
                         alt="Claim Threefold Draw"
                         onClick={claimSpecialDrawOnClick}
                         className='game-panel-button'
-                        style={{ opacity: hasActiveGame && ourMove ? 1.0 : 0.25 }}
+                        style={{
+                          opacity: hasActiveGame ? 1.0 : 0.1,
+                          cursor: hasActiveGame ? 'pointer' : 'default'
+                        }}
                       />
                     : <img
                         src={drawIcon}
@@ -309,7 +321,7 @@ export function GamePanel () {
                         onClick={offerDrawOnClick}
                         className='game-panel-button'
                         style={{
-                          opacity: hasActiveGame && ourMove ? 1.0 : 0.25,
+                          opacity: hasActiveGame && ourMove ? 1.0 : 0.1,
                           cursor: hasActiveGame && ourMove ? 'pointer' : 'default'
                         }}
                       />
@@ -323,6 +335,7 @@ export function GamePanel () {
                 alt="Accept Undo Request"
                 className='game-panel-button'
                 onClick={acceptUndoOnClick}
+                style={{ cursor: 'pointer' }}
               />
             : (displayGame as ActiveGameInfo).sentUndoRequest
             ? <img
@@ -330,6 +343,7 @@ export function GamePanel () {
                 alt="Revoke Undo Request"
                 className='game-panel-button'
                 onClick={revokeUndoOnClick}
+                style={{ cursor: 'pointer' }}
               />
             : <img
                 src={requestUndoIcon}
@@ -337,7 +351,7 @@ export function GamePanel () {
                 className='game-panel-button'
                 onClick={() => canUndo && ourMove && requestUndoOnClick()}
                 style={{
-                  opacity: hasActiveGame && canUndo && ourMove ? 1.0 : 0.25,
+                  opacity: hasActiveGame && canUndo && ourMove ? 1.0 : 0.1,
                   cursor: hasActiveGame && canUndo && ourMove ? 'pointer' : 'default'
                 }}
               />
