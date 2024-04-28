@@ -42,10 +42,17 @@
   width: 30px;
 }
 
+.game-panel-button-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: stretch;
+  padding-top: 10px;
+}
+
 .game-panel-button {
-  height: 60px;
-  width: 50px;
-  cursor: pointer;
+  height: 50px;
+  width: 40px;
 }
 
 ul.theme-list {

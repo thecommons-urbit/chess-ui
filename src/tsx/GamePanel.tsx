@@ -256,91 +256,93 @@ export function GamePanel () {
           <p>00:00</p>
         </div>
         {/* buttons */}
-        {/* resign button */}
-        <img
-          src={resignIcon}
-          alt="Resign"
-          onClick={resignOnClick}
-          className='game-panel-button'
-          style={{
-            opacity: hasActiveGame ? 1.0 : 0.5,
-            cursor: hasActiveGame ? 'cursor' : 'default'
-          }}
-        />
-        {/* offer/revoke/accept draw button */}
-        {
-          hasActiveGame &&
-          (displayGame as ActiveGameInfo).gotDrawOffer
-            ? <img
-                src={acceptDrawIcon}
-                alt="Accept Draw Offer"
-                onClick={acceptDrawOnClick}
-                className='game-panel-button'
-                style={{ opacity: hasActiveGame && ourMove ? 1.0 : 0.5 }}
-              />
-            : (displayGame as ActiveGameInfo).sentDrawOffer
+        <div className="game-panel-button-container">
+          {/* resign button */}
+          <img
+            src={resignIcon}
+            alt="Resign"
+            onClick={resignOnClick}
+            className='game-panel-button'
+            style={{
+              opacity: hasActiveGame ? 1.0 : 0.25,
+              cursor: hasActiveGame ? 'cursor' : 'default'
+            }}
+          />
+          {/* offer/revoke/accept draw button */}
+          {
+            hasActiveGame &&
+            (displayGame as ActiveGameInfo).gotDrawOffer
               ? <img
-                  src={cancelDrawIcon}
-                  alt="Revoke Draw Offer"
-                  onClick={revokeDrawOnClick}
+                  src={acceptDrawIcon}
+                  alt="Accept Draw Offer"
+                  onClick={acceptDrawOnClick}
                   className='game-panel-button'
-                  style={{ opacity: hasActiveGame && ourMove ? 1.0 : 0.5 }}
+                  style={{ opacity: hasActiveGame && ourMove ? 1.0 : 0.25 }}
                 />
-              : (displayGame as ActiveGameInfo).fiftyMoveDrawAvailable
+              : (displayGame as ActiveGameInfo).sentDrawOffer
                 ? <img
-                    src={fiftyMoveDrawIcon}
-                    alt="Claim Fifty-Move Draw"
-                    onClick={claimSpecialDrawOnClick}
+                    src={cancelDrawIcon}
+                    alt="Revoke Draw Offer"
+                    onClick={revokeDrawOnClick}
                     className='game-panel-button'
-                    style={{ opacity: hasActiveGame && ourMove ? 1.0 : 0.5 }}
+                    style={{ opacity: hasActiveGame && ourMove ? 1.0 : 0.25 }}
                   />
-                : (displayGame as ActiveGameInfo).threefoldDrawAvailable
+                : (displayGame as ActiveGameInfo).fiftyMoveDrawAvailable
                   ? <img
-                      src={threefoldDrawIcon}
-                      alt="Claim Threefold Draw"
+                      src={fiftyMoveDrawIcon}
+                      alt="Claim Fifty-Move Draw"
                       onClick={claimSpecialDrawOnClick}
                       className='game-panel-button'
-                      style={{ opacity: hasActiveGame && ourMove ? 1.0 : 0.5 }}
+                      style={{ opacity: hasActiveGame && ourMove ? 1.0 : 0.25 }}
                     />
-                  : <img
-                      src={drawIcon}
-                      alt="Offer Draw"
-                      onClick={offerDrawOnClick}
-                      className='game-panel-button'
-                      style={{
-                        opacity: hasActiveGame && ourMove ? 1.0 : 0.5,
-                        cursor: hasActiveGame && ourMove ? 'pointer' : 'default'
-                      }}
-                    />
-        }
-        {/* request/revoke/accept undo button */}
-        {
-          hasActiveGame &&
-          (displayGame as ActiveGameInfo).gotUndoRequest
-          ? <img
-              src={acceptUndoIcon}
-              alt="Accept Undo Request"
-              className='game-panel-button'
-              onClick={acceptUndoOnClick}
-            />
-          : (displayGame as ActiveGameInfo).sentUndoRequest
-          ? <img
-              src={cancelUndoIcon}
-              alt="Revoke Undo Request"
-              className='game-panel-button'
-              onClick={revokeUndoOnClick}
-            />
-          : <img
-              src={requestUndoIcon}
-              alt="Request to Undo Move"
-              className='game-panel-button'
-              onClick={() => canUndo && ourMove && requestUndoOnClick()}
-              style={{
-                opacity: hasActiveGame && canUndo && ourMove ? 1.0 : 0.5,
-                cursor: hasActiveGame && canUndo && ourMove ? 'pointer' : 'default'
-              }}
-            />
-        }
+                  : (displayGame as ActiveGameInfo).threefoldDrawAvailable
+                    ? <img
+                        src={threefoldDrawIcon}
+                        alt="Claim Threefold Draw"
+                        onClick={claimSpecialDrawOnClick}
+                        className='game-panel-button'
+                        style={{ opacity: hasActiveGame && ourMove ? 1.0 : 0.25 }}
+                      />
+                    : <img
+                        src={drawIcon}
+                        alt="Offer Draw"
+                        onClick={offerDrawOnClick}
+                        className='game-panel-button'
+                        style={{
+                          opacity: hasActiveGame && ourMove ? 1.0 : 0.25,
+                          cursor: hasActiveGame && ourMove ? 'pointer' : 'default'
+                        }}
+                      />
+          }
+          {/* request/revoke/accept undo button */}
+          {
+            hasActiveGame &&
+            (displayGame as ActiveGameInfo).gotUndoRequest
+            ? <img
+                src={acceptUndoIcon}
+                alt="Accept Undo Request"
+                className='game-panel-button'
+                onClick={acceptUndoOnClick}
+              />
+            : (displayGame as ActiveGameInfo).sentUndoRequest
+            ? <img
+                src={cancelUndoIcon}
+                alt="Revoke Undo Request"
+                className='game-panel-button'
+                onClick={revokeUndoOnClick}
+              />
+            : <img
+                src={requestUndoIcon}
+                alt="Request to Undo Move"
+                className='game-panel-button'
+                onClick={() => canUndo && ourMove && requestUndoOnClick()}
+                style={{
+                  opacity: hasActiveGame && canUndo && ourMove ? 1.0 : 0.25,
+                  cursor: hasActiveGame && canUndo && ourMove ? 'pointer' : 'default'
+                }}
+              />
+          }
+        </div>
       </div>
       { hasActiveGame ? renderDrawPopup((displayGame as ActiveGameInfo)) : <div/> }
       { hasActiveGame ? renderUndoPopup((displayGame as ActiveGameInfo)) : <div/> }
