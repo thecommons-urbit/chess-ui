@@ -262,7 +262,10 @@ export function GamePanel () {
           alt="Resign"
           onClick={resignOnClick}
           className='game-panel-button'
-          style={{ opacity: hasActiveGame ? 1.0 : 0.5 }}
+          style={{
+            opacity: hasActiveGame ? 1.0 : 0.5,
+            cursor: hasActiveGame ? 'cursor' : 'default'
+          }}
         />
         {/* offer/revoke/accept draw button */}
         {
@@ -304,8 +307,10 @@ export function GamePanel () {
                       alt="Offer Draw"
                       onClick={offerDrawOnClick}
                       className='game-panel-button'
-                      // TODO pointer css
-                      style={{ opacity: hasActiveGame && ourMove ? 1.0 : 0.5 }}
+                      style={{
+                        opacity: hasActiveGame && ourMove ? 1.0 : 0.5,
+                        cursor: hasActiveGame && ourMove ? 'pointer' : 'default'
+                      }}
                     />
         }
         {/* request/revoke/accept undo button */}
@@ -330,8 +335,10 @@ export function GamePanel () {
               alt="Request to Undo Move"
               className='game-panel-button'
               onClick={() => canUndo && ourMove && requestUndoOnClick()}
-              // TODO pointer css
-              style={{ opacity: hasActiveGame && canUndo && ourMove ? 1.0 : 0.5 }}
+              style={{
+                opacity: hasActiveGame && canUndo && ourMove ? 1.0 : 0.5,
+                cursor: hasActiveGame && canUndo && ourMove ? 'pointer' : 'default'
+              }}
             />
         }
       </div>
