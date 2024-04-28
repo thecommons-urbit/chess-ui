@@ -258,10 +258,10 @@ export function GamePanel () {
             ? <button className='option' onClick={acceptDrawOnClick}>Accept Draw Offer</button>
             : (displayGame as ActiveGameInfo).sentDrawOffer
               ? <button className='option' onClick={revokeDrawOnClick}>Revoke Draw Offer</button>
-              : (displayGame as ActiveGameInfo).threefoldDrawAvailable
-                ? <button className='option' onClick={claimSpecialDrawOnClick}>Claim Threefold Draw</button>
-                : (displayGame as ActiveGameInfo).fiftyMoveDrawAvailable
-                  ? <button className='option' onClick={claimSpecialDrawOnClick}>Claim Fifty-Move Draw</button>
+              : (displayGame as ActiveGameInfo).fiftyMoveDrawAvailable
+                ? <button className='option' onClick={claimSpecialDrawOnClick}>Claim Fifty-Move Draw</button>
+                : (displayGame as ActiveGameInfo).threefoldDrawAvailable
+                  ? <button className='option' onClick={claimSpecialDrawOnClick}>Claim Threefold Draw</button>
                   : <button className='option' onClick={offerDrawOnClick}>Offer Draw</button>
         }
         {/* request/revoke/accept undo button */}
