@@ -8,6 +8,9 @@ import { Ship, Side, GameID, SAN, GameInfo, ActiveGameInfo } from '../ts/types/u
 import { Piece } from 'chessground/types'
 
 import resignIcon from '../assets/buttons/resign.svg'
+import requestUndoIcon from '../assets/buttons/undo.svg'
+import acceptUndoIcon from '../assets/buttons/accept-undo.svg'
+import cancelUndoIcon from '../assets/buttons/cancel-undo.svg'
 import drawIcon from '../assets/buttons/regular-draw.svg'
 import acceptDrawIcon from '../assets/buttons/accept-draw.svg'
 import cancelDrawIcon from '../assets/buttons/cancel-draw.svg'
@@ -301,25 +304,35 @@ export function GamePanel () {
                       alt="Offer Draw"
                       onClick={offerDrawOnClick}
                       className='game-panel-button'
+                      // TODO pointer css
                       style={{ opacity: hasActiveGame && ourMove ? 1.0 : 0.5 }}
                     />
         }
         {/* request/revoke/accept undo button */}
-        {(!hasActiveGame || (!(displayGame as ActiveGameInfo).gotUndoRequest && !(displayGame as ActiveGameInfo).sentUndoRequest))
-          ? <button
-            className='option'
-            disabled={!hasActiveGame || !canUndo}
-            onClick={requestUndoOnClick}>
-            Request to Undo Move</button>
-          : ((displayGame as ActiveGameInfo).gotUndoRequest)
-            ? <button
-              className='option'
-              onClick={acceptUndoOnClick}>
-              Accept Undo Request</button>
-            : <button
-              className='option'
-              onClick={revokeUndoOnClick}>
-              Revoke Undo Request</button>
+        {
+          hasActiveGame &&
+          (displayGame as ActiveGameInfo).gotUndoRequest
+          ? <img
+              src={acceptUndoIcon}
+              alt="Accept Undo Request"
+              className='game-panel-button'
+              onClick={acceptUndoOnClick}
+            />
+          : (displayGame as ActiveGameInfo).sentUndoRequest
+          ? <img
+              src={cancelUndoIcon}
+              alt="Revoke Undo Request"
+              className='game-panel-button'
+              onClick={revokeUndoOnClick}
+            />
+          : <img
+              src={requestUndoIcon}
+              alt="Request to Undo Move"
+              className='game-panel-button'
+              onClick={() => canUndo && ourMove && requestUndoOnClick()}
+              // TODO pointer css
+              style={{ opacity: hasActiveGame && canUndo && ourMove ? 1.0 : 0.5 }}
+            />
         }
       </div>
       { hasActiveGame ? renderDrawPopup((displayGame as ActiveGameInfo)) : <div/> }
