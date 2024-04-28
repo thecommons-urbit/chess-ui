@@ -6,7 +6,13 @@ import { pokeAction, offerDrawPoke, revokeDrawPoke, declineDrawPoke, acceptDrawP
 import { CHESS, PieceCount } from '../ts/constants/chess'
 import { Ship, Side, GameID, SAN, GameInfo, ActiveGameInfo } from '../ts/types/urbitChess'
 import { Piece } from 'chessground/types'
+
 import resignIcon from '../assets/buttons/resign.svg'
+import drawIcon from '../assets/buttons/regular-draw.svg'
+import acceptDrawIcon from '../assets/buttons/accept-draw.svg'
+import cancelDrawIcon from '../assets/buttons/cancel-draw.svg'
+import threefoldDrawIcon from '../assets/buttons/threefold-draw.svg'
+import fiftyMoveDrawIcon from '../assets/buttons/fifty-move-draw.svg'
 
 export function GamePanel () {
   const { urbit, displayGame, setDisplayGame, practiceBoard, setPracticeBoard, displayIndex, setDisplayIndex } = useChessStore()
@@ -21,6 +27,10 @@ export function GamePanel () {
   const lastFen: string = (displayGame.moves.length > 0)
     ? displayGame.moves[displayGame.moves.length - 1].fen
     : CHESS.defaultFEN
+  const ourMove: boolean = urbit.ship === displayGame.white.substring(1) &&
+    displayGame.moves.length % 2 === 0 ||
+    urbit.ship === displayGame.black.substring(1) &&
+    displayGame.moves.length % 2 !== 0
 
   //
   // HTML element helper functions
@@ -255,14 +265,44 @@ export function GamePanel () {
         {
           hasActiveGame &&
           (displayGame as ActiveGameInfo).gotDrawOffer
-            ? <button className='option' onClick={acceptDrawOnClick}>Accept Draw Offer</button>
+            ? <img
+                src={acceptDrawIcon}
+                alt="Accept Draw Offer"
+                onClick={acceptDrawOnClick}
+                className='game-panel-button'
+                style={{ opacity: hasActiveGame && ourMove ? 1.0 : 0.5 }}
+              />
             : (displayGame as ActiveGameInfo).sentDrawOffer
-              ? <button className='option' onClick={revokeDrawOnClick}>Revoke Draw Offer</button>
+              ? <img
+                  src={cancelDrawIcon}
+                  alt="Revoke Draw Offer"
+                  onClick={revokeDrawOnClick}
+                  className='game-panel-button'
+                  style={{ opacity: hasActiveGame && ourMove ? 1.0 : 0.5 }}
+                />
               : (displayGame as ActiveGameInfo).fiftyMoveDrawAvailable
-                ? <button className='option' onClick={claimSpecialDrawOnClick}>Claim Fifty-Move Draw</button>
+                ? <img
+                    src={fiftyMoveDrawIcon}
+                    alt="Claim Fifty-Move Draw"
+                    onClick={claimSpecialDrawOnClick}
+                    className='game-panel-button'
+                    style={{ opacity: hasActiveGame && ourMove ? 1.0 : 0.5 }}
+                  />
                 : (displayGame as ActiveGameInfo).threefoldDrawAvailable
-                  ? <button className='option' onClick={claimSpecialDrawOnClick}>Claim Threefold Draw</button>
-                  : <button className='option' onClick={offerDrawOnClick}>Offer Draw</button>
+                  ? <img
+                      src={threefoldDrawIcon}
+                      alt="Claim Threefold Draw"
+                      onClick={claimSpecialDrawOnClick}
+                      className='game-panel-button'
+                      style={{ opacity: hasActiveGame && ourMove ? 1.0 : 0.5 }}
+                    />
+                  : <img
+                      src={drawIcon}
+                      alt="Offer Draw"
+                      onClick={offerDrawOnClick}
+                      className='game-panel-button'
+                      style={{ opacity: hasActiveGame && ourMove ? 1.0 : 0.5 }}
+                    />
         }
         {/* request/revoke/accept undo button */}
         {(!hasActiveGame || (!(displayGame as ActiveGameInfo).gotUndoRequest && !(displayGame as ActiveGameInfo).sentUndoRequest))
