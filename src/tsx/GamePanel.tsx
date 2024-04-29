@@ -30,10 +30,12 @@ export function GamePanel () {
   const lastFen: string = (displayGame.moves.length > 0)
     ? displayGame.moves[displayGame.moves.length - 1].fen
     : CHESS.defaultFEN
-  const ourMove: boolean = urbit.ship === displayGame.white.substring(1) &&
-    displayGame.moves.length % 2 === 0 ||
-    urbit.ship === displayGame.black.substring(1) &&
-    displayGame.moves.length % 2 !== 0
+  const ourMove: boolean = (
+    (urbit.ship === displayGame.white.substring(1) &&
+      displayGame.moves.length % 2 === 0) ||
+      (urbit.ship === displayGame.black.substring(1) &&
+      displayGame.moves.length % 2 !== 0)
+  )
 
   //
   // HTML element helper functions
@@ -273,30 +275,41 @@ export function GamePanel () {
             hasActiveGame &&
             (displayGame as ActiveGameInfo).gotDrawOffer
               ? <img
-                  src={acceptDrawIcon}
-                  alt="Accept Draw Offer"
-                  onClick={acceptDrawOnClick}
+                src={acceptDrawIcon}
+                alt="Accept Draw Offer"
+                onClick={acceptDrawOnClick}
+                className='game-panel-button'
+                style={{
+                  opacity: hasActiveGame ? 1.0 : 0.1,
+                  cursor: hasActiveGame ? 'pointer' : 'default'
+                }}
+              />
+              : (displayGame as ActiveGameInfo).sentDrawOffer
+                ? <img
+                  src={cancelDrawIcon}
+                  alt="Revoke Draw Offer"
+                  onClick={revokeDrawOnClick}
                   className='game-panel-button'
                   style={{
                     opacity: hasActiveGame ? 1.0 : 0.1,
                     cursor: hasActiveGame ? 'pointer' : 'default'
                   }}
                 />
-              : (displayGame as ActiveGameInfo).sentDrawOffer
-                ? <img
-                    src={cancelDrawIcon}
-                    alt="Revoke Draw Offer"
-                    onClick={revokeDrawOnClick}
+                : (displayGame as ActiveGameInfo).fiftyMoveDrawAvailable
+                  ? <img
+                    src={fiftyMoveDrawIcon}
+                    alt="Claim Fifty-Move Draw"
+                    onClick={claimSpecialDrawOnClick}
                     className='game-panel-button'
                     style={{
                       opacity: hasActiveGame ? 1.0 : 0.1,
                       cursor: hasActiveGame ? 'pointer' : 'default'
                     }}
                   />
-                : (displayGame as ActiveGameInfo).fiftyMoveDrawAvailable
-                  ? <img
-                      src={fiftyMoveDrawIcon}
-                      alt="Claim Fifty-Move Draw"
+                  : (displayGame as ActiveGameInfo).threefoldDrawAvailable
+                    ? <img
+                      src={threefoldDrawIcon}
+                      alt="Claim Threefold Draw"
                       onClick={claimSpecialDrawOnClick}
                       className='game-panel-button'
                       style={{
@@ -304,57 +317,46 @@ export function GamePanel () {
                         cursor: hasActiveGame ? 'pointer' : 'default'
                       }}
                     />
-                  : (displayGame as ActiveGameInfo).threefoldDrawAvailable
-                    ? <img
-                        src={threefoldDrawIcon}
-                        alt="Claim Threefold Draw"
-                        onClick={claimSpecialDrawOnClick}
-                        className='game-panel-button'
-                        style={{
-                          opacity: hasActiveGame ? 1.0 : 0.1,
-                          cursor: hasActiveGame ? 'pointer' : 'default'
-                        }}
-                      />
                     : <img
-                        src={drawIcon}
-                        alt="Offer Draw"
-                        onClick={offerDrawOnClick}
-                        className='game-panel-button'
-                        style={{
-                          opacity: hasActiveGame && ourMove ? 1.0 : 0.1,
-                          cursor: hasActiveGame && ourMove ? 'pointer' : 'default'
-                        }}
-                      />
+                      src={drawIcon}
+                      alt="Offer Draw"
+                      onClick={offerDrawOnClick}
+                      className='game-panel-button'
+                      style={{
+                        opacity: hasActiveGame && ourMove ? 1.0 : 0.1,
+                        cursor: hasActiveGame && ourMove ? 'pointer' : 'default'
+                      }}
+                    />
           }
           {/* request/revoke/accept undo button */}
           {
             hasActiveGame &&
             (displayGame as ActiveGameInfo).gotUndoRequest
-            ? <img
+              ? <img
                 src={acceptUndoIcon}
                 alt="Accept Undo Request"
                 className='game-panel-button'
                 onClick={acceptUndoOnClick}
                 style={{ cursor: 'pointer' }}
               />
-            : (displayGame as ActiveGameInfo).sentUndoRequest
-            ? <img
-                src={cancelUndoIcon}
-                alt="Revoke Undo Request"
-                className='game-panel-button'
-                onClick={revokeUndoOnClick}
-                style={{ cursor: 'pointer' }}
-              />
-            : <img
-                src={requestUndoIcon}
-                alt="Request to Undo Move"
-                className='game-panel-button'
-                onClick={() => canUndo && ourMove && requestUndoOnClick()}
-                style={{
-                  opacity: hasActiveGame && canUndo && ourMove ? 1.0 : 0.1,
-                  cursor: hasActiveGame && canUndo && ourMove ? 'pointer' : 'default'
-                }}
-              />
+              : (displayGame as ActiveGameInfo).sentUndoRequest
+                ? <img
+                  src={cancelUndoIcon}
+                  alt="Revoke Undo Request"
+                  className='game-panel-button'
+                  onClick={revokeUndoOnClick}
+                  style={{ cursor: 'pointer' }}
+                />
+                : <img
+                  src={requestUndoIcon}
+                  alt="Request to Undo Move"
+                  className='game-panel-button'
+                  onClick={() => canUndo && ourMove && requestUndoOnClick()}
+                  style={{
+                    opacity: hasActiveGame && canUndo && ourMove ? 1.0 : 0.1,
+                    cursor: hasActiveGame && canUndo && ourMove ? 'pointer' : 'default'
+                  }}
+                />
           }
         </div>
       </div>
