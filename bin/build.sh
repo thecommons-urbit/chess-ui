@@ -21,7 +21,7 @@ usage() {
   fi
 
   echo -e ""
-  echo -e "Usage:\t$SCRIPT_NAME [-h] [-k KELVIN] [-l] [-n] [-s SHIP_NAME] [-u URL]"
+  echo -e "Usage:\t$SCRIPT_NAME [-h] [-l] [-n]"
   echo -e ""
   echo -e "Build the app frontend and the desk files required to install it in Grid"
   echo -e ""
