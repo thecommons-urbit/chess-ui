@@ -11,7 +11,7 @@ export default ({ mode }) => {
 
   return defineConfig({
     build: {
-      outDir: path.resolve(__dirname, '../../build/frontend')
+      outDir: path.resolve(__dirname, '../build')
     },
     plugins: [
       urbitPlugin({ base: 'chess', target: SHIP_URL, secure: false }),
