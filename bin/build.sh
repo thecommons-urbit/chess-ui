@@ -95,7 +95,7 @@ if [ $USE_DOCKER -eq 1 ]; then
   # If you are on macOS, you need to use the legacy builder ( DOCKER_BUILDKIT=0 )
   # This is due to the following issue:
   #   https://github.com/moby/buildkit/issues/1271
-  # sudo DOCKER_BUILDKIT=0 docker build --tag ${DOCKER_IMAGE}:${VERSION_FULL} .
+  # sudo DOCKER_BUILDKIT=0 docker build --tag ${DOCKER_IMAGE}:${VERSION} ${ROOT_DIR}
   sudo docker build --tag ${DOCKER_IMAGE}:${VERSION} ${ROOT_DIR}
   sudo docker run --rm -v ${BUILD_DIR}:/app/output/ ${DOCKER_IMAGE}:${VERSION}
 
