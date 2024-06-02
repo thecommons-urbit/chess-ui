@@ -39,7 +39,7 @@ export function Settings () {
       </div>
       <div className="settings-submenu-container">
         {activeSubMenu === 'Visuals' &&
-          <div id="visuals-settings" className="col">
+          <div className="visuals-menu col">
             <ul className="theme-list">
               {
                 pieceThemes.map((theme: string, ind: number) => {
@@ -109,9 +109,9 @@ export function Settings () {
             <button>Export PGN</button>
           </div>
         }
-        <div id="settings-footer" className="col">
-          <p><a href="">Credits</a> * <a href="https://github.com/ashelkovnykov/urbit-chess">GitHub</a></p>
-        </div>
+      </div>
+      <div id="settings-footer" className="col">
+        <p><a href="">Credits</a> * <a href="https://github.com/ashelkovnykov/urbit-chess">GitHub</a></p>
       </div>
     </div>
   )
