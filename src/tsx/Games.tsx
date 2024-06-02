@@ -25,7 +25,10 @@ export function Games () {
     <div className='games-container col'>
       <div id="active-archive-toggle">
         <p>
-          <span onClick={openActive} style={{ opacity: (showingActive ? 1.0 : 0.5) }}>Active</span> 𐫱 <span onClick={openArchive} style={{ opacity: (showingActive ? 0.5 : 1.0) }}>Archive</span>
+          <span onClick={openActive} style={{ opacity: (showingActive ? 1.0 : 0.5) }}>Active</span>
+          {/* TODO fix; should be an svg to center in text */}
+          <span>*</span>
+          <span onClick={openArchive} style={{ opacity: (showingActive ? 0.5 : 1.0) }}>Archive</span>
         </p>
       </div>
       {/* Active */}
@@ -49,7 +52,6 @@ export function Games () {
                   <piece className={`game-icon ${mySide} knight`}/>
                   <div className='col game-card'>
                     <p className='game-opponent'>{opponent}</p>
-                    <p className='game-date'>{extractDate(gameID)}</p>
                     <p
                       title={description}
                       className='game-desc'
@@ -84,7 +86,6 @@ export function Games () {
                   <piece className={`game-icon ${mySide} knight`}/>
                   <div className='col game-card'>
                     <p className='game-opponent'>{opponent}</p>
-                    <p className='game-date'>{extractDate(gameID)}</p>
                     <p
                       title={description}
                       className='game-desc'

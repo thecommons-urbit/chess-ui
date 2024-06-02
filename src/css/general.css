@@ -258,29 +258,13 @@ ul.game-list {
 }
 
 li.game {
-  width: 90%;
+  width: 100%;
   margin-top: 0.5rem;
-  border: 1px solid black;
   border-radius: 0.5rem;
-  box-shadow: 2px 2px 5px grey;
   list-style: none;
   word-wrap: break-word;
-  /* XX: if the whole 'card' is clickable, then the
-         cursor should be a pointer but implementing
-         this requires some renaming of 'challenge cards' etc */
-  /*cursor: pointer;*/
-}
-
-div.col.game-card {
-  width: calc(100% - 60px);
-}
-
-li.odd {
-  background-color: #E5E5E5;
-}
-
-li.even {
-  background-color: #FFFFFF;
+  cursor: pointer;
+  background-color: #F2EFE7;
 }
 
 li.selected {
@@ -291,8 +275,13 @@ li.selected {
 
 div.games-container {
   height: 100%;
-  width: 100%;
+  width: 75%;
   align-items: center;
+  margin: auto;
+}
+
+div.games-container span {
+  color: #F2EFE7;
 }
 
 div.game-options {
