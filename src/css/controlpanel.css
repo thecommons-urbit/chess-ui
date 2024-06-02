@@ -113,35 +113,15 @@ div#challenges-header span {
   height: 100%;
 }
 
-/* Basic link styling */
 #settings-footer p {
-  color: #F2EFE7; /* Sets the default color */
-  cursor: pointer; /* Changes the cursor to a pointer */
+  color: #F2EFE7;
+  cursor: pointer;
 }
 
 #settings-footer p a {
   text-decoration: none;
 }
 
-/* Link styling when hovered */
-#settings-footer p a:hover {
-  text-decoration: underline; /* Underlines the link on hover */
-  color: #F2EFE7; /* Keeps the color consistent */
-}
-
-/* Link styling when focused */
-#settings-footer p a:focus {
-  outline: 2px solid #F2EFE7; /* Adds an outline when the link is focused */
-  outline-offset: 2px; /* Adds space between the outline and the link */
-  color: #F2EFE7; /* Keeps the color consistent */
-}
-
-/* Link styling when active (clicked) */
-#settings-footer p a:active {
-  color: #F2EFE7; /* Keeps the color consistent */
-}
-
-/* Visited link styling */
 #settings-footer p a:visited {
-  color: #F2EFE7; /* Keeps the color consistent */
+  color: #F2EFE7;
 }
