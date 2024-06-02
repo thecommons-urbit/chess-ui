@@ -105,15 +105,13 @@ export function Settings () {
           </div>
         }
         {activeSubMenu === 'Data' &&
-          <>
-            <div id="data-settings" className="col">
-              <button>Export PGN</button>
-            </div>
-            <div id="settings-footer" className="col">
-              <p><a href="">Credits</a> • <a href="https://github.com/ashelkovnykov/urbit-chess">GitHub</a></p>
-            </div>
-          </>
+          <div id="data-settings" className="col">
+            <button>Export PGN</button>
+          </div>
         }
+        <div id="settings-footer" className="col">
+          <p><a href="">Credits</a> * <a href="https://github.com/ashelkovnykov/urbit-chess">GitHub</a></p>
+        </div>
       </div>
     </div>
   )
