@@ -22,10 +22,6 @@
   opacity: 0.5;
 }
 
-li.selected {
-  box-shadow: 0px 0px 5px 2px lightskyblue;
-}
-
 /* Games menu */
 
 div.games-container {
@@ -58,7 +54,7 @@ div.game-options {
 
 div.challenges-container {
   height: 100%;
-  width: 100%;
+  width: 75%;
 /*   align-items: center; */
 }
 
@@ -96,59 +92,19 @@ div#challenges-header span {
 
 /* Settings menu */
 
-.settings-menu {
+.settings-container {
+  height: 100%;
   width: 75%;
   margin: auto;
+}
+
+.settings-header {
+  width: 75%;
+  margin: auto;
+  color: #F2EFE7;
 }
 
 .settings-menu span {
   color: #F2EFE7;
   cursor: pointer;
 }
-
-/* div.settings-container {
-  overflow: scroll;
-  height: 100%;
-  display: grid;
-  grid-template-areas:
-  "visuals"
-  "gameplay"
-  "data"
-  "footer";
-  grid-template-rows: 45% auto auto 10%;
-} */
-
-/* div.settings-container #visuals-settings {
-  grid-area: visuals;
-  border-bottom: 1px black solid;
-  overflow-y: auto;
-}
-
-div.settings-container #gameplay-settings {
-  grid-area: gameplay;
-  border-bottom: 1px black solid;
-}
-
-div.settings-container #data-settings {
-  grid-area: data;
-} */
-
-/* XX: do we need this? implementation feels bad */
-/* div.settings-container #data-settings button {
-  width: 80%;
-  margin: auto;
-}
-
-div.settings-container #settings-footer {
-  grid-area: footer;
-  justify-content: center;
-  align-items: center;
-}
-
-div.settings-container #settings-footer p {
-  font-size: 0.8em;
-}
-
-div.draw-resolution {
-  justify-content: space-evenly;
-} */
