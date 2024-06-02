@@ -189,7 +189,8 @@ const useChessStore = create<ChessState>((set, get) => ({
           const updatedGame: ActiveGameInfo = {
             ...currentGame,
             position: move.fen,
-            drawClaimAvailable: positionData.specialDrawAvailable
+            threefoldDrawAvailable: positionData.threefoldDrawAvailable,
+            fiftyMoveDrawAvailable: positionData.fiftyMoveDrawAvailable
           }
           // Math.max() gives a zero default in case currentGame moves is null
           const newIndex: number = Math.max(currentGame.moves.length - 1, 0)

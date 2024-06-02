@@ -10,6 +10,7 @@ import '../css/graphics.css'
 import '../css/textboxes.css'
 import '../css/responsive.css'
 import '../css/chessground.css'
+import '../css/controlpanel.css'
 // Import Chessground style sheets
 import '../css/dependencies/chessground.base.css'
 // Handles piece highlighting

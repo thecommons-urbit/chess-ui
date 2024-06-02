@@ -143,7 +143,8 @@ export interface ActiveGameInfo extends GameInfo {
   position: FENPosition,
   gotDrawOffer: boolean,
   sentDrawOffer: boolean,
-  drawClaimAvailable: boolean,
+  threefoldDrawAvailable: boolean,
+  fiftyMoveDrawAvailable: boolean,
   autoClaimSpecialDraws: boolean,
   gotUndoRequest: boolean,
   sentUndoRequest: boolean
@@ -192,7 +193,8 @@ export interface ChallengeReceivedUpdate extends ChallengeUpdate {
 export interface PositionUpdate extends ChessUpdate {
   chessUpdate: Update.Position
   gameID: GameID
-  specialDrawAvailable: boolean
+  threefoldDrawAvailable: boolean
+  fiftyMoveDrawAvailable: boolean
   move: Move | null
 }
 

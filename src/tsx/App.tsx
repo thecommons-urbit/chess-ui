@@ -8,6 +8,7 @@ import { Chessboard } from './Chessboard'
 import { Menu } from './Menu'
 import { GamePanel } from './GamePanel'
 import { PracticePanel } from './PracticePanel'
+import { ControlPanel } from './ControlPanel'
 
 export function App () {
   const { urbit, setUrbit, receiveChallengeUpdate, receiveActiveGame, receiveArchivedGame, displayGame, setFriends } = useChessStore()
@@ -70,7 +71,8 @@ export function App () {
             : <GamePanel />
         }
         <Chessboard />
-        <Menu />
+        <ControlPanel />
+        {/* <Menu /> */}
       </div>
     </Beforeunload>
   )
