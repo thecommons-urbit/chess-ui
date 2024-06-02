@@ -1,0 +1,23 @@
+.control-panel {
+  width: 360px;
+  height: 100%;
+  background-color: #1C1A1D;
+}
+
+.menu-selector {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 75%;
+  margin: auto;
+  margin-top: 70px;
+}
+
+.menu-selector span {
+  color: #F2EFE7;
+  cursor: pointer;
+}
+
+.inactive {
+  opacity: 0.5;
+}
