@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { pokeAction, changeSpecialDrawPreferencePoke } from '../ts/helpers/urbitChess'
 import useChessStore from '../ts/state/chessStore'
 import usePreferenceStore from '../ts/state/preferenceStore'
@@ -6,6 +6,7 @@ import { pieceThemes, boardThemes } from '../ts/constants/themes'
 import { ActiveGameInfo } from '../ts/types/urbitChess'
 
 export function Settings () {
+  const [activeSubMenu, setActiveSubMenu] = useState('Visuals')
   const { urbit, displayGame, activeGames } = useChessStore()
   const { setPieceTheme, setBoardTheme } = usePreferenceStore()
   const hasGame: boolean = (displayGame !== null)
@@ -16,9 +17,27 @@ export function Settings () {
     await pokeAction(urbit, changeSpecialDrawPreferencePoke(gameID, newAutoClaimPreference))
   }
 
+  function handleSubMenuSelectorClick(event: React.MouseEvent<HTMLDivElement, MouseEvent>) {
+    const selectedMenu = event.target as HTMLElement
+    setActiveSubMenu(selectedMenu.textContent)
+  }
+
   return (
     <div className='settings-container'>
-      <div id="visuals-settings" className="control-panel-container col">
+      <div className='settings-menu' onClick={handleSubMenuSelectorClick}>
+        <span className={activeSubMenu === 'Visuals' ? '' : 'inactive'}>
+          Visuals
+        </span>
+        <span>*</span>
+        <span className={activeSubMenu === 'Gameplay' ? '' : 'inactive'}>
+          Gameplay
+        </span>
+        <span>*</span>
+        <span className={activeSubMenu === 'Data' ? '' : 'inactive'}>
+          Data
+        </span>
+      </div>
+      {/* <div id="visuals-settings" className="control-panel-container col">
         <h4 className="control-panel-header">Visuals</h4>
         <ul className="theme-list">
           {
@@ -89,7 +108,7 @@ export function Settings () {
       </div>
       <div id="settings-footer" className="control-panel-container col">
         <p><a href="">Credits</a> • <a href="https://github.com/ashelkovnykov/urbit-chess">GitHub</a></p>
-      </div>
+      </div> */}
     </div>
   )
 }

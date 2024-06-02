@@ -96,8 +96,17 @@ div#challenges-header span {
 
 /* Settings menu */
 
-div.settings-container {
-  /* XX: overflow should be consistent for all menus */
+.settings-menu {
+  width: 75%;
+  margin: auto;
+}
+
+.settings-menu span {
+  color: #F2EFE7;
+  cursor: pointer;
+}
+
+/* div.settings-container {
   overflow: scroll;
   height: 100%;
   display: grid;
@@ -107,9 +116,9 @@ div.settings-container {
   "data"
   "footer";
   grid-template-rows: 45% auto auto 10%;
-}
+} */
 
-div.settings-container #visuals-settings {
+/* div.settings-container #visuals-settings {
   grid-area: visuals;
   border-bottom: 1px black solid;
   overflow-y: auto;
@@ -122,10 +131,10 @@ div.settings-container #gameplay-settings {
 
 div.settings-container #data-settings {
   grid-area: data;
-}
+} */
 
 /* XX: do we need this? implementation feels bad */
-div.settings-container #data-settings button {
+/* div.settings-container #data-settings button {
   width: 80%;
   margin: auto;
 }
@@ -142,4 +151,4 @@ div.settings-container #settings-footer p {
 
 div.draw-resolution {
   justify-content: space-evenly;
-}
+} */
