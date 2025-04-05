@@ -1,13 +1,13 @@
 /* california */
 .california piece.pawn.white {background-image: url('$california/wP.svg')}
-.california piece.knight.white {background-image: url('$california/wK.svg')}
+.california piece.knight.white {background-image: url('$california/wN.svg')}
 .california piece.bishop.white {background-image: url('$california/wB.svg')}
 .california piece.rook.white {background-image: url('$california/wR.svg')}
 .california piece.queen.white {background-image: url('$california/wQ.svg')}
 .california piece.king.white {background-image: url('$california/wK.svg')}
 
 .california piece.pawn.black {background-image: url('$california/bP.svg')}
-.california piece.knight.black {background-image: url('$california/bK.svg')}
+.california piece.knight.black {background-image: url('$california/bN.svg')}
 .california piece.bishop.black {background-image: url('$california/bB.svg')}
 .california piece.rook.black {background-image: url('$california/bR.svg')}
 .california piece.queen.black {background-image: url('$california/bQ.svg')}
@@ -15,14 +15,14 @@
 
 /* cardinal */
 .cardinal piece.pawn.white {background-image: url('$cardinal/wP.svg')}
-.cardinal piece.knight.white {background-image: url('$cardinal/wK.svg')}
+.cardinal piece.knight.white {background-image: url('$cardinal/wN.svg')}
 .cardinal piece.bishop.white {background-image: url('$cardinal/wB.svg')}
 .cardinal piece.rook.white {background-image: url('$cardinal/wR.svg')}
 .cardinal piece.queen.white {background-image: url('$cardinal/wQ.svg')}
 .cardinal piece.king.white {background-image: url('$cardinal/wK.svg')}
 
 .cardinal piece.pawn.black {background-image: url('$cardinal/bP.svg')}
-.cardinal piece.knight.black {background-image: url('$cardinal/bK.svg')}
+.cardinal piece.knight.black {background-image: url('$cardinal/bN.svg')}
 .cardinal piece.bishop.black {background-image: url('$cardinal/bB.svg')}
 .cardinal piece.rook.black {background-image: url('$cardinal/bR.svg')}
 .cardinal piece.queen.black {background-image: url('$cardinal/bQ.svg')}
@@ -30,14 +30,14 @@
 
 /* cburnett */
 .cburnett piece.pawn.white {background-image: url('$cburnett/wP.svg')}
-.cburnett piece.knight.white {background-image: url('$cburnett/wK.svg')}
+.cburnett piece.knight.white {background-image: url('$cburnett/wN.svg')}
 .cburnett piece.bishop.white {background-image: url('$cburnett/wB.svg')}
 .cburnett piece.rook.white {background-image: url('$cburnett/wR.svg')}
 .cburnett piece.queen.white {background-image: url('$cburnett/wQ.svg')}
 .cburnett piece.king.white {background-image: url('$cburnett/wK.svg')}
 
 .cburnett piece.pawn.black {background-image: url('$cburnett/bP.svg')}
-.cburnett piece.knight.black {background-image: url('$cburnett/bK.svg')}
+.cburnett piece.knight.black {background-image: url('$cburnett/bN.svg')}
 .cburnett piece.bishop.black {background-image: url('$cburnett/bB.svg')}
 .cburnett piece.rook.black {background-image: url('$cburnett/bR.svg')}
 .cburnett piece.queen.black {background-image: url('$cburnett/bQ.svg')}
@@ -45,14 +45,14 @@
 
 /* kosal */
 .kosal piece.pawn.white {background-image: url('$kosal/wP.svg')}
-.kosal piece.knight.white {background-image: url('$kosal/wK.svg')}
+.kosal piece.knight.white {background-image: url('$kosal/wN.svg')}
 .kosal piece.bishop.white {background-image: url('$kosal/wB.svg')}
 .kosal piece.rook.white {background-image: url('$kosal/wR.svg')}
 .kosal piece.queen.white {background-image: url('$kosal/wQ.svg')}
 .kosal piece.king.white {background-image: url('$kosal/wK.svg')}
 
 .kosal piece.pawn.black {background-image: url('$kosal/bP.svg')}
-.kosal piece.knight.black {background-image: url('$kosal/bK.svg')}
+.kosal piece.knight.black {background-image: url('$kosal/bN.svg')}
 .kosal piece.bishop.black {background-image: url('$kosal/bB.svg')}
 .kosal piece.rook.black {background-image: url('$kosal/bR.svg')}
 .kosal piece.queen.black {background-image: url('$kosal/bQ.svg')}
@@ -60,14 +60,14 @@
 
 /* maestro */
 .maestro piece.pawn.white {background-image: url('$maestro/wP.svg')}
-.maestro piece.knight.white {background-image: url('$maestro/wK.svg')}
+.maestro piece.knight.white {background-image: url('$maestro/wN.svg')}
 .maestro piece.bishop.white {background-image: url('$maestro/wB.svg')}
 .maestro piece.rook.white {background-image: url('$maestro/wR.svg')}
 .maestro piece.queen.white {background-image: url('$maestro/wQ.svg')}
 .maestro piece.king.white {background-image: url('$maestro/wK.svg')}
 
 .maestro piece.pawn.black {background-image: url('$maestro/bP.svg')}
-.maestro piece.knight.black {background-image: url('$maestro/bK.svg')}
+.maestro piece.knight.black {background-image: url('$maestro/bN.svg')}
 .maestro piece.bishop.black {background-image: url('$maestro/bB.svg')}
 .maestro piece.rook.black {background-image: url('$maestro/bR.svg')}
 .maestro piece.queen.black {background-image: url('$maestro/bQ.svg')}
@@ -75,14 +75,14 @@
 
 /* omega */
 .omega piece.pawn.white {background-image: url('$omega/wP.svg')}
-.omega piece.knight.white {background-image: url('$omega/wK.svg')}
+.omega piece.knight.white {background-image: url('$omega/wN.svg')}
 .omega piece.bishop.white {background-image: url('$omega/wB.svg')}
 .omega piece.rook.white {background-image: url('$omega/wR.svg')}
 .omega piece.queen.white {background-image: url('$omega/wQ.svg')}
 .omega piece.king.white {background-image: url('$omega/wK.svg')}
 
 .omega piece.pawn.black {background-image: url('$omega/bP.svg')}
-.omega piece.knight.black {background-image: url('$omega/bK.svg')}
+.omega piece.knight.black {background-image: url('$omega/bN.svg')}
 .omega piece.bishop.black {background-image: url('$omega/bB.svg')}
 .omega piece.rook.black {background-image: url('$omega/bR.svg')}
 .omega piece.queen.black {background-image: url('$omega/bQ.svg')}
@@ -90,14 +90,14 @@
 
 /* tatiana */
 .tatiana piece.pawn.white {background-image: url('$tatiana/wP.svg')}
-.tatiana piece.knight.white {background-image: url('$tatiana/wK.svg')}
+.tatiana piece.knight.white {background-image: url('$tatiana/wN.svg')}
 .tatiana piece.bishop.white {background-image: url('$tatiana/wB.svg')}
 .tatiana piece.rook.white {background-image: url('$tatiana/wR.svg')}
 .tatiana piece.queen.white {background-image: url('$tatiana/wQ.svg')}
 .tatiana piece.king.white {background-image: url('$tatiana/wK.svg')}
 
 .tatiana piece.pawn.black {background-image: url('$tatiana/bP.svg')}
-.tatiana piece.knight.black {background-image: url('$tatiana/bK.svg')}
+.tatiana piece.knight.black {background-image: url('$tatiana/bN.svg')}
 .tatiana piece.bishop.black {background-image: url('$tatiana/bB.svg')}
 .tatiana piece.rook.black {background-image: url('$tatiana/bR.svg')}
 .tatiana piece.queen.black {background-image: url('$tatiana/bQ.svg')}

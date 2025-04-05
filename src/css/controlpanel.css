@@ -1,0 +1,135 @@
+.control-panel {
+  width: 360px;
+  height: 100%;
+  background-color: #1C1A1D;
+  display: flex;
+  flex-direction: column;
+}
+
+.menu-selector {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 75%;
+  margin: auto;
+  margin-top: 70px;
+}
+
+.menu-selector span {
+  color: #F2EFE7;
+  cursor: pointer;
+}
+
+.inactive {
+  opacity: 0.5;
+}
+
+.menu-content {
+  flex-grow: 1;
+  overflow: auto;
+}
+
+/* Games menu */
+
+div.games-container {
+  height: 100%;
+  width: 75%;
+  align-items: center;
+  margin: auto;
+}
+
+div.games-container span {
+  color: #F2EFE7;
+}
+
+div.game-options {
+  width: 100%;
+  align-items: center;
+}
+
+#active-archive-toggle {
+  position: relative;
+  top: 18px;
+  margin-bottom: 10px;
+}
+
+#active-archive-toggle span {
+  cursor: pointer;
+}
+
+/* Challenges menu */
+
+div.challenges-container {
+  height: 100%;
+  width: 75%;
+}
+
+div.new-challenge-container {
+  height: 300px;
+  width: 300px;
+  align-items: center;
+  justify-content: space-between;
+}
+
+div.challenge-input-container {
+  width: 100%;
+  justify-content: space-between;
+}
+
+div.challenge-side-container {
+  width: 100%;
+  justify-content: space-evenly;
+}
+
+div#challenges-header {
+  align-items: center;
+}
+
+div#challenges-header p {
+  position: relative;
+  top: 18px;
+  margin-bottom: 10px;
+}
+
+div#challenges-header span {
+  color: #F2EFE7;
+  cursor: pointer;
+}
+
+/* Settings menu */
+
+.settings-container {
+  width: 75%;
+  margin: auto;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.settings-header {
+  width: 75%;
+  margin: auto;
+  color: #F2EFE7;
+}
+
+.settings-header span {
+  color: #F2EFE7;
+  cursor: pointer;
+}
+
+.settings-submenu-container {
+  flex-grow: 1;
+}
+
+#settings-footer p {
+  color: #F2EFE7;
+  cursor: pointer;
+}
+
+#settings-footer p a {
+  text-decoration: none;
+}
+
+#settings-footer p a:visited {
+  color: #F2EFE7;
+}

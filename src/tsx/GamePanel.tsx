@@ -3,8 +3,19 @@ import { Chess, ChessInstance } from 'chess.js'
 import Popup from 'reactjs-popup'
 import useChessStore from '../ts/state/chessStore'
 import { pokeAction, offerDrawPoke, revokeDrawPoke, declineDrawPoke, acceptDrawPoke, claimSpecialDrawPoke, resignPoke, requestUndoPoke, revokeUndoPoke, declineUndoPoke, acceptUndoPoke } from '../ts/helpers/urbitChess'
-import { CHESS } from '../ts/constants/chess'
+import { CHESS, PieceCount } from '../ts/constants/chess'
 import { Ship, Side, GameID, SAN, GameInfo, ActiveGameInfo } from '../ts/types/urbitChess'
+import { Piece } from 'chessground/types'
+
+import resignIcon from '../assets/buttons/resign.svg'
+import requestUndoIcon from '../assets/buttons/undo.svg'
+import acceptUndoIcon from '../assets/buttons/accept-undo.svg'
+import cancelUndoIcon from '../assets/buttons/cancel-undo.svg'
+import drawIcon from '../assets/buttons/regular-draw.svg'
+import acceptDrawIcon from '../assets/buttons/accept-draw.svg'
+import cancelDrawIcon from '../assets/buttons/cancel-draw.svg'
+import threefoldDrawIcon from '../assets/buttons/threefold-draw.svg'
+import fiftyMoveDrawIcon from '../assets/buttons/fifty-move-draw.svg'
 
 export function GamePanel () {
   const { urbit, displayGame, setDisplayGame, practiceBoard, setPracticeBoard, displayIndex, setDisplayIndex } = useChessStore()
@@ -19,6 +30,12 @@ export function GamePanel () {
   const lastFen: string = (displayGame.moves.length > 0)
     ? displayGame.moves[displayGame.moves.length - 1].fen
     : CHESS.defaultFEN
+  const ourMove: boolean = (
+    (urbit.ship === displayGame.white.substring(1) &&
+      displayGame.moves.length % 2 === 0) ||
+      (urbit.ship === displayGame.black.substring(1) &&
+      displayGame.moves.length % 2 !== 0)
+  )
 
   //
   // HTML element helper functions
@@ -82,55 +99,55 @@ export function GamePanel () {
     }
   }
 
-  const materialDifference = (fen: string) => {
-    let board = fen.split(' ')[0]
-    if (displayIndex !== 0) {
-      board = displayGame.moves[displayIndex].fen.split(' ')[0]
-    }
-    const whitePieces: { [key: string]: number } = { 'q': 0, 'r': 0, 'b': 0, 'n': 0, 'p': 0 }
-    const blackPieces: { [key: string]: number } = { 'q': 0, 'r': 0, 'b': 0, 'n': 0, 'p': 0 }
-    let whiteDisplay = ''
-    let blackDisplay = ''
+  const materialDifference = (fen: string): { white: JSX.Element[], black: JSX.Element[] } => {
+    const board = fen.split(' ')[0]
+    const whitePieces: PieceCount = { q: 0, r: 0, b: 0, n: 0, p: 0 }
+    const blackPieces: PieceCount = { q: 0, r: 0, b: 0, n: 0, p: 0 }
 
-    for (let i = 0; i < board.length; i++) {
-      const piece = board.charAt(i)
-      if (piece === '/') {
-        continue
+    // Count pieces on the current board
+    for (const char of board) {
+      if (char === '/') continue
+      const num = parseInt(char, 10)
+      if (!isNaN(num)) continue
+
+      const piece = char.toLowerCase()
+      const isWhite = char === char.toUpperCase()
+      const count = isWhite ? whitePieces : blackPieces
+      count[piece]++
+    }
+
+    let whiteDisplay: JSX.Element[] = []
+    let blackDisplay: JSX.Element[] = []
+
+    Object.keys(CHESS.initialPiecesCount).forEach((key: keyof PieceCount) => {
+      const whiteTaken = CHESS.initialPiecesCount[key] - whitePieces[key]
+      const blackTaken = CHESS.initialPiecesCount[key] - blackPieces[key]
+
+      for (let i = 0; i < whiteTaken; i++) {
+        whiteDisplay.push(<img className="material-diff-icon" key={`${key}-white-${i}`} src={CHESS.pieceIconsBlack[key]} alt={`White ${key}`} />)
       }
-      if (isNaN(parseInt(piece))) {
-        if (piece === piece.toUpperCase()) {
-          whitePieces[piece.toLowerCase()] += 1
-        } else {
-          blackPieces[piece] += 1
-        }
-      } else {
-        continue
+      for (let i = 0; i < blackTaken; i++) {
+        blackDisplay.push(<img className="material-diff-icon" key={`${key}-black-${i}`} src={CHESS.pieceIconsWhite[key]} alt={`Black ${key}`} />)
       }
+    })
+
+    // Calculate material score
+    const materialScore = Object.keys(whitePieces).reduce((diff, key) => {
+      if (key === 'k') return diff
+      const whitePieceCount = whitePieces[key as keyof PieceCount]
+      const blackPieceCount = blackPieces[key as keyof PieceCount]
+      const pieceValue = CHESS.pieceValues[key as keyof PieceCount]
+
+      return diff + (whitePieceCount - blackPieceCount) * pieceValue
+    }, 0)
+
+    if (materialScore > 0) {
+      whiteDisplay.push(<span key="score">+{materialScore}</span>)
+    } else if (materialScore < 0) {
+      blackDisplay.push(<span key="score">+{-materialScore}</span>)
     }
 
-    for (let key in whitePieces) {
-      if (whitePieces[key] > blackPieces[key]) {
-        whiteDisplay += Array(whitePieces[key] - blackPieces[key]).fill(CHESS.pieceIconsBlack[key]).join('')
-      } else if (blackPieces[key] > whitePieces[key]) {
-        blackDisplay += Array(blackPieces[key] - whitePieces[key]).fill(CHESS.pieceIconsWhite[key]).join('')
-      }
-    }
-
-    const materialDifference = Object.keys(CHESS.pieceValues).reduce(
-      (diff, key) => diff + (whitePieces[key] - blackPieces[key]) * CHESS.pieceValues[key],
-      0
-    )
-
-    if (materialDifference > 0) {
-      whiteDisplay += '+' + materialDifference
-    } else if (materialDifference < 0) {
-      blackDisplay += '+' + Math.abs(materialDifference)
-    }
-
-    return {
-      white: whiteDisplay,
-      black: blackDisplay
-    }
+    return { white: whiteDisplay, black: blackDisplay }
   }
 
   //
@@ -210,12 +227,16 @@ export function GamePanel () {
     <div className='game-panel-container col' style={{ display: 'flex' }}>
       <div className="game-panel col">
         <div id="opp-captured" className='captured row'>
-          <p>
-            { (displayGame.white === '~' + window.ship)
-              ? (materialDifference(lastFen)).black
-              : (materialDifference(lastFen)).white
-            }
-          </p>
+          {displayGame.white === `~${window.ship}`
+            ? materialDifference(lastFen).black
+            : materialDifference(lastFen).white
+          }
+        </div>
+        <div id="our-captured" className='captured row'>
+          {displayGame.white === `~${window.ship}`
+            ? materialDifference(lastFen).white
+            : materialDifference(lastFen).black
+          }
         </div>
         <div id="opp-timer" className='timer row'>
           <p>00:00</p>
@@ -223,10 +244,12 @@ export function GamePanel () {
         <div id="opp-player" className='player row'>
           <p>{opponent}</p>
         </div>
-        <div className='moves col'>
-          <ol>
-            { moveList() }
-          </ol>
+        <div className='moves-container'>
+          <div className='moves col'>
+            <ol>
+              {moveList()}
+            </ol>
+          </div>
         </div>
         <div id="our-player" className='player row'>
           <p>~{window.ship}</p>
@@ -234,66 +257,108 @@ export function GamePanel () {
         <div id="our-timer" className='timer row'>
           <p>00:00</p>
         </div>
-        <div id="our-captured" className='captured row'>
-          <p>
-            { (displayGame.white === '~' + window.ship)
-              ? (materialDifference(lastFen)).white
-              : (materialDifference(lastFen)).black
-            }
-          </p>
-        </div>
         {/* buttons */}
-        {/* resign button */}
-        <button
-          className='option'
-          disabled={!hasActiveGame}
-          onClick={resignOnClick}>
-          Resign</button>
-        {/* offer/revoke/accept draw button */}
-        {(!hasActiveGame || (!(displayGame as ActiveGameInfo).gotDrawOffer && !(displayGame as ActiveGameInfo).sentDrawOffer))
-          ? <button
-            className='option'
-            disabled={!hasActiveGame}
-            onClick={offerDrawOnClick}>
-            Send Draw Offer</button>
-          : ((displayGame as ActiveGameInfo).gotDrawOffer)
-            ? <button
-              className='option'
-              onClick={acceptDrawOnClick}>
-              Accept Draw Offer</button> // accept
-            : <button
-              className='option'
-              onClick={revokeDrawOnClick}>
-              Revoke Draw Offer</button> // revoke
-        }
-        {/* claim special draw */}
-        <button
-          className='option'
-          disabled={!hasActiveGame || !(displayGame as ActiveGameInfo).drawClaimAvailable}
-          onClick={claimSpecialDrawOnClick}>
-          Claim Special Draw</button>
-        {/* request/revoke/accept undo button */}
-        {(!hasActiveGame || (!(displayGame as ActiveGameInfo).gotUndoRequest && !(displayGame as ActiveGameInfo).sentUndoRequest))
-          ? <button
-            className='option'
-            disabled={!hasActiveGame || !canUndo}
-            onClick={requestUndoOnClick}>
-            Request to Undo Move</button>
-          : ((displayGame as ActiveGameInfo).gotUndoRequest)
-            ? <button
-              className='option'
-              onClick={acceptUndoOnClick}>
-              Accept Undo Request</button>
-            : <button
-              className='option'
-              onClick={revokeUndoOnClick}>
-              Revoke Undo Request</button>
-        }
-        {/* practice board */}
-        <button
-          className='option'
-          onClick={() => setDisplayGame(null)}>
-          Practice Board</button>
+        <div className="game-panel-button-container">
+          {/* resign button */}
+          <img
+            src={resignIcon}
+            alt="Resign"
+            onClick={resignOnClick}
+            className='game-panel-button'
+            style={{
+              opacity: hasActiveGame ? 1.0 : 0.1,
+              cursor: hasActiveGame ? 'cursor' : 'default'
+            }}
+          />
+          {/* offer/revoke/accept draw button */}
+          {
+            hasActiveGame &&
+            (displayGame as ActiveGameInfo).gotDrawOffer
+              ? <img
+                src={acceptDrawIcon}
+                alt="Accept Draw Offer"
+                onClick={acceptDrawOnClick}
+                className='game-panel-button'
+                style={{
+                  opacity: hasActiveGame ? 1.0 : 0.1,
+                  cursor: hasActiveGame ? 'pointer' : 'default'
+                }}
+              />
+              : (displayGame as ActiveGameInfo).sentDrawOffer
+                ? <img
+                  src={cancelDrawIcon}
+                  alt="Revoke Draw Offer"
+                  onClick={revokeDrawOnClick}
+                  className='game-panel-button'
+                  style={{
+                    opacity: hasActiveGame ? 1.0 : 0.1,
+                    cursor: hasActiveGame ? 'pointer' : 'default'
+                  }}
+                />
+                : (displayGame as ActiveGameInfo).fiftyMoveDrawAvailable
+                  ? <img
+                    src={fiftyMoveDrawIcon}
+                    alt="Claim Fifty-Move Draw"
+                    onClick={claimSpecialDrawOnClick}
+                    className='game-panel-button'
+                    style={{
+                      opacity: hasActiveGame ? 1.0 : 0.1,
+                      cursor: hasActiveGame ? 'pointer' : 'default'
+                    }}
+                  />
+                  : (displayGame as ActiveGameInfo).threefoldDrawAvailable
+                    ? <img
+                      src={threefoldDrawIcon}
+                      alt="Claim Threefold Draw"
+                      onClick={claimSpecialDrawOnClick}
+                      className='game-panel-button'
+                      style={{
+                        opacity: hasActiveGame ? 1.0 : 0.1,
+                        cursor: hasActiveGame ? 'pointer' : 'default'
+                      }}
+                    />
+                    : <img
+                      src={drawIcon}
+                      alt="Offer Draw"
+                      onClick={offerDrawOnClick}
+                      className='game-panel-button'
+                      style={{
+                        opacity: hasActiveGame && ourMove ? 1.0 : 0.1,
+                        cursor: hasActiveGame && ourMove ? 'pointer' : 'default'
+                      }}
+                    />
+          }
+          {/* request/revoke/accept undo button */}
+          {
+            hasActiveGame &&
+            (displayGame as ActiveGameInfo).gotUndoRequest
+              ? <img
+                src={acceptUndoIcon}
+                alt="Accept Undo Request"
+                className='game-panel-button'
+                onClick={acceptUndoOnClick}
+                style={{ cursor: 'pointer' }}
+              />
+              : (displayGame as ActiveGameInfo).sentUndoRequest
+                ? <img
+                  src={cancelUndoIcon}
+                  alt="Revoke Undo Request"
+                  className='game-panel-button'
+                  onClick={revokeUndoOnClick}
+                  style={{ cursor: 'pointer' }}
+                />
+                : <img
+                  src={requestUndoIcon}
+                  alt="Request to Undo Move"
+                  className='game-panel-button'
+                  onClick={() => canUndo && ourMove && requestUndoOnClick()}
+                  style={{
+                    opacity: hasActiveGame && canUndo && ourMove ? 1.0 : 0.1,
+                    cursor: hasActiveGame && canUndo && ourMove ? 'pointer' : 'default'
+                  }}
+                />
+          }
+        </div>
       </div>
       { hasActiveGame ? renderDrawPopup((displayGame as ActiveGameInfo)) : <div/> }
       { hasActiveGame ? renderUndoPopup((displayGame as ActiveGameInfo)) : <div/> }

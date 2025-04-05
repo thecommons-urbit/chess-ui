@@ -1,9 +1,17 @@
 
 /* fundamental containers, positioning, etc. */
 
+@font-face {
+  font-family: "Urbit Sans";
+  src: url('https://media.urbit.org/fonts/UrbitSans/UrbitSansVFWeb-Regular.woff2')
+       format('woff2');
+  font-weight: 100 700;
+  font-style: normal;
+}
+
 body {
   margin: 0px;
-  font-family: 'Courier Prime', 'Courier New', monospace;
+  font-family: 'Urbit Sans', sans-serif;
   background-color: #F2EFE7;
 }
 
@@ -122,7 +130,7 @@ div.game-panel .moves {
   align with "s" in
   "~sampel-palnet" above */
   padding-left: 0.8em;
-  border: 1px black solid;
+  font-variation-settings: 'xtab' 500;
 }
 
 div.game-panel .move-item span {
@@ -134,6 +142,39 @@ div.game-panel .moves p {
   line-height: 1.4em;
 }
 
+.game-panel .moves-container {
+  position: relative;
+  min-height: 250px;
+  overflow: hidden;
+  padding-bottom: 30px;
+}
+
+.game-panel .moves {
+  height: 100%;
+  overflow-y: auto;
+}
+
+.game-panel .moves-container::before,
+.game-panel .moves-container::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 20px;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.game-panel .moves-container::before {
+  top: 0;
+  background: linear-gradient(to bottom, rgba(242, 239, 231, 1), transparent);
+}
+
+.game-panel .moves-container::after {
+  bottom: 0;
+  background: linear-gradient(to top, rgba(242, 239, 231, 1), transparent);
+}
+
 div.game-panel #our-player {
   justify-content: right;
 }
@@ -143,7 +184,7 @@ div.game-panel #our-timer {
 }
 
 div.game-panel #our-captured {
-  justify-content: right;
+  justify-content: left;
 }
 
 div.game-panel .player {
@@ -188,172 +229,4 @@ div.board-container {
   height: min(max(80vh, 576px), calc(max(75vw, 960px) - calc(2 * max(min(2vh, 2vw), 14px))));
   width: min(max(80vh, 576px), calc(max(75vw, 960px) - calc(2 * max(min(2vh, 2vw), 14px))));
   display: flex;
-}
-
-/* Control Panel */
-
-div.menu-container {
-  grid-area: panel;
-  height: 100%;
-  width: 100%;
-}
-
-div.menu-container h4 {
-  position: relative;
-  left: 5px;
-  top: -10px;
-  font-weight: normal;
-}
-
-ul.game-list {
-  width: 100%;
-  margin-top: 1rem;
-  padding-bottom: 1rem;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  overflow-x: hidden;
-  overflow-y: auto;
-}
-
-li.game {
-  width: 90%;
-  margin-top: 0.5rem;
-  border: 1px solid black;
-  border-radius: 0.5rem;
-  box-shadow: 2px 2px 5px grey;
-  list-style: none;
-  word-wrap: break-word;
-  /* XX: if the whole 'card' is clickable, then the
-         cursor should be a pointer but implementing
-         this requires some renaming of 'challenge cards' etc */
-  /*cursor: pointer;*/
-}
-
-div.col.game-card {
-  width: calc(100% - 60px);
-}
-
-li.odd {
-  background-color: #E5E5E5;
-}
-
-li.even {
-  background-color: #FFFFFF;
-}
-
-li.selected {
-  box-shadow: 0px 0px 5px 2px lightskyblue;
-}
-
-/* Games menu */
-
-div.games-container {
-  height: 100%;
-  width: 100%;
-  align-items: center;
-}
-
-div.game-options {
-  width: 100%;
-  align-items: center;
-}
-
-#active-archive-toggle {
-  position: relative;
-  top: 18px;
-  margin-bottom: 10px;
-}
-
-#active-archive-toggle span {
-  cursor: pointer;
-}
-
-/* Challenges menu */
-
-div.challenges-container {
-  height: 100%;
-  width: 100%;
-/*   align-items: center; */
-}
-
-div.new-challenge-container {
-  height: 300px;
-  width: 300px;
-  align-items: center;
-  justify-content: space-between;
-}
-
-div.challenge-input-container {
-  width: 100%;
-  justify-content: space-between;
-}
-
-div.challenge-side-container {
-  width: 100%;
-  justify-content: space-evenly;
-}
-
-div#challenges-header {
-  align-items: center;
-}
-
-div#challenges-header p {
-  position: relative;
-  top: 18px;
-  margin-bottom: 10px;
-}
-
-div#challenges-header span {
-  cursor: pointer;
-}
-
-/* Settings menu */
-
-div.settings-container {
-  /* XX: overflow should be consistent for all menus */
-  overflow: scroll;
-  height: 100%;
-  display: grid;
-  grid-template-areas:
-  "visuals"
-  "gameplay"
-  "data"
-  "footer";
-  grid-template-rows: 45% auto auto 10%;
-}
-
-div.settings-container #visuals-settings {
-  grid-area: visuals;
-  border-bottom: 1px black solid;
-  overflow-y: auto;
-}
-
-div.settings-container #gameplay-settings {
-  grid-area: gameplay;
-  border-bottom: 1px black solid;
-}
-
-div.settings-container #data-settings {
-  grid-area: data;
-}
-
-/* XX: do we need this? implementation feels bad */
-div.settings-container #data-settings button {
-  width: 80%;
-  margin: auto;
-}
-
-div.settings-container #settings-footer {
-  grid-area: footer;
-  justify-content: center;
-  align-items: center;
-}
-
-div.settings-container #settings-footer p {
-  font-size: 0.8em;
-}
-
-div.draw-resolution {
-  justify-content: space-evenly;
 }
