@@ -21,7 +21,7 @@ usage() {
   fi
 
   echo -e ""
-  echo -e "Usage:\t$SCRIPT_NAME [-h] [-k KELVIN] [-l] [-n] [-s SHIP_NAME] [-u URL]"
+  echo -e "Usage:\t$SCRIPT_NAME [-h] [-l] [-n]"
   echo -e ""
   echo -e "Build the app frontend and the desk files required to install it in Grid"
   echo -e ""
@@ -57,7 +57,7 @@ LINT_FIX=0
 # --------------------------------------
 
 # Parse arguments
-OPTS=":hnlv:"
+OPTS=":hnl:"
 while getopts ${OPTS} opt; do
   case ${opt} in
     h)
@@ -68,9 +68,6 @@ while getopts ${OPTS} opt; do
       ;;
     l)
       LINT_FIX=1
-      ;;
-    v)
-      VERSION=$OPTARG
       ;;
     :)
       echo "$SCRIPT_NAME: Missing argument for '-${OPTARG}'" >&2
@@ -104,8 +101,8 @@ if [ $USE_DOCKER -eq 1 ]; then
   sudo chown -R ${USER}:${USER} ${BUILD_DIR}
 elif [ $LINT_FIX -eq 0 ]; then
   # Run linter, refuse to build if there are errors
-  (cd "$ROOT_DIR/src/frontend"; npm run lint; npm run build)
+  (cd "$ROOT_DIR/src"; npm run lint; npm run build)
 else
   # Run linter, fix errors, then build
-  (cd "$ROOT_DIR/src/frontend"; npm run lint -- --fix; npm run build)
+  (cd "$ROOT_DIR/src"; npm run lint -- --fix; npm run build)
 fi
