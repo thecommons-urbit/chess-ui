@@ -10,14 +10,10 @@ import '../css/graphics.css'
 import '../css/textboxes.css'
 import '../css/responsive.css'
 import '../css/chessground.css'
-// Chessground style sheets
+// Import Chessground style sheets
 import '../css/dependencies/chessground.base.css'
-// Handles Chessground piece highlighting
+// Handles piece highlighting
 import '../css/dependencies/chessground.highlight.css'
-// Chessground board SVG
-import '../css/dependencies/chessground.brown.css'
-// Chessground piece SVGs
-import '../css/dependencies/chessground.cburnett.css'
 import { createRoot } from 'react-dom/client'
 import App from './App'
 
