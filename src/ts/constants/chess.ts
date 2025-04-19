@@ -45,7 +45,6 @@ export interface PieceValues {
   [key: string]: number;
 }
 
-
 const PIECE_VALUES: PieceValues = {
   'p': 1,
   'n': 3,

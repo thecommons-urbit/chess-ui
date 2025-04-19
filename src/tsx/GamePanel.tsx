@@ -15,7 +15,7 @@ import cancelDrawIcon from '../assets/buttons/cancel-draw.svg'
 import threefoldDrawIcon from '../assets/buttons/threefold-draw.svg'
 import fiftyMoveDrawIcon from '../assets/buttons/fifty-move-draw.svg'
 
-export function GamePanel() {
+export function GamePanel () {
   const { urbit, displayGame, displayIndex, setDisplayIndex } = useChessStore()
   const hasActiveGame: boolean = !displayGame.archived
   const opponent: Ship = (urbit.ship === displayGame.white.substring(1))
