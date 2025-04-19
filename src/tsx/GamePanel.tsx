@@ -1,11 +1,8 @@
-import React, { useState } from 'react'
-import { Chess, ChessInstance } from 'chess.js'
 import Popup from 'reactjs-popup'
 import useChessStore from '../ts/state/chessStore'
 import { pokeAction, offerDrawPoke, revokeDrawPoke, declineDrawPoke, acceptDrawPoke, claimSpecialDrawPoke, resignPoke, requestUndoPoke, revokeUndoPoke, declineUndoPoke, acceptUndoPoke } from '../ts/helpers/urbitChess'
 import { CHESS, PieceCount } from '../ts/constants/chess'
-import { Ship, Side, GameID, SAN, GameInfo, ActiveGameInfo } from '../ts/types/urbitChess'
-import { Piece } from 'chessground/types'
+import { Ship, SAN, ActiveGameInfo } from '../ts/types/urbitChess'
 
 import resignIcon from '../assets/buttons/resign.svg'
 import requestUndoIcon from '../assets/buttons/undo.svg'
@@ -18,9 +15,8 @@ import threefoldDrawIcon from '../assets/buttons/threefold-draw.svg'
 import fiftyMoveDrawIcon from '../assets/buttons/fifty-move-draw.svg'
 
 export function GamePanel () {
-  const { urbit, displayGame, setDisplayGame, practiceBoard, setPracticeBoard, displayIndex, setDisplayIndex } = useChessStore()
+  const { urbit, displayGame, displayIndex, setDisplayIndex } = useChessStore()
   const hasActiveGame: boolean = !displayGame.archived
-  const practiceHasMoved: boolean = (localStorage.getItem('practiceBoard') !== CHESS.defaultFEN)
   const opponent: Ship = (urbit.ship === displayGame.white.substring(1))
     ? displayGame.black
     : displayGame.white
