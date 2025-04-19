@@ -15,7 +15,7 @@ import cancelDrawIcon from '../assets/buttons/cancel-draw.svg'
 import threefoldDrawIcon from '../assets/buttons/threefold-draw.svg'
 import fiftyMoveDrawIcon from '../assets/buttons/fifty-move-draw.svg'
 
-export function GamePanel () {
+export function GamePanel() {
   const { urbit, displayGame, displayIndex, setDisplayIndex } = useChessStore()
   const hasActiveGame: boolean = !displayGame.archived
   const opponent: Ship = (urbit.ship === displayGame.white.substring(1))
@@ -30,7 +30,7 @@ export function GamePanel () {
   const ourMove: boolean = (
     (urbit.ship === displayGame.white.substring(1) &&
       displayGame.moves.length % 2 === 0) ||
-      (urbit.ship === displayGame.black.substring(1) &&
+    (urbit.ship === displayGame.black.substring(1) &&
       displayGame.moves.length % 2 !== 0)
   )
 
@@ -97,20 +97,20 @@ export function GamePanel () {
   }
 
   const materialDifference = (fen: string): { white: JSX.Element[], black: JSX.Element[] } => {
-    const board = fen.split(' ')[0]
+    const boardFen = fen.split(' ')[0]
     const whitePieces: PieceCount = { q: 0, r: 0, b: 0, n: 0, p: 0 }
     const blackPieces: PieceCount = { q: 0, r: 0, b: 0, n: 0, p: 0 }
 
-    // Count pieces on the current board
-    for (const char of board) {
-      if (char === '/') continue
-      const num = parseInt(char, 10)
-      if (!isNaN(num)) continue
+    // Count pieces on the current board, from FEN
+    for (const fenChar of boardFen) {
+      if (fenChar === '/') continue
+      const parsedNum = parseInt(fenChar, 10)
+      if (!isNaN(parsedNum)) continue
 
-      const piece = char.toLowerCase()
-      const isWhite = char === char.toUpperCase()
-      const count = isWhite ? whitePieces : blackPieces
-      count[piece]++
+      const piece = fenChar.toLowerCase()
+      const isWhite = fenChar === fenChar.toUpperCase()
+      const countToUpdate = isWhite ? whitePieces : blackPieces
+      countToUpdate[piece]++
     }
 
     let whiteDisplay: JSX.Element[] = []
@@ -161,22 +161,22 @@ export function GamePanel () {
 
       if (bIndex >= displayMoves.length) {
         components.push(
-          <li key={ move } className='move-item' style={{ opacity: moveOpacity(wIndex) }}>
-            <span onClick={ () => setDisplayIndex(wIndex) }>
-              { wMove }
+          <li key={move} className='move-item' style={{ opacity: moveOpacity(wIndex) }}>
+            <span onClick={() => setDisplayIndex(wIndex)}>
+              {wMove}
             </span>
           </li>
         )
       } else {
         components.push(
-          <li key={ move } className='move-item' style={{ opacity: moveOpacity(wIndex) }}>
-            <span onClick={ () => setDisplayIndex(wIndex) }>
-              { wMove }
+          <li key={move} className='move-item' style={{ opacity: moveOpacity(wIndex) }}>
+            <span onClick={() => setDisplayIndex(wIndex)}>
+              {wMove}
             </span>
-            { '\xa0'.repeat(6 - wMove.length) }
+            {'\xa0'.repeat(6 - wMove.length)}
             {/* setting opacity to 1.0 offsets a cumulative reduction in opacity on each bIndex ply when displayIndex < this move's wIndex */}
-            <span onClick={ () => setDisplayIndex(bIndex) } style={{ opacity: (moveOpacity(wIndex) === 1.0) ? moveOpacity(bIndex) : 1.0 }}>
-              { displayMoves[wIndex + 1].san }
+            <span onClick={() => setDisplayIndex(bIndex)} style={{ opacity: (moveOpacity(wIndex) === 1.0) ? moveOpacity(bIndex) : 1.0 }}>
+              {displayMoves[wIndex + 1].san}
             </span>
           </li>
         )
@@ -195,7 +195,7 @@ export function GamePanel () {
       <Popup open={game.gotDrawOffer}>
         <div>
           <p>{`${opponent} has offered a draw`}</p>
-          <br/>
+          <br />
           <div className='draw-resolution row'>
             <button className="accept" role="button" onClick={acceptDrawOnClick}>Accept</button>
             <button className="reject" role="button" onClick={declineDrawOnClick}>Decline</button>
@@ -210,7 +210,7 @@ export function GamePanel () {
       <Popup open={game.gotUndoRequest}>
         <div>
           <p>{`${opponent} has requested to undo a move`}</p>
-          <br/>
+          <br />
           <div className='draw-resolution row'>
             <button className="accept" role="button" onClick={acceptUndoOnClick}>Accept</button>
             <button className="reject" role="button" onClick={declineUndoOnClick}>Decline</button>
@@ -270,7 +270,7 @@ export function GamePanel () {
           {/* offer/revoke/accept draw button */}
           {
             hasActiveGame &&
-            (displayGame as ActiveGameInfo).gotDrawOffer
+              (displayGame as ActiveGameInfo).gotDrawOffer
               ? <img
                 src={acceptDrawIcon}
                 alt="Accept Draw Offer"
@@ -328,7 +328,7 @@ export function GamePanel () {
           {/* request/revoke/accept undo button */}
           {
             hasActiveGame &&
-            (displayGame as ActiveGameInfo).gotUndoRequest
+              (displayGame as ActiveGameInfo).gotUndoRequest
               ? <img
                 src={acceptUndoIcon}
                 alt="Accept Undo Request"
@@ -357,8 +357,8 @@ export function GamePanel () {
           }
         </div>
       </div>
-      { hasActiveGame ? renderDrawPopup((displayGame as ActiveGameInfo)) : <div/> }
-      { hasActiveGame ? renderUndoPopup((displayGame as ActiveGameInfo)) : <div/> }
+      {hasActiveGame ? renderDrawPopup((displayGame as ActiveGameInfo)) : <div />}
+      {hasActiveGame ? renderUndoPopup((displayGame as ActiveGameInfo)) : <div />}
     </div>
   )
 }
