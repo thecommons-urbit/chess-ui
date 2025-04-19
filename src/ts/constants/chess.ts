@@ -32,10 +32,6 @@ export interface PieceCount {
   [key: string]: number;
 }
 
-interface PieceValues {
-  [key: string]: number;
-}
-
 const INITIAL_PIECES_COUNT: PieceCount = {
   'p': 8,
   'n': 2,
@@ -44,6 +40,11 @@ const INITIAL_PIECES_COUNT: PieceCount = {
   'q': 1,
   'k': 1
 }
+
+interface PieceValues {
+  [key: string]: number;
+}
+
 
 const PIECE_VALUES: PieceValues = {
   'p': 1,
