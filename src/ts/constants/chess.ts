@@ -41,7 +41,7 @@ const INITIAL_PIECES_COUNT: PieceCount = {
   'k': 1
 }
 
-interface PieceValues {
+export interface PieceValues {
   [key: string]: number;
 }
 

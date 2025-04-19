@@ -2,7 +2,7 @@ import React from 'react'
 import Popup from 'reactjs-popup'
 import useChessStore from '../ts/state/chessStore'
 import { pokeAction, offerDrawPoke, revokeDrawPoke, declineDrawPoke, acceptDrawPoke, claimSpecialDrawPoke, resignPoke, requestUndoPoke, revokeUndoPoke, declineUndoPoke, acceptUndoPoke } from '../ts/helpers/urbitChess'
-import { CHESS, PieceCount } from '../ts/constants/chess'
+import { CHESS, PieceCount, PieceValues } from '../ts/constants/chess'
 import { Ship, SAN, ActiveGameInfo } from '../ts/types/urbitChess'
 
 import resignIcon from '../assets/buttons/resign.svg'
@@ -129,11 +129,11 @@ export function GamePanel () {
     })
 
     // Calculate material score
-    const materialScore = Object.keys(whitePieces).reduce((diff, key) => {
+    const materialScore = Object.keys(whitePieces).reduce((diff: number, key: keyof PieceCount) => {
       if (key === 'k') return diff
       const whitePieceCount = whitePieces[key as keyof PieceCount]
       const blackPieceCount = blackPieces[key as keyof PieceCount]
-      const pieceValue = CHESS.pieceValues[key as keyof PieceCount]
+      const pieceValue = CHESS.pieceValues[key as keyof PieceValues]
 
       return diff + (whitePieceCount - blackPieceCount) * pieceValue
     }, 0)
