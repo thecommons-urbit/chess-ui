@@ -314,8 +314,6 @@ export function Chessboard () {
           return 'draw'
         }
       }
-    } else {
-      return (sideToMove + ' to move...')
     }
   }
 

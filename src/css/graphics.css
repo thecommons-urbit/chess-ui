@@ -37,6 +37,24 @@
   background-size: 240px;
 }
 
+.material-diff-icon {
+  height: 30px;
+  width: 30px;
+}
+
+.game-panel-button-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: stretch;
+  padding-top: 10px;
+}
+
+.game-panel-button {
+  height: 50px;
+  width: 40px;
+}
+
 ul.theme-list {
   align-self: center;
   margin-bottom: 1rem;
