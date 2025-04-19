@@ -309,7 +309,7 @@ export function GamePanel () {
                   : (displayGame as ActiveGameInfo).threefoldDrawAvailable
                     ? <img
                       src={threefoldDrawIcon}
-                      alt="Claim Threefold Draw"
+                      alt="Claim Threefold Repetition Draw"
                       onClick={claimSpecialDrawOnClick}
                       className='game-panel-button'
                       style={{
