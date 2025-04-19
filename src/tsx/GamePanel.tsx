@@ -1,3 +1,4 @@
+import React from 'react'
 import Popup from 'reactjs-popup'
 import useChessStore from '../ts/state/chessStore'
 import { pokeAction, offerDrawPoke, revokeDrawPoke, declineDrawPoke, acceptDrawPoke, claimSpecialDrawPoke, resignPoke, requestUndoPoke, revokeUndoPoke, declineUndoPoke, acceptUndoPoke } from '../ts/helpers/urbitChess'
@@ -39,52 +40,52 @@ export function GamePanel () {
 
   const resignOnClick = async () => {
     const gameID = displayGame.gameID
-     pokeAction(urbit, resignPoke(gameID))
+    pokeAction(urbit, resignPoke(gameID))
   }
 
   const offerDrawOnClick = async () => {
     const gameID = displayGame.gameID
-     pokeAction(urbit, offerDrawPoke(gameID))
+    pokeAction(urbit, offerDrawPoke(gameID))
   }
 
   const acceptDrawOnClick = async () => {
     const gameID = displayGame.gameID
-     pokeAction(urbit, acceptDrawPoke(gameID))
+    pokeAction(urbit, acceptDrawPoke(gameID))
   }
 
   const declineDrawOnClick = async () => {
     const gameID = displayGame.gameID
-     pokeAction(urbit, declineDrawPoke(gameID))
+    pokeAction(urbit, declineDrawPoke(gameID))
   }
 
   const revokeDrawOnClick = async () => {
     const gameID = displayGame.gameID
-     pokeAction(urbit, revokeDrawPoke(gameID))
+    pokeAction(urbit, revokeDrawPoke(gameID))
   }
 
   const claimSpecialDrawOnClick = async () => {
     const gameID = displayGame.gameID
-     pokeAction(urbit, claimSpecialDrawPoke(gameID))
+    pokeAction(urbit, claimSpecialDrawPoke(gameID))
   }
 
   const requestUndoOnClick = async () => {
     const gameID = displayGame.gameID
-     pokeAction(urbit, requestUndoPoke(gameID))
+    pokeAction(urbit, requestUndoPoke(gameID))
   }
 
   const acceptUndoOnClick = async () => {
     const gameID = displayGame.gameID
-     pokeAction(urbit, acceptUndoPoke(gameID))
+    pokeAction(urbit, acceptUndoPoke(gameID))
   }
 
   const declineUndoOnClick = async () => {
     const gameID = displayGame.gameID
-     pokeAction(urbit, declineUndoPoke(gameID))
+    pokeAction(urbit, declineUndoPoke(gameID))
   }
 
   const revokeUndoOnClick = async () => {
     const gameID = displayGame.gameID
-     pokeAction(urbit, revokeUndoPoke(gameID))
+    pokeAction(urbit, revokeUndoPoke(gameID))
   }
 
   const moveOpacity = (index: number) => {
