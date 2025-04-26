@@ -4,9 +4,9 @@ import { Games } from './Games'
 import { Settings } from './Settings'
 import usePreferenceStore from '../ts/state/preferenceStore'
 
-type menuOptions = 'games' | 'challenges' | 'settings'
+type MenuOptions = 'games' | 'challenges' | 'settings'
 
-const menuComponents: Record<menuOptions, React.FC> = {
+const menuComponents: Record<MenuOptions, React.FC> = {
   games: Games,
   challenges: Challenges,
   settings: Settings
@@ -14,7 +14,7 @@ const menuComponents: Record<menuOptions, React.FC> = {
 
 export function ControlPanel () {
   const { pieceTheme, boardTheme, setPieceTheme, setBoardTheme } = usePreferenceStore()
-  const [selectedMenu, setSelectedMenu] = useState<menuOptions>('games')
+  const [selectedMenu, setSelectedMenu] = useState<MenuOptions>('games')
 
   const initThemes = () => {
     let storedPieceTheme = localStorage.getItem('pieceTheme')
@@ -44,7 +44,7 @@ export function ControlPanel () {
           <span
             key={key}
             style={{ cursor: 'pointer' }}
-            onClick={() => setSelectedMenu(key as menuOptions)}
+            onClick={() => setSelectedMenu(key as MenuOptions)}
           >
             {key.charAt(0).toUpperCase() + key.slice(1)}
           </span>
