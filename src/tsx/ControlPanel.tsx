@@ -5,7 +5,7 @@ import { Games } from './Games'
 import { Settings } from './Settings'
 import usePreferenceStore from '../ts/state/preferenceStore'
 
-export function Menu () {
+export function ControlPanel () {
   const { pieceTheme, boardTheme, setPieceTheme, setBoardTheme } = usePreferenceStore()
 
   const initThemes = () => {

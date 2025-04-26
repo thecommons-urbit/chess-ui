@@ -5,7 +5,7 @@ import useChessStore from '../ts/state/chessStore'
 import { ChallengeUpdate, ActiveGameInfo, ArchivedGameInfo } from '../ts/types/urbitChess'
 import { scryFriends } from '../ts/helpers/urbitChess'
 import { Chessboard } from './Chessboard'
-import { Menu } from './Menu'
+import { ControlPanel } from './ControlPanel'
 import { GamePanel } from './GamePanel'
 import { PracticePanel } from './PracticePanel'
 
@@ -70,7 +70,7 @@ export function App () {
             : <GamePanel />
         }
         <Chessboard />
-        <Menu />
+        <ControlPanel />
       </div>
     </Beforeunload>
   )
