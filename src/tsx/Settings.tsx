@@ -13,7 +13,7 @@ export function Settings () {
   const handleCheckboxChange = async () => {
     const newAutoClaimPreference = !(displayGame as ActiveGameInfo).autoClaimSpecialDraws
     const gameID = displayGame.gameID
-    await pokeAction(urbit, changeSpecialDrawPreferencePoke(gameID, newAutoClaimPreference))
+    pokeAction(urbit, changeSpecialDrawPreferencePoke(gameID, newAutoClaimPreference))
   }
 
   return (
