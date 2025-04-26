@@ -1,12 +1,20 @@
-import React from 'react'
-import { Tab, Tabs, TabList, TabPanel } from 'react-tabs'
+import React, { useState } from 'react'
 import { Challenges } from './Challenges'
 import { Games } from './Games'
 import { Settings } from './Settings'
 import usePreferenceStore from '../ts/state/preferenceStore'
 
-export function ControlPanel () {
+type menuOptions = 'games' | 'challenges' | 'settings'
+
+const menuComponents: Record<menuOptions, React.FC> = {
+  games: Games,
+  challenges: Challenges,
+  settings: Settings
+}
+
+export function ControlPanel() {
   const { pieceTheme, boardTheme, setPieceTheme, setBoardTheme } = usePreferenceStore()
+  const [selectedMenu, setSelectedMenu] = useState<menuOptions>('games')
 
   const initThemes = () => {
     let storedPieceTheme = localStorage.getItem('pieceTheme')
@@ -30,22 +38,22 @@ export function ControlPanel () {
     [])
 
   return (
-    <Tabs className='menu-container'>
-      <TabList>
-        <Tab>Games</Tab>
-        <Tab>Challenges</Tab>
-        <Tab>Settings</Tab>
-      </TabList>
+    <div className="menu-container">
+      <div>
+        {Object.keys(menuComponents).map((key) => (
+          <span
+            key={key}
+            style={{ cursor: 'pointer' }}
+            onClick={() => setSelectedMenu(key as menuOptions)}
+          >
+            {key.charAt(0).toUpperCase() + key.slice(1)}
+          </span>
+        ))}
+      </div>
 
-      <TabPanel>
-        <Games />
-      </TabPanel>
-      <TabPanel>
-        <Challenges />
-      </TabPanel>
-      <TabPanel>
-        <Settings />
-      </TabPanel>
-    </Tabs>
+      <div>
+        {React.createElement(menuComponents[selectedMenu])}
+      </div>
+    </div>
   )
 }
