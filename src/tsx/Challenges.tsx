@@ -16,7 +16,7 @@ export function Challenges () {
   const [side, setSide] = useState(Side.Random)
   const [practiceSetting, setPracticeSetting] = useState(false)
   const [newOpp, setNewOpp] = useState('')
-  const { urbit, incomingChallenges, outgoingChallenges, friends, tallies } = useChessStore()
+  const { urbit, incomingChallenges, outgoingChallenges, friends } = useChessStore()
   // interface
   const [modalOpen, setModalOpen] = useState(false)
   const [challengingFriend, setChallengingFriend] = useState(false)
@@ -49,25 +49,12 @@ export function Challenges () {
     closeModal()
   }
 
-  const challengerKing = (side: Side): string => {
-    switch (side) {
-      case Side.White: {
-        return '♔'
-      }
-      case Side.Black: {
-        return '♚'
-      }
-      case Side.Random:
-        return '⚂'
-    }
-  }
-
   const acceptChallenge = async (who: Ship) => {
-    await pokeAction(urbit, acceptChallengePoke(who))
+    pokeAction(urbit, acceptChallengePoke(who))
   }
 
   const declineChallenge = async (who: Ship) => {
-    await pokeAction(urbit, declineChallengePoke(who))
+    pokeAction(urbit, declineChallengePoke(who))
   }
 
   const sendChallenge = async () => {
@@ -79,7 +66,7 @@ export function Challenges () {
       resetChallengeInterface()
     }
 
-    await pokeAction(urbit, sendChallengePoke(who, side, description, practiceSetting), onError, onSuccess)
+    pokeAction(urbit, sendChallengePoke(who, side, description, practiceSetting), onError, onSuccess)
   }
 
   const openFriends = async () => {
