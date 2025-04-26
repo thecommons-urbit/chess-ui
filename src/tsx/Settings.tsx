@@ -6,7 +6,7 @@ import { pieceThemes, boardThemes } from '../ts/constants/themes'
 import { ActiveGameInfo } from '../ts/types/urbitChess'
 
 export function Settings () {
-  const { urbit, displayGame, activeGames } = useChessStore()
+  const { urbit, displayGame } = useChessStore()
   const { setPieceTheme, setBoardTheme } = usePreferenceStore()
   const hasGame: boolean = (displayGame !== null)
 
