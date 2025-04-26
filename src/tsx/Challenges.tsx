@@ -104,9 +104,8 @@ export function Challenges () {
     <div className='challenges-container col'>
       <div id="challenges-header" className="control-panel-container col">
         <button className='option' onClick={openModal}>New Challenge</button>
-        {/* XX: see how it looks replacing • with ☙ or ❧ or ❦ or 𐫱 */}
         <p>
-          <span onClick={openIncoming} style={{ opacity: (showingIncoming ? 1.0 : 0.5) }}>Incoming</span> ☙ <span onClick={openOutgoing} style={{ opacity: (showingOutgoing ? 1.0 : 0.5) }}>Outgoing</span> ❧ <span onClick={openFriends} style={{ opacity: (showingFriends ? 1.0 : 0.5) }}>Friends</span>
+          <span onClick={openIncoming} style={{ opacity: (showingIncoming ? 1.0 : 0.5) }}>Incoming</span> <span>{'\u2217'}</span> <span onClick={openOutgoing} style={{ opacity: (showingOutgoing ? 1.0 : 0.5) }}>Outgoing</span> <span>{'\u2217'}</span> <span onClick={openFriends} style={{ opacity: (showingFriends ? 1.0 : 0.5) }}>Friends</span>
         </p>
       </div>
       {/* incoming challenges list */}

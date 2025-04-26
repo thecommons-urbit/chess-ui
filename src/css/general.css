@@ -237,6 +237,15 @@ div.menu-container {
   grid-area: panel;
   height: 100%;
   width: 100%;
+  background-color: rgb(28,26,29);
+}
+
+div.menu-container span {
+  color: #F2EFE7;
+}
+
+div.menu-container span:hover {
+  color: #FFFFFF;
 }
 
 div.menu-container h4 {
@@ -244,6 +253,7 @@ div.menu-container h4 {
   left: 5px;
   top: -10px;
   font-weight: normal;
+  color: #F2EFE7;
 }
 
 ul.game-list {
@@ -260,7 +270,7 @@ ul.game-list {
 li.game {
   width: 90%;
   margin-top: 0.5rem;
-  border: 1px solid black;
+  border: 1px solid rgb(28,26,29);
   border-radius: 0.5rem;
   box-shadow: 2px 2px 5px grey;
   list-style: none;
@@ -366,13 +376,13 @@ div.settings-container {
 
 div.settings-container #visuals-settings {
   grid-area: visuals;
-  border-bottom: 1px black solid;
+  border-bottom: 1px rgb(28,26,29) solid;
   overflow-y: auto;
 }
 
 div.settings-container #gameplay-settings {
   grid-area: gameplay;
-  border-bottom: 1px black solid;
+  border-bottom: 1px rgb(28,26,29) solid;
 }
 
 div.settings-container #data-settings {
