@@ -12,7 +12,7 @@ const menuComponents: Record<menuOptions, React.FC> = {
   settings: Settings
 }
 
-export function ControlPanel() {
+export function ControlPanel () {
   const { pieceTheme, boardTheme, setPieceTheme, setBoardTheme } = usePreferenceStore()
   const [selectedMenu, setSelectedMenu] = useState<menuOptions>('games')
 

@@ -1,12 +1,11 @@
 import React, { useState } from 'react'
-import { Side, GameID } from '../ts/types/urbitChess'
+import { GameID } from '../ts/types/urbitChess'
 import useChessStore from '../ts/state/chessStore'
 import usePreferenceStore from '../ts/state/preferenceStore'
 
 export function Games () {
-  const { urbit, displayGame, activeGames, setDisplayGame, archivedGames, displayArchivedGame } = useChessStore()
+  const { urbit, activeGames, setDisplayGame, archivedGames, displayArchivedGame } = useChessStore()
   const { pieceTheme } = usePreferenceStore()
-  const hasGame: boolean = (displayGame !== null)
   const [showingActive, setShowingActive] = useState(true)
 
   const extractDate = (gameID: GameID) => {
@@ -42,7 +41,7 @@ export function Games () {
             return (
               <li
                 key={key}
-                className={`game active ${colorClass} ${status}`}
+                className={`game active ${colorClass}`}
                 title={gameID}
                 onClick={() => { setDisplayGame(activeGame) }}>
                 <div className='row'>
@@ -64,7 +63,7 @@ export function Games () {
         }
       </ul>
       {/* Archive */}
-      <ul id="archive-games" className={`game-list ${pieceTheme} ${status}`} style={{ display: (showingActive ? 'none' : 'flex') }}>
+      <ul id="archive-games" className={`game-list ${pieceTheme}`} style={{ display: (showingActive ? 'none' : 'flex') }}>
         {
           Array.from(archivedGames).map(([gameID, archivedGame], key) => {
             const colorClass = (key % 2) ? 'odd' : 'even'
