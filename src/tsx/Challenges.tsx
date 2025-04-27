@@ -102,7 +102,6 @@ export function Challenges() {
           Array.from(incomingChallenges).map(([challenger, challenge], key) => {
             const colorClass = (key % 2) ? 'odd' : 'even'
             const description = challenge.event
-            const mySide = (challenge.challengerSide === Side.White) ? 'b' : 'w'
             const isPractice = challenge.isPractice
             const sigilConfig = {
               point: `${challenger}`,
