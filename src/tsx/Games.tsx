@@ -25,7 +25,7 @@ export function Games() {
     <div className='games-container col'>
       <div id="active-archive-toggle">
         <p>
-          <span onClick={openActive} style={{ opacity: (showingActive ? 1.0 : 0.5) }}>Active</span> <span>{'\u2217'}</span> <span onClick={openArchive} style={{ opacity: (showingActive ? 0.5 : 1.0) }}>Archive</span>
+          <span onClick={openActive} style={{ opacity: (showingActive ? 1.0 : 0.5) }}>Active</span>&ensp;<span>{'\u2217'}</span>&ensp;<span onClick={openArchive} style={{ opacity: (showingActive ? 0.5 : 1.0) }}>Archive</span>
         </p>
       </div>
       {/* Active */}
