@@ -2,8 +2,9 @@ import React, { useState } from 'react'
 import { GameID } from '../ts/types/urbitChess'
 import useChessStore from '../ts/state/chessStore'
 import usePreferenceStore from '../ts/state/preferenceStore'
+import '@urbit/sigil-js'
 
-export function Games () {
+export function Games() {
   const { urbit, activeGames, setDisplayGame, archivedGames, displayArchivedGame } = useChessStore()
   const { pieceTheme } = usePreferenceStore()
   const [showingActive, setShowingActive] = useState(true)
@@ -31,29 +32,34 @@ export function Games () {
       <ul id="active-games" className={`game-list ${pieceTheme}`} style={{ display: (showingActive ? 'flex' : 'none') }}>
         {
           Array.from(activeGames).map(([gameID, activeGame], key) => {
-            const colorClass = (key % 2) ? 'odd' : 'even'
             const description = activeGame.event
-            const mySide = (urbit.ship === activeGame.white.substring(1)) ? 'white' : 'black'
             const opponent = (urbit.ship === activeGame.white.substring(1))
               ? activeGame.black
               : activeGame.white
+            const sigilConfig = {
+              point: `${opponent}`,
+              size: 40,
+              background: '#1C1A1D',
+              foreground: '#F2EFE7',
+              detail: 'none',
+              space: 'default'
+            }
 
             return (
               <li
                 key={key}
-                className={`game active ${colorClass}`}
+                className={`game active`}
                 title={gameID}
                 onClick={() => { setDisplayGame(activeGame) }}>
-                <div className='row'>
-                  <piece className={`game-icon ${mySide} knight`}/>
+                <div className='row' style={{ alignItems: 'center' }}>
+                  <urbit-sigil {...sigilConfig} />
                   <div className='col game-card'>
                     <p className='game-opponent'>{opponent}</p>
-                    <p className='game-date'>{extractDate(gameID)}</p>
                     <p
-                      title={description}
+                      title={!description ? '' : `~${extractDate(gameID)}`}
                       className='game-desc'
                     >
-                      {description}
+                      {description || `~${extractDate(gameID)}`}
                     </p>
                   </div>
                 </div>
@@ -80,7 +86,7 @@ export function Games () {
                 title={gameID}
                 onClick={() => { displayArchivedGame(gameID) }}>
                 <div className='row'>
-                  <piece className={`game-icon ${mySide} knight`}/>
+                  <piece className={`game-icon ${mySide} knight`} />
                   <div className='col game-card'>
                     <p className='game-opponent'>{opponent}</p>
                     <p className='game-date'>{extractDate(gameID)}</p>

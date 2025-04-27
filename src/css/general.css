@@ -268,9 +268,11 @@ li.game {
   word-wrap: break-word;
   background-color: #F2EFE7;
   cursor: pointer;
+  padding: 0.5em;
 }
 
 div.col.game-card {
+  margin-left: 0.5em;
   width: calc(100% - 60px);
 }
 
@@ -344,10 +346,9 @@ div#challenges-header span {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding-left: 0.5em;
 }
 
-.challenge-box urbit-sigil {
+.game urbit-sigil {
   height: 40px;
   width: 40px;
   border-radius: 0.25rem;
