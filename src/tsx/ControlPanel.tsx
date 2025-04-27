@@ -39,11 +39,11 @@ export function ControlPanel () {
 
   return (
     <div className="menu-container">
-      <div>
+      <div className="menu-tabs">
         {Object.keys(menuComponents).map((key) => (
           <span
             key={key}
-            style={{ cursor: 'pointer' }}
+            style={{ cursor: 'pointer', opacity: selectedMenu === key ? 1 : 0.5 }}
             onClick={() => setSelectedMenu(key as MenuOptions)}
           >
             {key.charAt(0).toUpperCase() + key.slice(1)}

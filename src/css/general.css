@@ -248,6 +248,15 @@ div.menu-container span:hover {
   color: #FFFFFF;
 }
 
+div.menu-tabs {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  align-items: center;
+  height: 50px;
+  width: 100%;
+}
+
 div.menu-container h4 {
   position: relative;
   left: 5px;
