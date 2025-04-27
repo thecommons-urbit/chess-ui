@@ -357,7 +357,7 @@ div#challenges-header span {
 
 .challenge-box .col {
   justify-content: space-evenly;
-  margin: 0.5em;
+  margin-left: 0.5em;
 }
 
 /* Settings menu */
