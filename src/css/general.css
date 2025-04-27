@@ -221,7 +221,7 @@ div.menu-container {
   grid-area: panel;
   height: 100%;
   width: 100%;
-  background-color: rgb(28,26,29);
+  background-color: #1C1A1D;
 }
 
 div.menu-container span {
@@ -376,13 +376,13 @@ div.settings-container {
 
 div.settings-container #visuals-settings {
   grid-area: visuals;
-  border-bottom: 1px rgb(28,26,29) solid;
+  border-bottom: 1px #1C1A1D solid;
   overflow-y: auto;
 }
 
 div.settings-container #gameplay-settings {
   grid-area: gameplay;
-  border-bottom: 1px rgb(28,26,29) solid;
+  border-bottom: 1px #1C1A1D solid;
 }
 
 div.settings-container #data-settings {

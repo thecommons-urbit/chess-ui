@@ -141,7 +141,7 @@ export function Challenges() {
             const sigilConfig = {
               point: `${challenged}`,
               size: 40,
-              background: 'rgb(28,26,29)',
+              background: '#1C1A1D',
               foreground: '#F2EFE7',
               detail: 'none',
               space: 'default'
