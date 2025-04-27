@@ -104,13 +104,20 @@ export function Challenges() {
             const description = challenge.event
             const mySide = (challenge.challengerSide === Side.White) ? 'b' : 'w'
             const isPractice = challenge.isPractice
+            const sigilConfig = {
+              point: `${challenger}`,
+              size: 40,
+              background: '#1C1A1D',
+              foreground: '#F2EFE7',
+              detail: 'none',
+              space: 'default'
+            }
+
             return (
               <li className={`game challenge ${colorClass}`} key={key}>
                 <div className='challenge-box'>
-                  <div className='row'>
-                    <img
-                      src={`https://raw.githubusercontent.com/lichess-org/lila/5a9672eacb870d4d012ae09d95aa4a7fdd5c8dbf/public/piece/cburnett/${mySide}N.svg`}
-                    />
+                  <div className='row' style={{ alignItems: 'center' }}>
+                    <urbit-sigil {...sigilConfig} />
                     <div className='col'>
                       <p className='challenger-name'>{challenger}</p>
                       <p
@@ -151,7 +158,7 @@ export function Challenges() {
               <li className='game' key={key}>
                 <div className='challenge-box'>
                   <div className='row' style={{ alignItems: 'center' }}>
-                      <urbit-sigil {...sigilConfig} />
+                    <urbit-sigil {...sigilConfig} />
                     <div className='col'>
                       <p className='challenger-name'>{challenged}</p>
                       <p
