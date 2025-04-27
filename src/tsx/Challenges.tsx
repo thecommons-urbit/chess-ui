@@ -135,12 +135,11 @@ export function Challenges () {
       <ul id="outgoing-challenges" className='game-list' style={{ display: (showingOutgoing ? 'flex' : ' none') }}>
         {
           Array.from(outgoingChallenges).map(([challenged, challenge], key) => {
-            const colorClass = (key % 2) ? 'odd' : 'even'
             const description = challenge.event
             const mySide = (challenge.challengerSide === Side.White) ? 'w' : 'b'
             const isPractice = challenge.isPractice
             return (
-              <li className={`game challenge ${colorClass}`} key={key}>
+              <li className='game' key={key}>
                 <div className='challenge-box'>
                   <div className='row'>
                     <img
