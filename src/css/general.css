@@ -35,22 +35,6 @@ div.row {
   flex-direction: row;
 }
 
-.challenge-box {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.challenge-box .row img {
-  height: 60px;
-  width: 60px;
-}
-
-.challenge-box .col {
-  justify-content: space-evenly;
-  margin: 0.5em;
-}
-
 .hidden {
   opacity: 0;
 }
@@ -354,6 +338,25 @@ div#challenges-header p {
 
 div#challenges-header span {
   cursor: pointer;
+}
+
+.challenge-box {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-left: 0.5em;
+}
+
+.challenge-box urbit-sigil {
+  height: 40px;
+  width: 40px;
+  border-radius: 0.25rem;
+  overflow: hidden;
+}
+
+.challenge-box .col {
+  justify-content: space-evenly;
+  margin: 0.5em;
 }
 
 /* Settings menu */

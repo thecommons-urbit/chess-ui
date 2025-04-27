@@ -5,11 +5,12 @@ import { pokeAction, sendChallengePoke, acceptChallengePoke, declineChallengePok
 import useChessStore from '../ts/state/chessStore'
 import { Challenge, Side, Ship } from '../ts/types/urbitChess'
 import { getTally } from '../ts/helpers/chess'
+import '@urbit/sigil-js'
 
 const selectedSideButtonClasses = 'side radio-selected'
 const unselectedSideButtonClasses = 'side radio-unselected'
 
-export function Challenges () {
+export function Challenges() {
   // data
   const [who, setWho] = useState('')
   const [description, setDescription] = useState('')
@@ -136,15 +137,21 @@ export function Challenges () {
         {
           Array.from(outgoingChallenges).map(([challenged, challenge], key) => {
             const description = challenge.event
-            const mySide = (challenge.challengerSide === Side.White) ? 'w' : 'b'
             const isPractice = challenge.isPractice
+            const sigilConfig = {
+              point: `${challenged}`,
+              size: 40,
+              background: 'rgb(28,26,29)',
+              foreground: '#F2EFE7',
+              detail: 'none',
+              space: 'default'
+            }
+
             return (
               <li className='game' key={key}>
                 <div className='challenge-box'>
-                  <div className='row'>
-                    <img
-                      src={`https://raw.githubusercontent.com/lichess-org/lila/5a9672eacb870d4d012ae09d95aa4a7fdd5c8dbf/public/piece/cburnett/${mySide}N.svg`}
-                    />
+                  <div className='row' style={{ alignItems: 'center' }}>
+                      <urbit-sigil {...sigilConfig} />
                     <div className='col'>
                       <p className='challenger-name'>{challenged}</p>
                       <p
@@ -202,7 +209,7 @@ export function Challenges () {
                 setNewOpp(e.target.value)
               }}
               key={badChallengeAttempts}
-              disabled={ challengingFriend }/>
+              disabled={challengingFriend} />
           </div>
           <div
             className="new-opp-tally-container"
@@ -225,13 +232,13 @@ export function Challenges () {
             <input
               type="text"
               placeholder={'(optional)'}
-              onChange={(e) => setDescription(e.target.value)}/>
+              onChange={(e) => setDescription(e.target.value)} />
           </div>
           <div className='challenge-practice-container row'>
             <p>Practice Game:</p>
             <input
               type="checkbox"
-              onChange={(e) => setPracticeSetting(e.target.checked)}/>
+              onChange={(e) => setPracticeSetting(e.target.checked)} />
           </div>
           <div className='challenge-side-container row'>
             <button
@@ -240,21 +247,21 @@ export function Challenges () {
               style={{
                 backgroundImage: 'url(https://raw.githubusercontent.com/lichess-org/lila/5a9672eacb870d4d012ae09d95aa4a7fdd5c8dbf/public/piece/cburnett/wK.svg)'
               }}
-              onClick={() => setSide(Side.White)}/>
+              onClick={() => setSide(Side.White)} />
             <button
               className={(side === Side.Random) ? selectedSideButtonClasses : unselectedSideButtonClasses}
               title='Random'
               style={{
                 backgroundImage: 'url(https://raw.githubusercontent.com/lichess-org/lila/5a9672eacb870d4d012ae09d95aa4a7fdd5c8dbf/public/images/wbK.svg)'
               }}
-              onClick={() => setSide(Side.Random)}/>
+              onClick={() => setSide(Side.Random)} />
             <button
               className={(side === Side.Black) ? selectedSideButtonClasses : unselectedSideButtonClasses}
               title='Black'
               style={{
                 backgroundImage: 'url(https://raw.githubusercontent.com/lichess-org/lila/5a9672eacb870d4d012ae09d95aa4a7fdd5c8dbf/public/piece/cburnett/bK.svg)'
               }}
-              onClick={() => setSide(Side.Black)}/>
+              onClick={() => setSide(Side.Black)} />
           </div>
           <button onClick={sendChallenge}>Send Challenge</button>
         </div>
