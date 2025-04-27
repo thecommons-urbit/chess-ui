@@ -123,7 +123,7 @@ export function Challenges() {
                         title={description}
                         className='challenger-desc'
                       >
-                        <i>{isPractice && 'Practice: '}</i>
+                        {isPractice && <i>Practice:&nbsp;</i>}
                         {description}
                       </p>
                     </div>
