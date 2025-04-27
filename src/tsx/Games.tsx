@@ -72,29 +72,34 @@ export function Games() {
       <ul id="archive-games" className={`game-list ${pieceTheme}`} style={{ display: (showingActive ? 'none' : 'flex') }}>
         {
           Array.from(archivedGames).map(([gameID, archivedGame], key) => {
-            const colorClass = (key % 2) ? 'odd' : 'even'
             const description = archivedGame.event
-            const mySide = (urbit.ship === archivedGame.white.substring(1)) ? 'white' : 'black'
             const opponent = (urbit.ship === archivedGame.white.substring(1))
               ? archivedGame.black
               : archivedGame.white
+            const sigilConfig = {
+              point: `${opponent}`,
+              size: 40,
+              background: '#1C1A1D',
+              foreground: '#F2EFE7',
+              detail: 'none',
+              space: 'default'
+            }
 
             return (
               <li
                 key={key}
-                className={`game active ${colorClass}`}
+                className='game'
                 title={gameID}
                 onClick={() => { displayArchivedGame(gameID) }}>
-                <div className='row'>
-                  <piece className={`game-icon ${mySide} knight`} />
+                <div className='row' style={{ alignItems: 'center' }}>
+                  <urbit-sigil {...sigilConfig} />
                   <div className='col game-card'>
                     <p className='game-opponent'>{opponent}</p>
-                    <p className='game-date'>{extractDate(gameID)}</p>
                     <p
-                      title={description}
+                      title={!description ? '' : `~${extractDate(gameID)}`}
                       className='game-desc'
                     >
-                      {description}
+                      {description || `~${extractDate(gameID)}`}
                     </p>
                   </div>
                 </div>
