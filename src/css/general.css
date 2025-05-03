@@ -393,6 +393,10 @@ div.settings-container #gameplay-settings {
   border-bottom: 1px solid #F2EFE7;
 }
 
+div.settings-container #gameplay-settings label {
+  margin-bottom: 0.5em;
+}
+
 div.settings-container #data-settings {
   grid-area: data;
   overflow-x: hidden;
