@@ -10,7 +10,7 @@ button {
   cursor: pointer;
   display: inline-block;
   font-family: 'Urbit Sans', sans-serif;
-  font-size: 14px;
+  font-size: 0.9rem;
   font-weight: 500;
   line-height: 20px;
   list-style: none;
@@ -60,16 +60,8 @@ button.accept, button.reject {
   background-color: #1C1A1D;
 }
 
-button.accept:hover {
-  background-color: #7FC482;
-}
-
 button.reject {
   margin-left: 0.5em;
-}
-
-button.reject:hover {
-  background-color: #C7532F;
 }
 
 button.radio-selected {
