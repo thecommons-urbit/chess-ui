@@ -78,7 +78,7 @@ export function Settings () {
               disabled={!hasGame}
               onChange={handleCheckboxChange}
             />
-          <span>Auto-Claim Special Draws</span>
+          <span>Auto-claim special draws in this game</span>
           </label>
       </div>
       <div id="data-settings" className="control-panel-container col">
