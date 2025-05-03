@@ -359,8 +359,8 @@ div#challenges-header span {
 /* Settings menu */
 
 div.settings-container {
-  /* XX: overflow should be consistent for all menus */
-  overflow: scroll;
+  overflow-y: scroll;
+  overflow-x: hidden;
   height: 100%;
   display: grid;
   grid-template-areas:
@@ -374,16 +374,19 @@ div.settings-container {
 div.settings-container #visuals-settings {
   grid-area: visuals;
   border-bottom: 1px #1C1A1D solid;
+  overflow-x: hidden;
   overflow-y: auto;
 }
 
 div.settings-container #gameplay-settings {
   grid-area: gameplay;
+  overflow-x: hidden;
   border-bottom: 1px #1C1A1D solid;
 }
 
 div.settings-container #data-settings {
   grid-area: data;
+  overflow-x: hidden;
 }
 
 div.settings-container #data-settings button {
