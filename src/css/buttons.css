@@ -64,6 +64,10 @@ button.accept:hover {
   background-color: #7FC482;
 }
 
+button.reject {
+  margin-left: 0.5em;
+}
+
 button.reject:hover {
   background-color: #C7532F;
 }
