@@ -398,8 +398,14 @@ div.settings-container #settings-footer {
   align-items: center;
 }
 
-div.settings-container #settings-footer p {
-  font-size: 0.8em;
+div.settings-container #settings-footer a {
+  color: #F2EFE7;
+  text-decoration: none;
+  font-size: 0.9rem;
+}
+
+div.settings-container a :visited {
+  color: #F2EFE7;
 }
 
 div.draw-resolution {
