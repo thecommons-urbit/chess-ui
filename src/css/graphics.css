@@ -64,9 +64,7 @@ ul.theme-list {
 }
 
 li.theme {
-  border: 1px solid black;
   border-radius: 0.55rem;
-  box-shadow: 2px 2px 5px grey;
   list-style: none;
   cursor: pointer;
   display: grid;
@@ -75,7 +73,7 @@ li.theme {
 }
 
 li.selected {
-  box-shadow: 0px 0px 5px 2px lightskyblue !important;
+  box-shadow: 0px 0px 2.5px 2.5px #F2EFE7;
   -webkit-transition: all 150ms ease;
   -moz-transition: all 150ms ease;
   -o-transition: all 150ms ease;
