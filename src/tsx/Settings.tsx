@@ -86,7 +86,7 @@ export function Settings () {
         <button>Export PGN</button>
       </div>
       <div id="settings-footer" className="control-panel-container col">
-        <span><a href="">Credits</a> {'\u2217'} <a href="https://github.com/ashelkovnykov/urbit-chess">GitHub</a></span>
+        <span><a href="">Credits</a> {'\u2217'} <a href="https://github.com/thecommons-urbit/chess">GitHub</a></span>
       </div>
     </div>
   )
