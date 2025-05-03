@@ -369,6 +369,11 @@ div.settings-container {
   "data"
   "footer";
   grid-template-rows: 45% auto auto 10%;
+  padding: 0.5em;
+}
+
+div.settings-container h4 {
+  margin: 0.5em;
 }
 
 div.settings-container #visuals-settings {
@@ -376,12 +381,16 @@ div.settings-container #visuals-settings {
   border-bottom: 1px #1C1A1D solid;
   overflow-x: hidden;
   overflow-y: auto;
+  margin-bottom: 1em;
+  border-bottom: 1px solid #F2EFE7;
 }
 
 div.settings-container #gameplay-settings {
   grid-area: gameplay;
   overflow-x: hidden;
-  border-bottom: 1px #1C1A1D solid;
+  padding-bottom: 0.5em;
+  margin-bottom: 1em;
+  border-bottom: 1px solid #F2EFE7;
 }
 
 div.settings-container #data-settings {
@@ -396,7 +405,7 @@ div.settings-container #data-settings button {
 
 div.settings-container #settings-footer {
   grid-area: footer;
-  justify-content: center;
+  justify-content: end;
   align-items: center;
 }
 
