@@ -386,7 +386,6 @@ div.settings-container #data-settings {
   grid-area: data;
 }
 
-/* XX: do we need this? implementation feels bad */
 div.settings-container #data-settings button {
   width: 80%;
   margin: auto;
