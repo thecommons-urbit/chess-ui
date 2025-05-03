@@ -71,17 +71,15 @@ export function Settings () {
       </div>
       <div id="gameplay-settings" className="control-panel-container col">
         <h4 className="control-panel-header">Gameplay</h4>
-        {hasGame ? (
           <label>
             <input
               type="checkbox"
-              checked={(displayGame as ActiveGameInfo).autoClaimSpecialDraws}
+              checked={(displayGame as ActiveGameInfo)?.autoClaimSpecialDraws || false}
+              disabled={!hasGame}
               onChange={handleCheckboxChange}
             />
-            Auto-Claim Special Draws
+          <span>Auto-Claim Special Draws</span>
           </label>
-        ) : (null)
-        }
       </div>
       <div id="data-settings" className="control-panel-container col">
         <h4 className="control-panel-header">Data</h4>
