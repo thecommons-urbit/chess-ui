@@ -13,7 +13,6 @@
 }
 
 .theme-icon {
-  position: unset; /* for board icons specifically */
   border-radius: 0.5rem;
   height: 60px;
   width: 60px;
@@ -34,7 +33,7 @@
 .board-icon {
   position: unset;
   border-radius: 0.5rem;
-  background-size: 240px;
+  background-size: cover;
 }
 
 .material-diff-icon {
