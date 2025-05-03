@@ -146,7 +146,7 @@ export function Challenges() {
                       </p>
                     </div>
                   </div>
-                  <div className='col'>
+                  <div className='row'>
                     <button className="accept" onClick={() => acceptChallenge(challenger)}>Accept</button>
                     <button className="reject" onClick={() => declineChallenge(challenger)}>Decline</button>
                   </div>

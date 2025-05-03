@@ -3,12 +3,10 @@
 
 button {
   appearance: none;
-  background-color: #FAFBFC;
-  border: 1px solid rgba(27, 31, 35, 0.15);
+  background-color: #F2EFE7;
+  border: none;
   border-radius: 6px;
-  box-shadow: rgba(27, 31, 35, 0.04) 0 1px 0, rgba(255, 255, 255, 0.25) 0 1px 0 inset;
-  box-sizing: border-box;
-  color: #24292E;
+  color: #1C1A1D;
   cursor: pointer;
   display: inline-block;
   font-family: 'Urbit Sans', sans-serif;
@@ -34,8 +32,7 @@ button:hover {
 }
 
 button:disabled {
-  background-color: #FAFBFC;
-  border-color: rgba(27, 31, 35, 0.15);
+  background-color: #F2EFE7;
   color: #959DA5;
   cursor: default;
 }
@@ -56,6 +53,11 @@ button:before {
 
 button:-webkit-details-marker {
   display: none;
+}
+
+button.accept, button.reject {
+  color: #F2EFE7;
+  background-color: #1C1A1D;
 }
 
 button.accept:hover {
