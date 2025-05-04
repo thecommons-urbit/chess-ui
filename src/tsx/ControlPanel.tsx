@@ -51,7 +51,7 @@ export function ControlPanel () {
         ))}
       </div>
 
-      <div>
+      <div className="menu-content">
         {React.createElement(menuComponents[selectedMenu])}
       </div>
     </div>

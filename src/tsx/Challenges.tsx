@@ -10,7 +10,7 @@ import '@urbit/sigil-js'
 const selectedSideButtonClasses = 'side radio-selected'
 const unselectedSideButtonClasses = 'side radio-unselected'
 
-export function Challenges() {
+export function Challenges () {
   // data
   const [who, setWho] = useState('')
   const [description, setDescription] = useState('')

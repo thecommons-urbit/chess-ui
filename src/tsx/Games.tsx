@@ -4,7 +4,7 @@ import useChessStore from '../ts/state/chessStore'
 import usePreferenceStore from '../ts/state/preferenceStore'
 import '@urbit/sigil-js'
 
-export function Games() {
+export function Games () {
   const { urbit, activeGames, setDisplayGame, archivedGames, displayArchivedGame } = useChessStore()
   const { pieceTheme } = usePreferenceStore()
   const [showingActive, setShowingActive] = useState(true)
