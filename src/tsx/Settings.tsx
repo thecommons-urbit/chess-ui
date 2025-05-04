@@ -6,16 +6,16 @@ import usePreferenceStore from '../ts/state/preferenceStore'
 import { pieceThemes, boardThemes } from '../ts/constants/themes'
 import { ActiveGameInfo } from '../ts/types/urbitChess'
 
-export function Settings () {
+export function Settings() {
   const { urbit, displayGame } = useChessStore()
   const { setPieceTheme, setBoardTheme } = usePreferenceStore()
   const hasGame: boolean = (displayGame !== null)
   const [creditsModalOpen, setCreditsModalOpen] = useState(false)
-  
+
   const openCreditsModal = () => {
     setCreditsModalOpen(true)
   }
-  
+
   const closeCreditsModal = () => {
     setCreditsModalOpen(false)
   }
@@ -49,7 +49,7 @@ export function Settings () {
                     className={`theme ${theme} ${status}`}
                     onClick={() => handleClick()}
                   >
-                    <piece className="theme-icon black knight"/>
+                    <piece className="theme-icon black knight" />
                   </li>
                 )
               })
@@ -73,7 +73,7 @@ export function Settings () {
                     className={`theme ${theme} ${status}`}
                     onClick={() => handleClick()}
                   >
-                    <cg-board id={theme} class="board-icon theme-icon"/>
+                    <cg-board id={theme} class="board-icon theme-icon" />
                   </li>
                 )
               })
@@ -98,9 +98,26 @@ export function Settings () {
         </div>
       </div>
       <div id="settings-footer" className="control-panel-container col">
-        <span><a href="#" onClick={(e) => { e.preventDefault(); openCreditsModal(); }}>Credits</a> {'\u2217'} <a href="https://github.com/thecommons-urbit/chess" target="_blank" rel="noopener noreferrer">GitHub</a></span>
+        <span>
+          <a
+            href="#"
+            onClick={(e) => {
+              e.preventDefault(); openCreditsModal();
+            }}>
+            Credits
+          </a>
+          &ensp;
+          {'\u2217'}
+          &ensp;
+          <a
+            href="https://github.com/thecommons-urbit/chess"
+            target="_blank"
+            rel="noopener noreferrer">
+            GitHub
+          </a>
+        </span>
       </div>
-      
+
       <Popup
         open={creditsModalOpen}
         onClose={closeCreditsModal}
