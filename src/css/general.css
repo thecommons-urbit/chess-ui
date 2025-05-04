@@ -436,3 +436,27 @@ div.settings-container a :visited {
 div.draw-resolution {
   justify-content: space-evenly;
 }
+
+div.credits-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-height: 500px;
+  color: #1C1A1D;
+}
+
+div.credits-container h2 {
+  font-size: 1.5em;
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
+}
+
+div.credits-container p {
+  font-size: 1.25em;
+  font-variation-settings: 'xtab' 500;
+}
+
+div.credits-container .credits-list {
+  overflow-y: auto;
+}
+

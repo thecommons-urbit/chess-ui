@@ -1,4 +1,5 @@
-import React from 'react'
+import React, { useState } from 'react'
+import Popup from 'reactjs-popup'
 import { pokeAction, changeSpecialDrawPreferencePoke } from '../ts/helpers/urbitChess'
 import useChessStore from '../ts/state/chessStore'
 import usePreferenceStore from '../ts/state/preferenceStore'
@@ -9,6 +10,15 @@ export function Settings () {
   const { urbit, displayGame } = useChessStore()
   const { setPieceTheme, setBoardTheme } = usePreferenceStore()
   const hasGame: boolean = (displayGame !== null)
+  const [creditsModalOpen, setCreditsModalOpen] = useState(false)
+  
+  const openCreditsModal = () => {
+    setCreditsModalOpen(true)
+  }
+  
+  const closeCreditsModal = () => {
+    setCreditsModalOpen(false)
+  }
 
   const handleCheckboxChange = async () => {
     const newAutoClaimPreference = !(displayGame as ActiveGameInfo).autoClaimSpecialDraws
@@ -88,8 +98,25 @@ export function Settings () {
         </div>
       </div>
       <div id="settings-footer" className="control-panel-container col">
-        <span><a href="">Credits</a> {'\u2217'} <a href="https://github.com/thecommons-urbit/chess" target="_blank" rel="noopener noreferrer">GitHub</a></span>
+        <span><a href="#" onClick={(e) => { e.preventDefault(); openCreditsModal(); }}>Credits</a> {'\u2217'} <a href="https://github.com/thecommons-urbit/chess" target="_blank" rel="noopener noreferrer">GitHub</a></span>
       </div>
+      
+      <Popup
+        open={creditsModalOpen}
+        onClose={closeCreditsModal}
+      >
+        <div className='credits-container col'>
+          <h2>Contributors</h2>
+          <div className="credits-list">
+            <p>~bonbud-macryg</p>
+            <p>~datder-sonnet</p>
+            <p>~finmep-lanteb</p>
+            <p>~nordus-mocwyl</p>
+            <p>~rovmug-ticfyn</p>
+            <p>~sigryn-habrex</p>
+          </div>
+        </div>
+      </Popup>
     </div>
   )
 }
