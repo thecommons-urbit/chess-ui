@@ -3,10 +3,10 @@
 
 button {
   appearance: none;
-  background-color: #F2EFE7;
+  background-color: #1C1A1D;
   border: none;
   border-radius: 6px;
-  color: #1C1A1D;
+  color: #F2EFE7;
   cursor: pointer;
   display: inline-block;
   font-family: 'Urbit Sans', sans-serif;
@@ -16,7 +16,6 @@ button {
   list-style: none;
   padding: 6px 16px;
   position: relative;
-  transition: background-color 0.2s cubic-bezier(0.3, 0, 0.5, 1);
   user-select: none;
   -webkit-user-select: none;
   touch-action: manipulation;
@@ -26,21 +25,20 @@ button {
 }
 
 button:hover {
-  background-color: #E0E0E0;
+  background-color: #1C1A1D;
+  color: #F2EFE7;
   text-decoration: none;
-  transition-duration: 0.1s;
 }
 
 button:disabled {
-  background-color: #F2EFE7;
+  background-color: #1C1A1D;
   color: #959DA5;
   cursor: default;
 }
 
 button:active {
-  background-color: #EDEFF2;
-  box-shadow: rgba(225, 228, 232, 0.2) 0 1px 0 inset;
-  transition: none 0s;
+  background-color: #1C1A1D;
+  color: #F2EFE7;
 }
 
 button:focus {
@@ -70,11 +68,13 @@ button.challenge-friend {
 }
 
 button.radio-selected {
-  background-color: #5FFF9D;
+  background-color: #1C1A1D;
+  color: #F2EFE7;
 }
 
 button.radio-unselected:hover {
-  background-color: #CAFFDF;
+  background-color: #1C1A1D;
+  color: #F2EFE7;
 }
 
 button.side {
@@ -88,3 +88,10 @@ button.option {
   width: 80%;
   margin-top: 1rem;
 }
+
+/* Inverted buttons */
+button.inverted {
+  background-color: #F2EFE7;
+  color: #1C1A1D;
+}
+

@@ -91,7 +91,12 @@ export function Challenges() {
   return (
     <div className='challenges-container col'>
       <div id="challenges-header" className="control-panel-container col">
-        <button className='option' onClick={openModal}>New Challenge</button>
+        <button 
+          className='option inverted' 
+          onClick={openModal}
+        >
+          New Challenge
+        </button>
         <p>
           <span onClick={openIncoming} style={{ opacity: (showingIncoming ? 1.0 : 0.5) }}>
             Incoming

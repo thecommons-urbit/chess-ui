@@ -6,7 +6,7 @@ import usePreferenceStore from '../ts/state/preferenceStore'
 import { pieceThemes, boardThemes } from '../ts/constants/themes'
 import { ActiveGameInfo } from '../ts/types/urbitChess'
 
-export function Settings () {
+export function Settings() {
   const { urbit, displayGame } = useChessStore()
   const { setPieceTheme, setBoardTheme } = usePreferenceStore()
   const hasGame: boolean = (displayGame !== null)
@@ -94,7 +94,9 @@ export function Settings () {
         </div>
         <div id="data-settings" className="control-panel-container col">
           <h4 className="control-panel-header">Data</h4>
-          <button>Export PGN</button>
+          <button className="inverted">
+            Export PGN
+          </button>
         </div>
       </div>
       <div id="settings-footer" className="control-panel-container col">
