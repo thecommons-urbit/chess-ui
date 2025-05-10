@@ -6,7 +6,7 @@ import usePreferenceStore from '../ts/state/preferenceStore'
 import { pieceThemes, boardThemes } from '../ts/constants/themes'
 import { ActiveGameInfo } from '../ts/types/urbitChess'
 
-export function Settings() {
+export function Settings () {
   const { urbit, displayGame } = useChessStore()
   const { setPieceTheme, setBoardTheme } = usePreferenceStore()
   const hasGame: boolean = (displayGame !== null)
@@ -102,7 +102,7 @@ export function Settings() {
           <a
             href="#"
             onClick={(e) => {
-              e.preventDefault(); openCreditsModal();
+              e.preventDefault(); openCreditsModal()
             }}>
             Credits
           </a>
