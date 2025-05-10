@@ -1,5 +1,4 @@
 import React from 'react'
-import '../css/tabs.css'
 import '../css/text.css'
 import '../css/boards.css'
 import '../css/pieces.css'
