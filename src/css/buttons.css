@@ -78,10 +78,16 @@ button.radio-unselected:hover {
 }
 
 button.side {
-  height: 50px;
-  width: 75px;
-  background-position: 50% 50%;
-  background-repeat: no-repeat;
+  height: 60px;
+  width: 60px;
+}
+
+button.side piece {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
 }
 
 button.option {

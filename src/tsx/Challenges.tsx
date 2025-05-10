@@ -3,6 +3,7 @@ import Popup from 'reactjs-popup'
 import { isValidPatp } from 'urbit-ob'
 import { pokeAction, sendChallengePoke, acceptChallengePoke, declineChallengePoke } from '../ts/helpers/urbitChess'
 import useChessStore from '../ts/state/chessStore'
+import usePreferenceStore from '../ts/state/preferenceStore'
 import { Challenge, Side, Ship } from '../ts/types/urbitChess'
 import { getTally } from '../ts/helpers/chess'
 import '@urbit/sigil-js'
@@ -18,6 +19,7 @@ export function Challenges() {
   const [practiceSetting, setPracticeSetting] = useState(false)
   const [newOpp, setNewOpp] = useState('')
   const { urbit, incomingChallenges, outgoingChallenges, friends } = useChessStore()
+  const { pieceTheme } = usePreferenceStore()
   // interface
   const [modalOpen, setModalOpen] = useState(false)
   const [challengingFriend, setChallengingFriend] = useState(false)
@@ -91,8 +93,8 @@ export function Challenges() {
   return (
     <div className='challenges-container col'>
       <div id="challenges-header" className="control-panel-container col">
-        <button 
-          className='option inverted' 
+        <button
+          className='option inverted'
           onClick={openModal}
         >
           New Challenge
@@ -281,12 +283,13 @@ export function Challenges() {
           </div>
           <div className='challenge-side-container row'>
             <button
-              className={(side === Side.White) ? selectedSideButtonClasses : unselectedSideButtonClasses}
+              className={`${pieceTheme} ${(side === Side.White) ? selectedSideButtonClasses : unselectedSideButtonClasses}`}
               title='White'
-              style={{
-                backgroundImage: 'url(https://raw.githubusercontent.com/lichess-org/lila/5a9672eacb870d4d012ae09d95aa4a7fdd5c8dbf/public/piece/cburnett/wK.svg)'
-              }}
-              onClick={() => setSide(Side.White)} />
+              onClick={() => setSide(Side.White)}
+            >
+              <piece className="king white" />
+            </button>
+
             <button
               className={(side === Side.Random) ? selectedSideButtonClasses : unselectedSideButtonClasses}
               title='Random'
@@ -294,13 +297,14 @@ export function Challenges() {
                 backgroundImage: 'url(https://raw.githubusercontent.com/lichess-org/lila/5a9672eacb870d4d012ae09d95aa4a7fdd5c8dbf/public/images/wbK.svg)'
               }}
               onClick={() => setSide(Side.Random)} />
+
             <button
-              className={(side === Side.Black) ? selectedSideButtonClasses : unselectedSideButtonClasses}
+              className={`${pieceTheme} ${(side === Side.Black) ? selectedSideButtonClasses : unselectedSideButtonClasses}`}
               title='Black'
-              style={{
-                backgroundImage: 'url(https://raw.githubusercontent.com/lichess-org/lila/5a9672eacb870d4d012ae09d95aa4a7fdd5c8dbf/public/piece/cburnett/bK.svg)'
-              }}
-              onClick={() => setSide(Side.Black)} />
+              onClick={() => setSide(Side.Black)}
+            >
+              <piece className="king black" />
+            </button>
           </div>
           <button className='inverted' onClick={sendChallenge}>Send Challenge</button>
         </div>
