@@ -8,8 +8,8 @@ import { Challenge, Side, Ship } from '../ts/types/urbitChess'
 import { getTally } from '../ts/helpers/chess'
 import '@urbit/sigil-js'
 
-const selectedSideButtonClasses = 'side radio-selected inverted'
-const unselectedSideButtonClasses = 'side radio-unselected inverted'
+const selectedSideButtonClasses = 'side chess-side-selected'
+const unselectedSideButtonClasses = 'side chess-side-unselected'
 
 export function Challenges() {
   // data
@@ -235,7 +235,7 @@ export function Challenges() {
       </ul>
       {/* New Challenge popup */}
       {/* XX getTally runs on each chance to the description field */}
-      <Popup open={modalOpen} onClose={resetChallengeInterface}>
+      <Popup open={modalOpen} className='challenges-popup' onClose={resetChallengeInterface}>
         <div className='new-challenge-container col'>
           <p className='new-challenge-header'>New Challenge</p>
           <div className='challenge-input-container row'>

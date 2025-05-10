@@ -32,6 +32,15 @@
 .new-challenge-header {
   font-size: 2em;
   font-weight: bold;
+  color: #F2EFE7;
+}
+
+.challenge-input-container p {
+  color: #F2EFE7;
+}
+
+.challenge-practice-container p {
+  color: #F2EFE7;
 }
 
 /* game panel list */
