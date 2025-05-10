@@ -291,12 +291,15 @@ export function Challenges() {
             </button>
 
             <button
-              className={(side === Side.Random) ? selectedSideButtonClasses : unselectedSideButtonClasses}
+              className={`${pieceTheme} ${(side === Side.Random) ? selectedSideButtonClasses : unselectedSideButtonClasses}`}
               title='Random'
-              style={{
-                backgroundImage: 'url(https://raw.githubusercontent.com/lichess-org/lila/5a9672eacb870d4d012ae09d95aa4a7fdd5c8dbf/public/images/wbK.svg)'
-              }}
-              onClick={() => setSide(Side.Random)} />
+              onClick={() => setSide(Side.Random)}
+            >
+              <div className="split-kings-container">
+                <piece className="king white left-half" />
+                <piece className="king black right-half" />
+              </div>
+            </button>
 
             <button
               className={`${pieceTheme} ${(side === Side.Black) ? selectedSideButtonClasses : unselectedSideButtonClasses}`}

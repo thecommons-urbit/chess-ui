@@ -332,6 +332,15 @@ div.challenge-side-container {
   justify-content: space-evenly;
 }
 
+div.challenge-side-container button {
+  border-radius: 0.5rem;
+  background-color: #F2EFE7;
+}
+
+div.challenge-side-container button :hover {
+  background-color: #1C1A1D;
+}
+
 div#challenges-header {
   align-items: center;
 }
