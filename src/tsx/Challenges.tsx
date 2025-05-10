@@ -7,8 +7,8 @@ import { Challenge, Side, Ship } from '../ts/types/urbitChess'
 import { getTally } from '../ts/helpers/chess'
 import '@urbit/sigil-js'
 
-const selectedSideButtonClasses = 'side radio-selected'
-const unselectedSideButtonClasses = 'side radio-unselected'
+const selectedSideButtonClasses = 'side radio-selected inverted'
+const unselectedSideButtonClasses = 'side radio-unselected inverted'
 
 export function Challenges() {
   // data
@@ -302,7 +302,7 @@ export function Challenges() {
               }}
               onClick={() => setSide(Side.Black)} />
           </div>
-          <button onClick={sendChallenge}>Send Challenge</button>
+          <button className='inverted' onClick={sendChallenge}>Send Challenge</button>
         </div>
       </Popup>
     </div>
