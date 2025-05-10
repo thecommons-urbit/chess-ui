@@ -4,7 +4,7 @@ import useChessStore from '../ts/state/chessStore'
 import usePreferenceStore from '../ts/state/preferenceStore'
 import '@urbit/sigil-js'
 
-export function Games () {
+export function Games() {
   const { urbit, activeGames, setDisplayGame, archivedGames, displayArchivedGame } = useChessStore()
   const { pieceTheme } = usePreferenceStore()
   const [showingActive, setShowingActive] = useState(true)
@@ -51,7 +51,7 @@ export function Games () {
                 className={`game active`}
                 title={gameID}
                 onClick={() => { setDisplayGame(activeGame) }}>
-                <div className='row' style={{ alignItems: 'center' }}>
+                <div className='row' style={{ alignItems: 'center', cursor: 'pointer' }}>
                   <urbit-sigil {...sigilConfig} />
                   <div className='col game-card'>
                     <p className='game-opponent'>{opponent}</p>
@@ -91,7 +91,7 @@ export function Games () {
                 className='game'
                 title={gameID}
                 onClick={() => { displayArchivedGame(gameID) }}>
-                <div className='row' style={{ alignItems: 'center' }}>
+                <div className='row' style={{ alignItems: 'center', cursor: 'pointer' }}>
                   <urbit-sigil {...sigilConfig} />
                   <div className='col game-card'>
                     <p className='game-opponent'>{opponent}</p>
