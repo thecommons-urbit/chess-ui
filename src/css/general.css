@@ -368,20 +368,6 @@ div#challenges-header span {
   margin-left: 0.5em;
 }
 
-.challenges-popup-content {
-  background-color: #1C1A1D;
-}
-
-.challenges-popup-overlay {
-  background: rgba(28, 26, 29, 0.5);
-}
-
-.challenge-input-container input {
-  background-color: #F2EFE7;
-  border: none;
-  border-radius: 0.10rem;
-}
-
 /* Settings menu */
 
 div.settings-container {

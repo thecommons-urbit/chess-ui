@@ -279,7 +279,8 @@ export function Challenges() {
             <p>Practice Game:</p>
             <input
               type="checkbox"
-              onChange={(e) => setPracticeSetting(e.target.checked)} />
+              onChange={(e) => setPracticeSetting(e.target.checked)}
+            />
           </div>
           <div className='challenge-side-container row'>
             <button

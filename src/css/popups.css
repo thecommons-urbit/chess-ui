@@ -2,13 +2,23 @@
 /* pop-up menus */
 
 .popup-content {
-  background: rgb(255, 255, 255);
+  background-color: #F2EFE7;
   border-radius: 10px;
   padding: 25px;
 }
 
 .popup-overlay {
-  background: rgba(0, 0, 0, 0.7);
+  background-color: rgba(28, 26, 29, 0.5);
+}
+
+.challenges-popup-content {
+  background-color: #1C1A1D;
+}
+
+.challenge-input-container input {
+  background-color: #F2EFE7;
+  border: none;
+  border-radius: 0.10rem;
 }
 
 .chess-promotion.cg-wrap {
