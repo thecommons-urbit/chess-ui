@@ -10,7 +10,7 @@ import '@urbit/sigil-js'
 const selectedSideButtonClasses = 'side radio-selected'
 const unselectedSideButtonClasses = 'side radio-unselected'
 
-export function Challenges () {
+export function Challenges() {
   // data
   const [who, setWho] = useState('')
   const [description, setDescription] = useState('')
@@ -197,9 +197,8 @@ export function Challenges () {
       <ul id="friends" className='game-list' style={{ display: (showingFriends ? 'flex' : ' none') }}>
         {
           Array.from(friends).map((friend: Ship, key: number) => {
-            const colorClass = (key % 2) ? 'odd' : 'even'
             return (
-              <li className={`game challenge ${colorClass}`} key={key}>
+              <li className={`game challenge`} key={key}>
                 <div className='challenge-box'>
                   <div className='row'>
                     <div className='col'>
@@ -208,7 +207,18 @@ export function Challenges () {
                     </div>
                   </div>
                   <div className='col'>
-                    <button className='quick-game' onClick={() => { setChallengingFriend(true); setWho('~' + friend); setNewOpp('~' + friend); openModal() }}>Challenge</button>
+                    <button
+                      className='game challenge-friend'
+                      onClick={
+                        () => {
+                          setChallengingFriend(true); setWho('~' + friend);
+                          setNewOpp('~' + friend);
+                          openModal();
+                        }
+                      }
+                    >
+                      Challenge
+                    </button>
                   </div>
                 </div>
               </li>

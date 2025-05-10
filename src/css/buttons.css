@@ -64,6 +64,11 @@ button.reject {
   margin-left: 0.5em;
 }
 
+button.challenge-friend {
+  color: #F2EFE7;
+  background-color: #1C1A1D;
+}
+
 button.radio-selected {
   background-color: #5FFF9D;
 }
