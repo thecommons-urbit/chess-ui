@@ -1,4 +1,4 @@
-import create from 'zustand'
+import { create } from 'zustand'
 import Urbit from '@urbit/http-api'
 import { Update, Ship, GameID, GameInfo, ActiveGameInfo, ArchivedGameInfo, Results, Challenge, ChessUpdate, ChallengeUpdate, ChallengeSentUpdate, ChallengeReceivedUpdate, PositionUpdate, ResultUpdate, DrawUpdate, SpecialDrawPreferenceUpdate, UndoUpdate, UndoAcceptedUpdate } from '../types/urbitChess'
 import { scryMoves } from '../helpers/urbitChess'
