@@ -32,10 +32,15 @@ export function Games() {
       <ul id="active-games" className={`game-list ${pieceTheme}`} style={{ display: (showingActive ? 'flex' : 'none') }}>
         {
           Array.from(activeGames).map(([gameID, activeGame], key) => {
-            const description = activeGame.event
             const opponent = (urbit.ship === activeGame.white.substring(1))
               ? activeGame.black
               : activeGame.white
+
+            if (opponent === `~${urbit.ship}`) {
+              return;
+            }
+
+            const description = activeGame.event
             const sigilConfig = {
               point: `${opponent}`,
               size: 40,
