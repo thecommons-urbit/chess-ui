@@ -14,7 +14,7 @@ const badGameId = (gameID: GameID) => {
 const useChessStore = create<ChessState>((set, get) => ({
   urbit: null,
   displayGame: null,
-  practiceBoard: '',
+  practiceBoard: null,
   activeGames: new Map(),
   archivedGames: new Map(),
   incomingChallenges: new Map(),
@@ -31,7 +31,13 @@ const useChessStore = create<ChessState>((set, get) => ({
 
     set({ displayGame, displayIndex: newIndex })
   },
-  setPracticeBoard: (practiceBoard: String | null) => set({ practiceBoard }),
+  setPracticeBoard: (practiceBoard: GameInfo | null) => {
+    const newIndex = ((practiceBoard !== null) && Array.isArray(practiceBoard.moves) && practiceBoard.moves.length > 0)
+      ? (practiceBoard.moves.length - 1)
+      : 0
+
+    set({ practiceBoard, displayIndex: newIndex })
+  },
   setFriends: async (friends: Array<Ship>) => set({ friends }),
   setDisplayIndex: (displayIndex: number) => {
     set({ displayIndex })
