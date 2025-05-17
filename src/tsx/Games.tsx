@@ -1,12 +1,12 @@
 import React, { useState } from 'react'
-import { Side, GameID } from '../ts/types/urbitChess'
+import { GameID } from '../ts/types/urbitChess'
 import useChessStore from '../ts/state/chessStore'
 import usePreferenceStore from '../ts/state/preferenceStore'
+import '@urbit/sigil-js'
 
-export function Games () {
-  const { urbit, displayGame, activeGames, setDisplayGame, archivedGames, displayArchivedGame } = useChessStore()
+export function Games() {
+  const { urbit, activeGames, setDisplayGame, archivedGames, displayArchivedGame } = useChessStore()
   const { pieceTheme } = usePreferenceStore()
-  const hasGame: boolean = (displayGame !== null)
   const [showingActive, setShowingActive] = useState(true)
 
   const extractDate = (gameID: GameID) => {
@@ -25,36 +25,41 @@ export function Games () {
     <div className='games-container col'>
       <div id="active-archive-toggle">
         <p>
-          <span onClick={openActive} style={{ opacity: (showingActive ? 1.0 : 0.5) }}>Active</span> 𐫱 <span onClick={openArchive} style={{ opacity: (showingActive ? 0.5 : 1.0) }}>Archive</span>
+          <span onClick={openActive} style={{ opacity: (showingActive ? 1.0 : 0.5) }}>Active</span>&ensp;<span>{'\u2217'}</span>&ensp;<span onClick={openArchive} style={{ opacity: (showingActive ? 0.5 : 1.0) }}>Archive</span>
         </p>
       </div>
       {/* Active */}
       <ul id="active-games" className={`game-list ${pieceTheme}`} style={{ display: (showingActive ? 'flex' : 'none') }}>
         {
           Array.from(activeGames).map(([gameID, activeGame], key) => {
-            const colorClass = (key % 2) ? 'odd' : 'even'
             const description = activeGame.event
-            const mySide = (urbit.ship === activeGame.white.substring(1)) ? 'white' : 'black'
             const opponent = (urbit.ship === activeGame.white.substring(1))
               ? activeGame.black
               : activeGame.white
+            const sigilConfig = {
+              point: `${opponent}`,
+              size: 40,
+              background: '#1C1A1D',
+              foreground: '#F2EFE7',
+              detail: 'none',
+              space: 'default'
+            }
 
             return (
               <li
                 key={key}
-                className={`game active ${colorClass} ${status}`}
+                className={`game active`}
                 title={gameID}
                 onClick={() => { setDisplayGame(activeGame) }}>
-                <div className='row'>
-                  <piece className={`game-icon ${mySide} knight`}/>
+                <div className='row' style={{ alignItems: 'center', cursor: 'pointer' }}>
+                  <urbit-sigil {...sigilConfig} />
                   <div className='col game-card'>
                     <p className='game-opponent'>{opponent}</p>
-                    <p className='game-date'>{extractDate(gameID)}</p>
                     <p
-                      title={description}
+                      title={!description ? '' : `~${extractDate(gameID)}`}
                       className='game-desc'
                     >
-                      {description}
+                      {description || `~${extractDate(gameID)}`}
                     </p>
                   </div>
                 </div>
@@ -64,32 +69,37 @@ export function Games () {
         }
       </ul>
       {/* Archive */}
-      <ul id="archive-games" className={`game-list ${pieceTheme} ${status}`} style={{ display: (showingActive ? 'none' : 'flex') }}>
+      <ul id="archive-games" className={`game-list ${pieceTheme}`} style={{ display: (showingActive ? 'none' : 'flex') }}>
         {
           Array.from(archivedGames).map(([gameID, archivedGame], key) => {
-            const colorClass = (key % 2) ? 'odd' : 'even'
             const description = archivedGame.event
-            const mySide = (urbit.ship === archivedGame.white.substring(1)) ? 'white' : 'black'
             const opponent = (urbit.ship === archivedGame.white.substring(1))
               ? archivedGame.black
               : archivedGame.white
+            const sigilConfig = {
+              point: `${opponent}`,
+              size: 40,
+              background: '#1C1A1D',
+              foreground: '#F2EFE7',
+              detail: 'none',
+              space: 'default'
+            }
 
             return (
               <li
                 key={key}
-                className={`game active ${colorClass}`}
+                className='game'
                 title={gameID}
                 onClick={() => { displayArchivedGame(gameID) }}>
-                <div className='row'>
-                  <piece className={`game-icon ${mySide} knight`}/>
+                <div className='row' style={{ alignItems: 'center', cursor: 'pointer' }}>
+                  <urbit-sigil {...sigilConfig} />
                   <div className='col game-card'>
                     <p className='game-opponent'>{opponent}</p>
-                    <p className='game-date'>{extractDate(gameID)}</p>
                     <p
-                      title={description}
+                      title={!description ? '' : `~${extractDate(gameID)}`}
                       className='game-desc'
                     >
-                      {description}
+                      {description || `~${extractDate(gameID)}`}
                     </p>
                   </div>
                 </div>

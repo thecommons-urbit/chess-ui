@@ -3,7 +3,7 @@
 
 /* opponent @p */
 .game-opponent {
-  font-size: 1.25rem;
+  font-size: 1rem;
 }
 
 /* event description */
@@ -17,7 +17,7 @@
 /* challenger @p */
 .challenge-box
 .challenger-name {
-  font-size: 1.25rem;
+  font-size: 1rem;
 }
 
 /* challenge description */
@@ -32,6 +32,15 @@
 .new-challenge-header {
   font-size: 2em;
   font-weight: bold;
+  color: #F2EFE7;
+}
+
+.challenge-input-container p {
+  color: #F2EFE7;
+}
+
+.challenge-practice-container p {
+  color: #F2EFE7;
 }
 
 /* game panel list */
