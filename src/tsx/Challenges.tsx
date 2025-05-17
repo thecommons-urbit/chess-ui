@@ -276,7 +276,7 @@ export function Challenges() {
               onChange={(e) => setDescription(e.target.value)} />
           </div>
           <div className='challenge-practice-container row'>
-            <p>Practice Game:</p>
+            <p>Practice game?</p>
             <input
               type="checkbox"
               onChange={(e) => setPracticeSetting(e.target.checked)}
