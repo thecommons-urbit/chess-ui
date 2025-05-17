@@ -16,6 +16,7 @@
 }
 
 .challenge-input-container input {
+  font-family: 'Urbit Sans', sans-serif;
   background-color: #F2EFE7;
   border: none;
   border-radius: 0.10rem;
