@@ -11,7 +11,7 @@ import '@urbit/sigil-js'
 const selectedSideButtonClasses = 'side chess-side-selected'
 const unselectedSideButtonClasses = 'side chess-side-unselected'
 
-export function Challenges() {
+export function Challenges () {
   // data
   const [who, setWho] = useState('')
   const [description, setDescription] = useState('')
@@ -126,7 +126,7 @@ export function Challenges() {
         {
           Array.from(incomingChallenges).map(([challenger, challenge], key) => {
             if (challenger === `~${urbit.ship}`) {
-              return;
+              return
             }
 
             const description = challenge.event
@@ -139,7 +139,6 @@ export function Challenges() {
               detail: 'none',
               space: 'default'
             }
-
 
             return (
               <li className={`game challenge`} key={key}>
@@ -172,7 +171,7 @@ export function Challenges() {
         {
           Array.from(outgoingChallenges).map(([challenged, challenge], key) => {
             if (challenged === `~${urbit.ship}`) {
-              return;
+              return
             }
 
             const description = challenge.event
@@ -226,9 +225,9 @@ export function Challenges() {
                       className='game challenge-friend'
                       onClick={
                         () => {
-                          setChallengingFriend(true); setWho('~' + friend);
-                          setNewOpp('~' + friend);
-                          openModal();
+                          setChallengingFriend(true); setWho('~' + friend)
+                          setNewOpp('~' + friend)
+                          openModal()
                         }
                       }
                     >
