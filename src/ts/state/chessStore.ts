@@ -31,7 +31,7 @@ const useChessStore = create<ChessState>((set, get) => ({
 
     set({ displayGame, displayIndex: newIndex })
   },
-  setPracticeBoard: (practiceBoard: GameInfo | null) => {
+  setPracticeBoard: (practiceBoard: ActiveGameInfo | null) => {
     const newIndex = ((practiceBoard !== null) && Array.isArray(practiceBoard.moves) && practiceBoard.moves.length > 0)
       ? (practiceBoard.moves.length - 1)
       : 0
@@ -75,14 +75,18 @@ const useChessStore = create<ChessState>((set, get) => ({
     }
   },
   receiveActiveGame: async (data: ActiveGameInfo) => {
+    if (data.white === data.black) {
+      set({ practiceBoard: data })
+    }
+
     set(state => ({ activeGames: state.activeGames.set(data.gameID, data) }))
 
     await get().urbit.subscribe({
       app: 'chess',
       path: `/game/${data.gameID}/updates`,
-      err: () => {},
+      err: () => { },
       event: (data: ChessUpdate) => get().receiveGameUpdate(data),
-      quit: () => {}
+      quit: () => { }
     })
   },
   receiveArchivedGame: (data: ArchivedGameInfo) => {

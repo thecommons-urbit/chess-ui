@@ -6,7 +6,7 @@ interface ChessState {
   urbit: Urbit | null
   displayGame: GameInfo | null
   displayIndex: number
-  practiceBoard: GameInfo | null
+  practiceBoard: ActiveGameInfo| null
   activeGames: Map<GameID, ActiveGameInfo>
   archivedGames: Map<GameID, ArchivedGameInfo>
   incomingChallenges: Map<Ship, Challenge>
