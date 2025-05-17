@@ -125,7 +125,10 @@ export function Challenges() {
       <ul id="incoming-challenges" className='game-list' style={{ display: (showingIncoming ? 'flex' : ' none') }}>
         {
           Array.from(incomingChallenges).map(([challenger, challenge], key) => {
-            const colorClass = (key % 2) ? 'odd' : 'even'
+            if (challenger === `~${urbit.ship}`) {
+              return;
+            }
+
             const description = challenge.event
             const isPractice = challenge.isPractice
             const sigilConfig = {
@@ -137,8 +140,9 @@ export function Challenges() {
               space: 'default'
             }
 
+
             return (
-              <li className={`game challenge ${colorClass}`} key={key}>
+              <li className={`game challenge`} key={key}>
                 <div className='challenge-box'>
                   <div className='row' style={{ alignItems: 'center' }}>
                     <urbit-sigil {...sigilConfig} />
