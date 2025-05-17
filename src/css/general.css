@@ -327,6 +327,12 @@ div.challenge-input-container {
   justify-content: space-between;
 }
 
+div.challenge-practice-container {
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
+}
+
 div.challenge-side-container {
   width: 100%;
   justify-content: space-evenly;

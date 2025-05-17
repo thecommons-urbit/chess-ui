@@ -42,3 +42,38 @@
   z-index: 3;
   pointer-events: auto;
 }
+
+.challenge-practice-container input[type="checkbox"] {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  width: 18px;
+  height: 18px;
+  border-radius: 0.10rem;
+  background-color: #F2EFE7;
+  cursor: pointer;
+  position: relative;
+  margin: 0px;
+}
+
+.challenge-practice-container input[type="checkbox"]:checked {
+  background-color: #1C1A1D;
+}
+
+/* Rolling our own checkbox tick */
+.challenge-practice-container input[type="checkbox"]:checked::after {
+  content: '';
+  position: absolute;
+  width: 5px;
+  height: 10px;
+  border: solid #F2EFE7;
+  border-width: 0 2px 2px 0;
+  top: 2px;
+  left: 6px;
+  transform: rotate(45deg);
+}
+
+.challenge-practice-container input[type="checkbox"]:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(242, 239, 231, 0.5);
+}
