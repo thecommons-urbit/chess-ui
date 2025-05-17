@@ -21,6 +21,22 @@
   border-radius: 0.10rem;
 }
 
+.challenge-input-container input::placeholder {
+  font-family: 'Urbit Sans', sans-serif;
+}
+
+.challenge-input-container input::-moz-placeholder {
+  font-family: 'Urbit Sans', sans-serif;
+}
+
+.challenge-input-container input:-ms-input-placeholder {
+  font-family: 'Urbit Sans', sans-serif;
+}
+
+.challenge-input-container input::-webkit-input-placeholder {
+  font-family: 'Urbit Sans', sans-serif;
+}
+
 .chess-promotion.cg-wrap {
   z-index: 3;
   pointer-events: auto;
