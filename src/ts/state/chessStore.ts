@@ -1,8 +1,7 @@
 import create from 'zustand'
 import Urbit from '@urbit/http-api'
-import { CHESS } from '../constants/chess'
-import { Action, Update, Ship, GameID, GameInfo, ActiveGameInfo, ArchivedGameInfo, Results, Challenge, ChessUpdate, ChallengeUpdate, ChallengeSentUpdate, ChallengeReceivedUpdate, PositionUpdate, ResultUpdate, DrawUpdate, SpecialDrawPreferenceUpdate, UndoUpdate, UndoAcceptedUpdate } from '../types/urbitChess'
-import { scryFriends, scryMoves } from '../helpers/urbitChess'
+import { Update, Ship, GameID, GameInfo, ActiveGameInfo, ArchivedGameInfo, Results, Challenge, ChessUpdate, ChallengeUpdate, ChallengeSentUpdate, ChallengeReceivedUpdate, PositionUpdate, ResultUpdate, DrawUpdate, SpecialDrawPreferenceUpdate, UndoUpdate, UndoAcceptedUpdate } from '../types/urbitChess'
+import { scryMoves } from '../helpers/urbitChess'
 import ChessState from './chessState'
 
 // TODO: should log which function was called with the bad ID
@@ -170,7 +169,7 @@ const useChessStore = create<ChessState>((set, get) => ({
       return
     }
 
-    await get().fetchArchivedMoves(gameID)
+    get().fetchArchivedMoves(gameID)
     get().setDisplayGame(get().archivedGames.get(gameID))
   },
   receiveGameUpdate: (data: ChessUpdate) => {
