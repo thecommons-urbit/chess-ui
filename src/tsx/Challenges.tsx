@@ -171,6 +171,10 @@ export function Challenges() {
       <ul id="outgoing-challenges" className='game-list' style={{ display: (showingOutgoing ? 'flex' : ' none') }}>
         {
           Array.from(outgoingChallenges).map(([challenged, challenge], key) => {
+            if (challenged === `~${urbit.ship}`) {
+              return;
+            }
+
             const description = challenge.event
             const isPractice = challenge.isPractice
             const sigilConfig = {
