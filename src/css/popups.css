@@ -22,6 +22,11 @@
   border-radius: 0.10rem;
 }
 
+.challenge-input-container input:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(242, 239, 231, 0.5);
+}
+
 .challenge-input-container input::placeholder {
   font-family: 'Urbit Sans', sans-serif;
 }
