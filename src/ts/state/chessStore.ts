@@ -1,7 +1,7 @@
 import { create } from 'zustand'
 import Urbit from '@urbit/http-api'
-import { Update, Ship, GameID, GameInfo, ActiveGameInfo, ArchivedGameInfo, Results, Challenge, ChessUpdate, ChallengeUpdate, ChallengeSentUpdate, ChallengeReceivedUpdate, PositionUpdate, ResultUpdate, DrawUpdate, SpecialDrawPreferenceUpdate, UndoUpdate, UndoAcceptedUpdate } from '../types/urbitChess'
-import { scryMoves } from '../helpers/urbitChess'
+import { Side, Update, Ship, GameID, GameInfo, ActiveGameInfo, ArchivedGameInfo, Results, Challenge, ChessUpdate, ChallengeUpdate, ChallengeSentUpdate, ChallengeReceivedUpdate, PositionUpdate, ResultUpdate, DrawUpdate, SpecialDrawPreferenceUpdate, UndoUpdate, UndoAcceptedUpdate } from '../types/urbitChess'
+import { scryMoves, pokeAction, sendChallengePoke } from '../helpers/urbitChess'
 import ChessState from './chessState'
 
 // TODO: should log which function was called with the bad ID
@@ -13,7 +13,6 @@ const badGameId = (gameID: GameID) => {
 const useChessStore = create<ChessState>((set, get) => ({
   urbit: null,
   displayGame: null,
-  practiceBoard: null,
   activeGames: new Map(),
   archivedGames: new Map(),
   incomingChallenges: new Map(),
@@ -29,13 +28,6 @@ const useChessStore = create<ChessState>((set, get) => ({
       : 0
 
     set({ displayGame, displayIndex: newIndex })
-  },
-  setPracticeBoard: (practiceBoard: ActiveGameInfo | null) => {
-    const newIndex = ((practiceBoard !== null) && Array.isArray(practiceBoard.moves) && practiceBoard.moves.length > 0)
-      ? (practiceBoard.moves.length - 1)
-      : 0
-
-    set({ practiceBoard, displayIndex: newIndex })
   },
   setFriends: async (friends: Array<Ship>) => set({ friends }),
   setDisplayIndex: (displayIndex: number) => {
@@ -74,8 +66,9 @@ const useChessStore = create<ChessState>((set, get) => ({
     }
   },
   receiveActiveGame: async (data: ActiveGameInfo) => {
-    if (data.white === data.black) {
-      set({ practiceBoard: data })
+    // set practice game as displayGame if no game is currently displayed
+    if (data.white === data.black && data.white === `~${window.ship}` && get().displayGame === null) {
+      get().setDisplayGame(data)
     }
 
     set(state => ({ activeGames: state.activeGames.set(data.gameID, data) }))
@@ -194,6 +187,7 @@ const useChessStore = create<ChessState>((set, get) => ({
 
         if (move.san !== null && move.fen !== null) {
           currentGame.moves.push(move)
+          console.log(move)
 
           const updatedGame: ActiveGameInfo = {
             ...currentGame,
@@ -246,6 +240,11 @@ const useChessStore = create<ChessState>((set, get) => ({
         // display the archived version
         if (gameID === get().displayGame.gameID) {
           get().setDisplayGame(updatedGame)
+        }
+
+        // if this was a practice game, create a new one
+        if (currentGame.white === currentGame.black && currentGame.white === `~${window.ship}`) {
+          pokeAction(get().urbit, sendChallengePoke(`~${window.ship}`, Side.Black, 'Practice board', true))
         }
 
         console.log('RECEIVED RESULT UPDATE ' + resultData.result + ' FOR ' + gameID)

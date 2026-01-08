@@ -39,7 +39,7 @@ export function Chessboard () {
   const [chess, setChess] = useState<ChessInstance>(new Chess())
   const [promotionMove, setPromotionMove] = useState<PromotionMove | null>(null)
   const [renderWorkaround, forceRenderWorkaround] = useState<number>(Date.now())
-  const { urbit, displayGame, setDisplayGame, practiceBoard, setPracticeBoard, displayIndex } = useChessStore()
+  const { urbit, displayGame, setDisplayGame, displayIndex } = useChessStore()
   const { pieceTheme, boardTheme } = usePreferenceStore()
 
   //
@@ -75,26 +75,15 @@ export function Chessboard () {
     setApi(Chessground(boardRef.current, CHESSGROUND.baseConfig))
   }
 
-  const initPracticeBoard = () => {
-    const storedBoard = localStorage.getItem('practiceBoard')
-    if (storedBoard !== null) {
-      setPracticeBoard(storedBoard)
-    }
-  }
 
   const updateChess = () => {
-    const practiceBoard = localStorage.getItem('practiceBoard')
-
     // active game
     if (displayGame !== null && !displayGame.archived) {
       chess.load((displayGame as ActiveGameInfo).position)
     // archived game with moves made
     } else if ((displayGame !== null) && (displayGame.moves !== null) && (displayGame.moves.length > 0)) {
       chess.load(displayGame.moves[displayGame.moves.length - 1].fen)
-    // no display game and saved practice board state
-    } else if (displayGame == null && practiceBoard !== null) {
-      chess.load(practiceBoard)
-    // no saved practice board state or archived game has no moves
+    // no display game - load default position
     } else {
       chess.load(CHESS.defaultFEN)
     }
@@ -179,7 +168,7 @@ export function Chessboard () {
       lastMove: null,
       orientation: orientation,
       movable: {
-        color: (displayGame !== null) ? orientation : 'both' as const,
+        color: (displayGame !== null && displayGame.white !== displayGame.black) ? orientation : 'both' as const,
         events: {
           after: (orig: cg.Key, dest: cg.Key, metadata: cg.MoveMetadata) => {
             if (isChessPromotion(orig as Square, dest as Square, chess)) {
@@ -223,26 +212,6 @@ export function Chessboard () {
     api?.set(stateConfig)
   }
 
-  const savePracticeBoard = () => {
-    if (displayGame === null) {
-      localStorage.setItem('practiceBoard', chess.fen())
-      setPracticeBoard(chess.fen())
-    }
-  }
-
-  const resetPracticeBoard = () => {
-    if (practiceBoard === null) {
-      localStorage.removeItem('practiceBoard')
-      chess.load(CHESS.defaultFEN)
-      if (displayGame == null) {
-        forceRenderWorkaround(Date.now())
-      }
-      const config: CgConfig = {
-        lastMove: null
-      }
-      api?.set(config)
-    }
-  }
 
   //
   // React hooks
@@ -251,7 +220,6 @@ export function Chessboard () {
   useEffect(
     () => {
       initBoard()
-      initPracticeBoard()
     },
     [boardRef])
 
@@ -279,15 +247,8 @@ export function Chessboard () {
   useEffect(
     () => {
       updateBoard()
-      savePracticeBoard()
     },
     [promotionMove, renderWorkaround])
-
-  useEffect(
-    () => {
-      resetPracticeBoard()
-    },
-    [practiceBoard])
 
   //
   // HTML element helper functions
