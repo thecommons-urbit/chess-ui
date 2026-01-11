@@ -7,7 +7,6 @@ import { scryFriends, pokeAction, sendChallengePoke } from '../ts/helpers/urbitC
 import { Chessboard } from './Chessboard'
 import { ControlPanel } from './ControlPanel'
 import { GamePanel } from './GamePanel'
-import { PracticePanel } from './PracticePanel'
 
 export function App () {
   const { urbit, setUrbit, receiveChallengeUpdate, receiveActiveGame, receiveArchivedGame, displayGame, setFriends } = useChessStore()
@@ -69,7 +68,7 @@ export function App () {
       <div className='app-container'>
         {
           (displayGame == null)
-            ? <PracticePanel />
+            ? <div />
             : <GamePanel />
         }
         <Chessboard />
