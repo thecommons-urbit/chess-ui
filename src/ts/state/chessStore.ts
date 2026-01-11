@@ -186,6 +186,19 @@ const useChessStore = create<ChessState>((set, get) => ({
         }
 
         if (move.san !== null && move.fen !== null) {
+          // ignore duplicate position updates in practice games with self
+          if (currentGame.white === currentGame.black && currentGame.white === `~${window.ship}`) {
+            const lastMove = currentGame.moves[currentGame.moves.length - 1]
+            const isDuplicateMove = lastMove &&
+              lastMove.san === move.san &&
+              lastMove.fen === move.fen
+
+            if (isDuplicateMove) {
+              console.log('Ignoring duplicate position update:', move)
+              return
+            }
+          }
+
           currentGame.moves.push(move)
           console.log(move)
 
