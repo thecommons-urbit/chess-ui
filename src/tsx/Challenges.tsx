@@ -317,7 +317,16 @@ export function Challenges () {
               <piece className="king black" />
             </button>
           </div>
-          <button className='inverted' onClick={sendChallenge}>Send Challenge</button>
+          <button 
+            className='inverted' 
+            onClick={who !== `~${urbit.ship}` ? sendChallenge : undefined}
+            style={{
+              opacity: who === `~${urbit.ship}` ? 0.5 : 1.0,
+              cursor: who === `~${urbit.ship}` ? 'default' : 'pointer'
+            }}
+          >
+            Send Challenge
+          </button>
         </div>
       </Popup>
     </div>
