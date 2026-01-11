@@ -264,7 +264,7 @@ export function GamePanel () {
             className='game-panel-button'
             style={{
               opacity: hasActiveGame ? 1.0 : 0.1,
-              cursor: hasActiveGame ? 'cursor' : 'default'
+              cursor: hasActiveGame ? 'pointer' : 'pointer'
             }}
           />
           {/* offer/revoke/accept draw button */}
