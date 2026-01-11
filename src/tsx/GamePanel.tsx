@@ -33,6 +33,7 @@ export function GamePanel () {
     (urbit.ship === displayGame.black.substring(1) &&
       displayGame.moves.length % 2 !== 0)
   )
+  const isSelfGame: boolean = displayGame.white === displayGame.black && displayGame.white === `~${urbit.ship}`
 
   //
   // HTML element helper functions
@@ -320,8 +321,8 @@ export function GamePanel () {
                       onClick={offerDrawOnClick}
                       className='game-panel-button'
                       style={{
-                        opacity: hasActiveGame && ourMove ? 1.0 : 0.1,
-                        cursor: hasActiveGame && ourMove ? 'pointer' : 'default'
+                        opacity: hasActiveGame ? 1.0 : 0.1,
+                        cursor: hasActiveGame ? 'pointer' : 'default'
                       }}
                     />
           }
@@ -348,10 +349,10 @@ export function GamePanel () {
                   src={requestUndoIcon}
                   alt="Request to Undo Move"
                   className='game-panel-button'
-                  onClick={() => canUndo && ourMove && requestUndoOnClick()}
+                  onClick={() => canUndo && (ourMove || isSelfGame) && requestUndoOnClick()}
                   style={{
-                    opacity: hasActiveGame && canUndo && ourMove ? 1.0 : 0.1,
-                    cursor: hasActiveGame && canUndo && ourMove ? 'pointer' : 'default'
+                    opacity: hasActiveGame && canUndo && (ourMove || isSelfGame) ? 1.0 : 0.1,
+                    cursor: hasActiveGame && canUndo && (ourMove || isSelfGame) ? 'pointer' : 'default'
                   }}
                 />
           }
