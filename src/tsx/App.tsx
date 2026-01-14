@@ -2,12 +2,11 @@ import React from 'react'
 import { Beforeunload } from 'react-beforeunload'
 import Urbit from '@urbit/http-api'
 import useChessStore from '../ts/state/chessStore'
-import { ChallengeUpdate, ActiveGameInfo, ArchivedGameInfo } from '../ts/types/urbitChess'
-import { scryFriends } from '../ts/helpers/urbitChess'
+import { Side, ChallengeUpdate, ActiveGameInfo, ArchivedGameInfo } from '../ts/types/urbitChess'
+import { scryFriends, pokeAction, sendChallengePoke } from '../ts/helpers/urbitChess'
 import { Chessboard } from './Chessboard'
 import { ControlPanel } from './ControlPanel'
 import { GamePanel } from './GamePanel'
-import { PracticePanel } from './PracticePanel'
 
 export function App () {
   const { urbit, setUrbit, receiveChallengeUpdate, receiveActiveGame, receiveArchivedGame, displayGame, setFriends } = useChessStore()
@@ -43,6 +42,9 @@ export function App () {
     })
 
     setFriends(await scryFriends('chess', '/friends'))
+
+    console.log('sending challenge to ourselves')
+    pokeAction(newUrbit, sendChallengePoke(`~${window.ship}`, Side.Black, 'Practice board', true))
   }
 
   const teardown = () => {
@@ -66,7 +68,7 @@ export function App () {
       <div className='app-container'>
         {
           (displayGame == null)
-            ? <PracticePanel />
+            ? <div />
             : <GamePanel />
         }
         <Chessboard />

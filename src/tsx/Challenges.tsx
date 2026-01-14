@@ -11,7 +11,7 @@ import '@urbit/sigil-js'
 const selectedSideButtonClasses = 'side chess-side-selected'
 const unselectedSideButtonClasses = 'side chess-side-unselected'
 
-export function Challenges() {
+export function Challenges () {
   // data
   const [who, setWho] = useState('')
   const [description, setDescription] = useState('')
@@ -125,7 +125,10 @@ export function Challenges() {
       <ul id="incoming-challenges" className='game-list' style={{ display: (showingIncoming ? 'flex' : ' none') }}>
         {
           Array.from(incomingChallenges).map(([challenger, challenge], key) => {
-            const colorClass = (key % 2) ? 'odd' : 'even'
+            if (challenger === `~${urbit.ship}`) {
+              return
+            }
+
             const description = challenge.event
             const isPractice = challenge.isPractice
             const sigilConfig = {
@@ -138,7 +141,7 @@ export function Challenges() {
             }
 
             return (
-              <li className={`game challenge ${colorClass}`} key={key}>
+              <li className={`game challenge`} key={key}>
                 <div className='challenge-box'>
                   <div className='row' style={{ alignItems: 'center' }}>
                     <urbit-sigil {...sigilConfig} />
@@ -167,6 +170,10 @@ export function Challenges() {
       <ul id="outgoing-challenges" className='game-list' style={{ display: (showingOutgoing ? 'flex' : ' none') }}>
         {
           Array.from(outgoingChallenges).map(([challenged, challenge], key) => {
+            if (challenged === `~${urbit.ship}`) {
+              return
+            }
+
             const description = challenge.event
             const isPractice = challenge.isPractice
             const sigilConfig = {
@@ -218,9 +225,9 @@ export function Challenges() {
                       className='game challenge-friend'
                       onClick={
                         () => {
-                          setChallengingFriend(true); setWho('~' + friend);
-                          setNewOpp('~' + friend);
-                          openModal();
+                          setChallengingFriend(true); setWho('~' + friend)
+                          setNewOpp('~' + friend)
+                          openModal()
                         }
                       }
                     >
@@ -310,7 +317,16 @@ export function Challenges() {
               <piece className="king black" />
             </button>
           </div>
-          <button className='inverted' onClick={sendChallenge}>Send Challenge</button>
+          <button 
+            className='inverted' 
+            onClick={who !== `~${urbit.ship}` ? sendChallenge : undefined}
+            style={{
+              opacity: who === `~${urbit.ship}` ? 0.5 : 1.0,
+              cursor: who === `~${urbit.ship}` ? 'default' : 'pointer'
+            }}
+          >
+            Send Challenge
+          </button>
         </div>
       </Popup>
     </div>

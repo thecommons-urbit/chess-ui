@@ -6,7 +6,6 @@ interface ChessState {
   urbit: Urbit | null
   displayGame: GameInfo | null
   displayIndex: number
-  practiceBoard: String | null
   activeGames: Map<GameID, ActiveGameInfo>
   archivedGames: Map<GameID, ArchivedGameInfo>
   incomingChallenges: Map<Ship, Challenge>
@@ -17,7 +16,6 @@ interface ChessState {
   setUrbit: (urbit: Urbit) => void
   setDisplayGame: (displayGame: GameInfo | null) => void
   setDisplayIndex: (displayIndex: number) => void
-  setPracticeBoard: (practiceBoard: String | null) => void
   setFriends: (friends: Array<Ship>) => void
   fetchArchivedMoves: (gameId: GameID) => void
   displayArchivedGame: (gameId: GameID) => void

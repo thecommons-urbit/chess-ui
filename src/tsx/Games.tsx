@@ -4,7 +4,7 @@ import useChessStore from '../ts/state/chessStore'
 import usePreferenceStore from '../ts/state/preferenceStore'
 import '@urbit/sigil-js'
 
-export function Games() {
+export function Games () {
   const { urbit, activeGames, setDisplayGame, archivedGames, displayArchivedGame } = useChessStore()
   const { pieceTheme } = usePreferenceStore()
   const [showingActive, setShowingActive] = useState(true)
@@ -32,10 +32,15 @@ export function Games() {
       <ul id="active-games" className={`game-list ${pieceTheme}`} style={{ display: (showingActive ? 'flex' : 'none') }}>
         {
           Array.from(activeGames).map(([gameID, activeGame], key) => {
-            const description = activeGame.event
             const opponent = (urbit.ship === activeGame.white.substring(1))
               ? activeGame.black
               : activeGame.white
+
+            if (opponent === `~${urbit.ship}`) {
+              return
+            }
+
+            const description = activeGame.event
             const sigilConfig = {
               point: `${opponent}`,
               size: 40,
@@ -72,10 +77,15 @@ export function Games() {
       <ul id="archive-games" className={`game-list ${pieceTheme}`} style={{ display: (showingActive ? 'none' : 'flex') }}>
         {
           Array.from(archivedGames).map(([gameID, archivedGame], key) => {
-            const description = archivedGame.event
             const opponent = (urbit.ship === archivedGame.white.substring(1))
               ? archivedGame.black
               : archivedGame.white
+
+            if (opponent === `~${urbit.ship}`) {
+              return
+            }
+
+            const description = archivedGame.event
             const sigilConfig = {
               point: `${opponent}`,
               size: 40,

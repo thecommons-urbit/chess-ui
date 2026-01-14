@@ -1,8 +1,7 @@
-import create from 'zustand'
+import { create } from 'zustand'
 import Urbit from '@urbit/http-api'
-import { CHESS } from '../constants/chess'
-import { Action, Update, Ship, GameID, GameInfo, ActiveGameInfo, ArchivedGameInfo, Results, Challenge, ChessUpdate, ChallengeUpdate, ChallengeSentUpdate, ChallengeReceivedUpdate, PositionUpdate, ResultUpdate, DrawUpdate, SpecialDrawPreferenceUpdate, UndoUpdate, UndoAcceptedUpdate } from '../types/urbitChess'
-import { scryFriends, scryMoves } from '../helpers/urbitChess'
+import { Side, Update, Ship, GameID, GameInfo, ActiveGameInfo, ArchivedGameInfo, Results, Challenge, ChessUpdate, ChallengeUpdate, ChallengeSentUpdate, ChallengeReceivedUpdate, PositionUpdate, ResultUpdate, DrawUpdate, SpecialDrawPreferenceUpdate, UndoUpdate, UndoAcceptedUpdate } from '../types/urbitChess'
+import { scryMoves, pokeAction, sendChallengePoke } from '../helpers/urbitChess'
 import ChessState from './chessState'
 
 // TODO: should log which function was called with the bad ID
@@ -14,7 +13,6 @@ const badGameId = (gameID: GameID) => {
 const useChessStore = create<ChessState>((set, get) => ({
   urbit: null,
   displayGame: null,
-  practiceBoard: '',
   activeGames: new Map(),
   archivedGames: new Map(),
   incomingChallenges: new Map(),
@@ -31,7 +29,6 @@ const useChessStore = create<ChessState>((set, get) => ({
 
     set({ displayGame, displayIndex: newIndex })
   },
-  setPracticeBoard: (practiceBoard: String | null) => set({ practiceBoard }),
   setFriends: async (friends: Array<Ship>) => set({ friends }),
   setDisplayIndex: (displayIndex: number) => {
     set({ displayIndex })
@@ -69,14 +66,19 @@ const useChessStore = create<ChessState>((set, get) => ({
     }
   },
   receiveActiveGame: async (data: ActiveGameInfo) => {
+    // set practice game as displayGame if no game is currently displayed
+    if (data.white === data.black && data.white === `~${window.ship}` && get().displayGame === null) {
+      get().setDisplayGame(data)
+    }
+
     set(state => ({ activeGames: state.activeGames.set(data.gameID, data) }))
 
     await get().urbit.subscribe({
       app: 'chess',
       path: `/game/${data.gameID}/updates`,
-      err: () => {},
+      err: () => { },
       event: (data: ChessUpdate) => get().receiveGameUpdate(data),
-      quit: () => {}
+      quit: () => { }
     })
   },
   receiveArchivedGame: (data: ArchivedGameInfo) => {
@@ -160,7 +162,7 @@ const useChessStore = create<ChessState>((set, get) => ({
       return
     }
 
-    await get().fetchArchivedMoves(gameID)
+    get().fetchArchivedMoves(gameID)
     get().setDisplayGame(get().archivedGames.get(gameID))
   },
   receiveGameUpdate: (data: ChessUpdate) => {
@@ -184,7 +186,21 @@ const useChessStore = create<ChessState>((set, get) => ({
         }
 
         if (move.san !== null && move.fen !== null) {
+          // ignore duplicate position updates in practice games with self
+          if (currentGame.white === currentGame.black && currentGame.white === `~${window.ship}`) {
+            const lastMove = currentGame.moves[currentGame.moves.length - 1]
+            const isDuplicateMove = lastMove &&
+              lastMove.san === move.san &&
+              lastMove.fen === move.fen
+
+            if (isDuplicateMove) {
+              console.log('Ignoring duplicate position update:', move)
+              return
+            }
+          }
+
           currentGame.moves.push(move)
+          console.log(move)
 
           const updatedGame: ActiveGameInfo = {
             ...currentGame,
@@ -237,6 +253,11 @@ const useChessStore = create<ChessState>((set, get) => ({
         // display the archived version
         if (gameID === get().displayGame.gameID) {
           get().setDisplayGame(updatedGame)
+        }
+
+        // if this was a practice game, create a new one
+        if (currentGame.white === currentGame.black && currentGame.white === `~${window.ship}`) {
+          pokeAction(get().urbit, sendChallengePoke(`~${window.ship}`, Side.Black, 'Practice board', true))
         }
 
         console.log('RECEIVED RESULT UPDATE ' + resultData.result + ' FOR ' + gameID)
