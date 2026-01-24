@@ -263,12 +263,12 @@ export function Challenges () {
             className="new-opp-tally-container"
             style={
               newOpp === ''
-                ? { display: 'none' }
+                ? { visibility: 'hidden' }
                 : !isValidPatp(newOpp)
-                  ? { display: 'none' }
+                  ? { visibility: 'hidden' }
                   : newOpp === `~${urbit.ship}`
-                    ? { display: 'none' }
-                    : { display: 'block' }
+                    ? { visibility: 'hidden' }
+                    : { visibility: 'visible' }
             }
           >
             <p className="new-opp-tally">
