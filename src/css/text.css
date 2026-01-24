@@ -43,6 +43,10 @@
   color: #F2EFE7;
 }
 
+.new-opp-tally {
+  color: #F2EFE7;
+}
+
 /* game panel list */
 .moves ol {
   list-style-type: decimal-leading-zero;
