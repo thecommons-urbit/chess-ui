@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { GameID } from '../ts/types/urbitChess'
 import useChessStore from '../ts/state/chessStore'
 import usePreferenceStore from '../ts/state/preferenceStore'
-import '@urbit/sigil-js'
+import { SigilIcon } from './SigilIcon'
 
 export function Games () {
   const { urbit, activeGames, setDisplayGame, archivedGames, displayArchivedGame } = useChessStore()
@@ -41,15 +41,6 @@ export function Games () {
             }
 
             const description = activeGame.event
-            const sigilConfig = {
-              point: `${opponent}`,
-              size: 40,
-              background: '#1C1A1D',
-              foreground: '#F2EFE7',
-              detail: 'none',
-              space: 'default'
-            }
-
             return (
               <li
                 key={key}
@@ -57,7 +48,7 @@ export function Games () {
                 title={gameID}
                 onClick={() => { setDisplayGame(activeGame) }}>
                 <div className='row' style={{ alignItems: 'center', cursor: 'pointer' }}>
-                  <urbit-sigil {...sigilConfig} />
+                  <SigilIcon point={opponent} />
                   <div className='col game-card'>
                     <p className='game-opponent'>{opponent}</p>
                     <p
@@ -86,15 +77,6 @@ export function Games () {
             }
 
             const description = archivedGame.event
-            const sigilConfig = {
-              point: `${opponent}`,
-              size: 40,
-              background: '#1C1A1D',
-              foreground: '#F2EFE7',
-              detail: 'none',
-              space: 'default'
-            }
-
             return (
               <li
                 key={key}
@@ -102,7 +84,7 @@ export function Games () {
                 title={gameID}
                 onClick={() => { displayArchivedGame(gameID) }}>
                 <div className='row' style={{ alignItems: 'center', cursor: 'pointer' }}>
-                  <urbit-sigil {...sigilConfig} />
+                  <SigilIcon point={opponent} />
                   <div className='col game-card'>
                     <p className='game-opponent'>{opponent}</p>
                     <p
