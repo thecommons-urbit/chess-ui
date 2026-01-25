@@ -11,7 +11,7 @@ import { SigilIcon } from './SigilIcon'
 const selectedSideButtonClasses = 'side chess-side-selected'
 const unselectedSideButtonClasses = 'side chess-side-unselected'
 
-export function Challenges() {
+export function Challenges () {
   // data
   const [who, setWho] = useState('')
   const [description, setDescription] = useState('')

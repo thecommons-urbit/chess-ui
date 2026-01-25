@@ -6,7 +6,7 @@ interface SigilIconProps {
   point: string
 }
 
-export function SigilIcon({ point }: SigilIconProps) {
+export function SigilIcon ({ point }: SigilIconProps) {
   const size = 40
   const detail = 'none'
   const space = 'default'
@@ -33,7 +33,7 @@ export function SigilIcon({ point }: SigilIconProps) {
         width: size,
         height: size,
         backgroundColor: background,
-        borderRadius: '0.25rem',
+        borderRadius: '0.25rem'
       }}
     >
     </div>

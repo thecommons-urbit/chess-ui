@@ -75,7 +75,6 @@ export function Chessboard () {
     setApi(Chessground(boardRef.current, CHESSGROUND.baseConfig))
   }
 
-
   const updateChess = () => {
     // active game
     if (displayGame !== null && !displayGame.archived) {
@@ -211,7 +210,6 @@ export function Chessboard () {
     }
     api?.set(stateConfig)
   }
-
 
   //
   // React hooks
