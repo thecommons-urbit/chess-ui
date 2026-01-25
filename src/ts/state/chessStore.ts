@@ -71,6 +71,11 @@ const useChessStore = create<ChessState>((set, get) => ({
       get().setDisplayGame(data)
     }
 
+    // display newly-accepted games where we're playing white
+    if (data.white === `~${window.ship}` && data.moves.length === 0) {
+      get().setDisplayGame(data)
+    }
+
     set(state => ({ activeGames: state.activeGames.set(data.gameID, data) }))
 
     await get().urbit.subscribe({

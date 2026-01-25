@@ -6,7 +6,7 @@ import useChessStore from '../ts/state/chessStore'
 import usePreferenceStore from '../ts/state/preferenceStore'
 import { Challenge, Side, Ship } from '../ts/types/urbitChess'
 import { getTally } from '../ts/helpers/chess'
-import '@urbit/sigil-js'
+import { SigilIcon } from './SigilIcon'
 
 const selectedSideButtonClasses = 'side chess-side-selected'
 const unselectedSideButtonClasses = 'side chess-side-unselected'
@@ -131,20 +131,11 @@ export function Challenges () {
 
             const description = challenge.event
             const isPractice = challenge.isPractice
-            const sigilConfig = {
-              point: `${challenger}`,
-              size: 40,
-              background: '#1C1A1D',
-              foreground: '#F2EFE7',
-              detail: 'none',
-              space: 'default'
-            }
-
             return (
               <li className={`game challenge`} key={key}>
                 <div className='challenge-box'>
                   <div className='row' style={{ alignItems: 'center' }}>
-                    <urbit-sigil {...sigilConfig} />
+                    <SigilIcon point={challenger} />
                     <div className='col'>
                       <p className='challenger-name'>{challenger}</p>
                       <p
@@ -176,20 +167,11 @@ export function Challenges () {
 
             const description = challenge.event
             const isPractice = challenge.isPractice
-            const sigilConfig = {
-              point: `${challenged}`,
-              size: 40,
-              background: '#1C1A1D',
-              foreground: '#F2EFE7',
-              detail: 'none',
-              space: 'default'
-            }
-
             return (
               <li className='game' key={key}>
                 <div className='challenge-box'>
                   <div className='row' style={{ alignItems: 'center' }}>
-                    <urbit-sigil {...sigilConfig} />
+                    <SigilIcon point={challenged} />
                     <div className='col'>
                       <p className='challenger-name'>{challenged}</p>
                       <p
@@ -241,7 +223,6 @@ export function Challenges () {
         }
       </ul>
       {/* New Challenge popup */}
-      {/* XX getTally runs on each chance to the description field */}
       <Popup open={modalOpen} className='challenges-popup' onClose={resetChallengeInterface}>
         <div className='new-challenge-container col'>
           <p className='new-challenge-header'>New Challenge</p>
@@ -263,12 +244,12 @@ export function Challenges () {
             className="new-opp-tally-container"
             style={
               newOpp === ''
-                ? { display: 'none' }
+                ? { visibility: 'hidden' }
                 : !isValidPatp(newOpp)
-                  ? { display: 'none' }
+                  ? { visibility: 'hidden' }
                   : newOpp === `~${urbit.ship}`
-                    ? { display: 'none' }
-                    : { display: 'block' }
+                    ? { visibility: 'hidden' }
+                    : { visibility: 'visible' }
             }
           >
             <p className="new-opp-tally">
@@ -317,8 +298,8 @@ export function Challenges () {
               <piece className="king black" />
             </button>
           </div>
-          <button 
-            className='inverted' 
+          <button
+            className='inverted'
             onClick={who !== `~${urbit.ship}` ? sendChallenge : undefined}
             style={{
               opacity: who === `~${urbit.ship}` ? 0.5 : 1.0,

@@ -236,9 +236,9 @@ export function GamePanel () {
             : materialDifference(lastFen).black
           }
         </div>
-        <div id="opp-timer" className='timer row'>
-          <p>00:00</p>
-        </div>
+        {/* <div id="opp-timer" className='timer row'> */}
+        {/*   <p>00:00</p> */}
+        {/* </div> */}
         <div id="opp-player" className='player row'>
           <p>{opponent}</p>
         </div>
@@ -252,9 +252,9 @@ export function GamePanel () {
         <div id="our-player" className='player row'>
           <p>~{window.ship}</p>
         </div>
-        <div id="our-timer" className='timer row'>
-          <p>00:00</p>
-        </div>
+        {/* <div id="our-timer" className='timer row'> */}
+        {/*   <p>00:00</p> */}
+        {/* </div> */}
         {/* buttons */}
         <div className="game-panel-button-container">
           {/* resign button */}
