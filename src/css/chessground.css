@@ -1,3 +1,6 @@
+
+/* chessboard */
+
 div.chessboard {
   display: table;
   height: 100%;
@@ -23,8 +26,6 @@ div.chess-promotion square {
   border-radius: 50%;
   background-color: #b0b0b0;
   box-shadow: inset 0 0 25px 3px #808080;
-  transition-property: border-radius, box-shadow;
-  transition-duration: 150ms;
 }
 
 div.chess-promotion square piece {
@@ -32,9 +33,6 @@ div.chess-promotion square piece {
   height: 100%;
   pointer-events: auto;
   opacity: 1;
-  transform: scale(0.8);
-  transition-property: transform;
-  transition-duration: 150ms;
 }
 
 div.chess-promotion square:hover {

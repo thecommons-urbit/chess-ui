@@ -1,21 +1,21 @@
+
+/* buttons */
+
 button {
   appearance: none;
-  background-color: #FAFBFC;
-  border: 1px solid rgba(27, 31, 35, 0.15);
+  background-color: #1C1A1D;
+  border: none;
   border-radius: 6px;
-  box-shadow: rgba(27, 31, 35, 0.04) 0 1px 0, rgba(255, 255, 255, 0.25) 0 1px 0 inset;
-  box-sizing: border-box;
-  color: #24292E;
+  color: #F2EFE7;
   cursor: pointer;
   display: inline-block;
-  font-family: 'Courier Prime', 'Courier New', monospace;
-  font-size: 14px;
+  font-family: 'Urbit Sans', sans-serif;
+  font-size: 0.9rem;
   font-weight: 500;
   line-height: 20px;
   list-style: none;
   padding: 6px 16px;
   position: relative;
-  transition: background-color 0.2s cubic-bezier(0.3, 0, 0.5, 1);
   user-select: none;
   -webkit-user-select: none;
   touch-action: manipulation;
@@ -25,22 +25,20 @@ button {
 }
 
 button:hover {
-  background-color: #E0E0E0;
+  background-color: #1C1A1D;
+  color: #F2EFE7;
   text-decoration: none;
-  transition-duration: 0.1s;
 }
 
 button:disabled {
-  background-color: #FAFBFC;
-  border-color: rgba(27, 31, 35, 0.15);
+  background-color: #1C1A1D;
   color: #959DA5;
   cursor: default;
 }
 
 button:active {
-  background-color: #EDEFF2;
-  box-shadow: rgba(225, 228, 232, 0.2) 0 1px 0 inset;
-  transition: none 0s;
+  background-color: #1C1A1D;
+  color: #F2EFE7;
 }
 
 button:focus {
@@ -55,30 +53,74 @@ button:-webkit-details-marker {
   display: none;
 }
 
-button.accept:hover {
-  background-color: #7FC482;
+button.accept, button.reject {
+  color: #F2EFE7;
+  background-color: #1C1A1D;
 }
 
-button.reject:hover {
-  background-color: #C7532F;
+button.reject {
+  margin-left: 0.5em;
 }
 
-button.radio-selected {
-  background-color: #5FFF9D;
+button.challenge-friend {
+  color: #F2EFE7;
+  background-color: #1C1A1D;
 }
 
-button.radio-unselected:hover {
-  background-color: #CAFFDF;
+/* New Challenge Popup */
+
+button.chess-side-selected {
+  background-color: #F2EFE7;
+}
+
+button.chess-side-unselected {
+  background-color: #1C1A1D;
 }
 
 button.side {
-  height: 50px;
-  width: 75px;
-  background-position: 50% 50%;
-  background-repeat: no-repeat;
+  height: 60px;
+  width: 60px;
+  border-radius: 0.5rem;
+  overflow: hidden;
+  position: relative;
+  padding: 0;
+  margin: 0 5px;
+}
+
+button.side piece {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+.split-kings-container {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  width: 60px;
+  height: 60px;
+  border-radius: 0.5rem;
+  overflow: hidden;
+}
+
+.left-half {
+  clip-path: inset(0 50% 0 0);
+}
+
+.right-half {
+  clip-path: inset(0 0 0 50%);
 }
 
 button.option {
   width: 80%;
   margin-top: 1rem;
 }
+
+/* Inverted buttons */
+button.inverted {
+  background-color: #F2EFE7;
+  color: #1C1A1D;
+}
+

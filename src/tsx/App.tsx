@@ -2,12 +2,14 @@ import React from 'react'
 import { Beforeunload } from 'react-beforeunload'
 import Urbit from '@urbit/http-api'
 import useChessStore from '../ts/state/chessStore'
-import { GameInfo, ChallengeUpdate } from '../ts/types/urbitChess'
+import { Side, ChallengeUpdate, ActiveGameInfo, ArchivedGameInfo } from '../ts/types/urbitChess'
+import { scryFriends, pokeAction, sendChallengePoke } from '../ts/helpers/urbitChess'
 import { Chessboard } from './Chessboard'
-import { Menu } from './Menu'
+import { ControlPanel } from './ControlPanel'
+import { GamePanel } from './GamePanel'
 
 export function App () {
-  const { urbit, setUrbit, receiveChallenge, receiveGame } = useChessStore()
+  const { urbit, setUrbit, receiveChallengeUpdate, receiveActiveGame, receiveArchivedGame, displayGame, setFriends } = useChessStore()
 
   //
   // Helper functions
@@ -17,21 +19,32 @@ export function App () {
     const newUrbit = new Urbit('', '')
     newUrbit.ship = window.ship
     setUrbit(newUrbit)
-
     await newUrbit.subscribe({
       app: 'chess',
       path: '/challenges',
       err: () => {},
-      event: (data: ChallengeUpdate) => receiveChallenge(data),
+      event: (data: ChallengeUpdate) => receiveChallengeUpdate(data),
       quit: () => {}
     })
     await newUrbit.subscribe({
       app: 'chess',
       path: '/active-games',
       err: () => {},
-      event: (data: GameInfo) => receiveGame(data),
+      event: (data: ActiveGameInfo) => receiveActiveGame(data),
       quit: () => {}
     })
+    await newUrbit.subscribe({
+      app: 'chess',
+      path: '/archived-games',
+      err: () => {},
+      event: (data: ArchivedGameInfo) => receiveArchivedGame(data),
+      quit: () => {}
+    })
+
+    setFriends(await scryFriends('chess', '/friends'))
+
+    console.log('sending challenge to ourselves')
+    pokeAction(newUrbit, sendChallengePoke(`~${window.ship}`, Side.Black, 'Practice board', true))
   }
 
   const teardown = () => {
@@ -53,8 +66,13 @@ export function App () {
   return (
     <Beforeunload onBeforeunload={teardown}>
       <div className='app-container'>
+        {
+          (displayGame == null)
+            ? <div />
+            : <GamePanel />
+        }
         <Chessboard />
-        <Menu />
+        <ControlPanel />
       </div>
     </Beforeunload>
   )

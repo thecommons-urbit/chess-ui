@@ -21,7 +21,7 @@ usage() {
   fi
 
   echo -e ""
-  echo -e "Usage:\t$SCRIPT_NAME [-h] [-l] [-n]"
+  echo -e "Usage:\t$SCRIPT_NAME [-h] [-k KELVIN] [-l] [-n] [-s SHIP_NAME] [-u URL]"
   echo -e ""
   echo -e "Build the app frontend and the desk files required to install it in Grid"
   echo -e ""
@@ -57,7 +57,7 @@ LINT_FIX=0
 # --------------------------------------
 
 # Parse arguments
-OPTS=":hnl:"
+OPTS=":hnlv:"
 while getopts ${OPTS} opt; do
   case ${opt} in
     h)
@@ -68,6 +68,9 @@ while getopts ${OPTS} opt; do
       ;;
     l)
       LINT_FIX=1
+      ;;
+    v)
+      VERSION=$OPTARG
       ;;
     :)
       echo "$SCRIPT_NAME: Missing argument for '-${OPTARG}'" >&2
@@ -93,7 +96,7 @@ if [ $USE_DOCKER -eq 1 ]; then
   # If you are on macOS, you need to use the legacy builder ( DOCKER_BUILDKIT=0 )
   # This is due to the following issue:
   #   https://github.com/moby/buildkit/issues/1271
-  # sudo DOCKER_BUILDKIT=0 docker build --tag ${DOCKER_IMAGE}:${VERSION} ${ROOT_DIR}
+  # sudo DOCKER_BUILDKIT=0 docker build --tag ${DOCKER_IMAGE}:${VERSION_FULL} .
   sudo docker build --tag ${DOCKER_IMAGE}:${VERSION} ${ROOT_DIR}
   sudo docker run --rm -v ${BUILD_DIR}:/app/output/ ${DOCKER_IMAGE}:${VERSION}
 

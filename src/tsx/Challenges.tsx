@@ -1,20 +1,32 @@
 import React, { useState } from 'react'
 import Popup from 'reactjs-popup'
-import { pokeAction, challenge, acceptGame, declineGame } from '../ts/helpers/urbitChess'
 import { isValidPatp } from 'urbit-ob'
+import { pokeAction, sendChallengePoke, acceptChallengePoke, declineChallengePoke } from '../ts/helpers/urbitChess'
 import useChessStore from '../ts/state/chessStore'
+import usePreferenceStore from '../ts/state/preferenceStore'
 import { Challenge, Side, Ship } from '../ts/types/urbitChess'
+import { getTally } from '../ts/helpers/chess'
+import { SigilIcon } from './SigilIcon'
 
-const selectedSideButtonClasses = 'side radio-selected'
-const unselectedSideButtonClasses = 'side radio-unselected'
+const selectedSideButtonClasses = 'side chess-side-selected'
+const unselectedSideButtonClasses = 'side chess-side-unselected'
 
 export function Challenges () {
+  // data
   const [who, setWho] = useState('')
   const [description, setDescription] = useState('')
   const [side, setSide] = useState(Side.Random)
+  const [practiceSetting, setPracticeSetting] = useState(false)
+  const [newOpp, setNewOpp] = useState('')
+  const { urbit, incomingChallenges, outgoingChallenges, friends } = useChessStore()
+  const { pieceTheme } = usePreferenceStore()
+  // interface
   const [modalOpen, setModalOpen] = useState(false)
+  const [challengingFriend, setChallengingFriend] = useState(false)
+  const [showingFriends, setFriendsList] = useState(false)
+  const [showingIncoming, setIncomingList] = useState(true)
+  const [showingOutgoing, setOutgoingList] = useState(false)
   const [badChallengeAttempts, setBadChallengeAttempts] = useState(0)
-  const { urbit, incomingChallenges, removeChallenge } = useChessStore()
 
   const openModal = () => {
     setModalOpen(true)
@@ -22,6 +34,7 @@ export function Challenges () {
 
   const closeModal = () => {
     setModalOpen(false)
+    setNewOpp('')
   }
 
   const incrementBadChallengeAttempts = () => {
@@ -31,39 +44,20 @@ export function Challenges () {
   const resetChallengeInterface = () => {
     setWho('')
     setDescription('')
+    setPracticeSetting(false)
     setSide(Side.Random)
+    setChallengingFriend(false)
     setBadChallengeAttempts(0)
 
     closeModal()
   }
 
-  const challengerKing = (side: Side): string => {
-    switch (side) {
-      case Side.White: {
-        return '♔'
-      }
-      case Side.Black: {
-        return '♚'
-      }
-      case Side.Random:
-        return '⚂'
-    }
-  }
-
   const acceptChallenge = async (who: Ship) => {
-    const onSuccess = () => {
-      removeChallenge(who)
-    }
-
-    await pokeAction(urbit, acceptGame(who), () => {}, onSuccess)
+    pokeAction(urbit, acceptChallengePoke(who))
   }
 
   const declineChallenge = async (who: Ship) => {
-    const onSuccess = () => {
-      removeChallenge(who)
-    }
-
-    await pokeAction(urbit, declineGame(who), () => {}, onSuccess)
+    pokeAction(urbit, declineChallengePoke(who))
   }
 
   const sendChallenge = async () => {
@@ -75,39 +69,87 @@ export function Challenges () {
       resetChallengeInterface()
     }
 
-    await pokeAction(urbit, challenge(who, side, description), onError, onSuccess)
+    pokeAction(urbit, sendChallengePoke(who, side, description, practiceSetting), onError, onSuccess)
+  }
+
+  const openFriends = async () => {
+    setFriendsList(true)
+    setIncomingList(false)
+    setOutgoingList(false)
+  }
+
+  const openIncoming = () => {
+    setIncomingList(true)
+    setOutgoingList(false)
+    setFriendsList(false)
+  }
+
+  const openOutgoing = () => {
+    setOutgoingList(true)
+    setIncomingList(false)
+    setFriendsList(false)
   }
 
   return (
     <div className='challenges-container col'>
-      <button className='option' onClick={openModal}>new challenge</button>
-      <ul className='game-list'>
+      <div id="challenges-header" className="control-panel-container col">
+        <button
+          className='option inverted'
+          onClick={openModal}
+        >
+          New Challenge
+        </button>
+        <p>
+          <span onClick={openIncoming} style={{ opacity: (showingIncoming ? 1.0 : 0.5) }}>
+            Incoming
+          </span>
+          &ensp;
+          <span>
+            {'\u2217'}
+          </span>
+          &ensp;
+          <span onClick={openOutgoing} style={{ opacity: (showingOutgoing ? 1.0 : 0.5) }}>
+            Outgoing
+          </span>
+          &ensp;
+          <span>
+            {'\u2217'}
+          </span>
+          &ensp;
+          <span onClick={openFriends} style={{ opacity: (showingFriends ? 1.0 : 0.5) }}>
+            Friends
+          </span>
+        </p>
+      </div>
+      {/* incoming challenges list */}
+      <ul id="incoming-challenges" className='game-list' style={{ display: (showingIncoming ? 'flex' : ' none') }}>
         {
           Array.from(incomingChallenges).map(([challenger, challenge], key) => {
-            const colorClass = (key % 2) ? 'odd' : 'even'
-            const description = challenge.event
-            const mySide = (challenge.challengerSide === Side.White) ? 'b' : 'w'
+            if (challenger === `~${urbit.ship}`) {
+              return
+            }
 
+            const description = challenge.event
+            const isPractice = challenge.isPractice
             return (
-              <li className={`game challenge ${colorClass}`} key={key}>
-                <div className='row' style={{ justifyContent: 'space-between' }}>
-                  <div className='row'>
-                    <img
-                      src={`https://raw.githubusercontent.com/lichess-org/lila/5a9672eacb870d4d012ae09d95aa4a7fdd5c8dbf/public/piece/cburnett/${mySide}N.svg`}
-                      height={60}
-                      width={60}/>
+              <li className={`game challenge`} key={key}>
+                <div className='challenge-box'>
+                  <div className='row' style={{ alignItems: 'center' }}>
+                    <SigilIcon point={challenger} />
                     <div className='col'>
-                      <p style={{ fontSize: '1.25rem' }}>{challenger}</p>
+                      <p className='challenger-name'>{challenger}</p>
                       <p
                         title={description}
-                        style={{ maxHeight: '5rem', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                        className='challenger-desc'
+                      >
+                        {isPractice && <i>Practice:&nbsp;</i>}
                         {description}
                       </p>
                     </div>
                   </div>
-                  <div className='col' style={{ justifyContent: 'space-evenly', margin: '0.5em' }}>
-                    <button className="accept" onClick={() => acceptChallenge(challenger)}>accept</button>
-                    <button className="reject" onClick={() => declineChallenge(challenger)}>decline</button>
+                  <div className='row'>
+                    <button className="accept" onClick={() => acceptChallenge(challenger)}>Accept</button>
+                    <button className="reject" onClick={() => declineChallenge(challenger)}>Decline</button>
                   </div>
                 </div>
               </li>
@@ -115,49 +157,157 @@ export function Challenges () {
           })
         }
       </ul>
-      <Popup open={modalOpen} onClose={resetChallengeInterface}>
+      {/* outgoing challenges list */}
+      <ul id="outgoing-challenges" className='game-list' style={{ display: (showingOutgoing ? 'flex' : ' none') }}>
+        {
+          Array.from(outgoingChallenges).map(([challenged, challenge], key) => {
+            if (challenged === `~${urbit.ship}`) {
+              return
+            }
+
+            const description = challenge.event
+            const isPractice = challenge.isPractice
+            return (
+              <li className='game' key={key}>
+                <div className='challenge-box'>
+                  <div className='row' style={{ alignItems: 'center' }}>
+                    <SigilIcon point={challenged} />
+                    <div className='col'>
+                      <p className='challenger-name'>{challenged}</p>
+                      <p
+                        title={description}
+                        className='challenger-desc'
+                      >
+                        {isPractice && <i>Practice:&nbsp;</i>}
+                        {description}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </li>
+            )
+          })
+        }
+      </ul>
+      {/* friends list */}
+      <ul id="friends" className='game-list' style={{ display: (showingFriends ? 'flex' : ' none') }}>
+        {
+          Array.from(friends).map((friend: Ship, key: number) => {
+            return (
+              <li className={`game challenge`} key={key}>
+                <div className='challenge-box'>
+                  <div className='row'>
+                    <div className='col'>
+                      <p className='friend'>~{friend}</p>
+                      <p className="score">{(getTally(`~${friend}`))}</p>
+                    </div>
+                  </div>
+                  <div className='col'>
+                    <button
+                      className='game challenge-friend'
+                      onClick={
+                        () => {
+                          setChallengingFriend(true); setWho('~' + friend)
+                          setNewOpp('~' + friend)
+                          openModal()
+                        }
+                      }
+                    >
+                      Challenge
+                    </button>
+                  </div>
+                </div>
+              </li>
+            )
+          })
+        }
+      </ul>
+      {/* New Challenge popup */}
+      <Popup open={modalOpen} className='challenges-popup' onClose={resetChallengeInterface}>
         <div className='new-challenge-container col'>
-          <p style={{ fontSize: '2em', fontWeight: 'bold' }}>new challenge</p>
+          <p className='new-challenge-header'>New Challenge</p>
           <div className='challenge-input-container row'>
-            <p>opponent:</p>
+            <p>Opponent:</p>
             <input
               className={(badChallengeAttempts > 0) ? 'rejected' : ''}
               type="text"
               placeholder={'~sampel-palnet'}
-              onChange={(e) => setWho(e.target.value)}
-              key={badChallengeAttempts}/>
+              value={who}
+              onChange={(e) => {
+                setWho(e.target.value)
+                setNewOpp(e.target.value)
+              }}
+              key={badChallengeAttempts}
+              disabled={challengingFriend} />
+          </div>
+          <div
+            className="new-opp-tally-container"
+            style={
+              newOpp === ''
+                ? { visibility: 'hidden' }
+                : !isValidPatp(newOpp)
+                  ? { visibility: 'hidden' }
+                  : newOpp === `~${urbit.ship}`
+                    ? { visibility: 'hidden' }
+                    : { visibility: 'visible' }
+            }
+          >
+            <p className="new-opp-tally">
+              {(getTally(newOpp))}
+            </p>
           </div>
           <div className='challenge-input-container row'>
-            <p>description:</p>
+            <p>Description:</p>
             <input
               type="text"
               placeholder={'(optional)'}
-              onChange={(e) => setDescription(e.target.value)}/>
+              onChange={(e) => setDescription(e.target.value)} />
+          </div>
+          <div className='challenge-practice-container row'>
+            <p>Practice game?</p>
+            <input
+              type="checkbox"
+              onChange={(e) => setPracticeSetting(e.target.checked)}
+            />
           </div>
           <div className='challenge-side-container row'>
             <button
-              className={(side === Side.White) ? selectedSideButtonClasses : unselectedSideButtonClasses}
-              title='WHITE'
-              style={{
-                backgroundImage: 'url(https://raw.githubusercontent.com/lichess-org/lila/5a9672eacb870d4d012ae09d95aa4a7fdd5c8dbf/public/piece/cburnett/wK.svg)'
-              }}
-              onClick={() => setSide(Side.White)}/>
+              className={`${pieceTheme} ${(side === Side.White) ? selectedSideButtonClasses : unselectedSideButtonClasses}`}
+              title='White'
+              onClick={() => setSide(Side.White)}
+            >
+              <piece className="king white" />
+            </button>
+
             <button
-              className={(side === Side.Random) ? selectedSideButtonClasses : unselectedSideButtonClasses}
-              title='RANDOM'
-              style={{
-                backgroundImage: 'url(https://raw.githubusercontent.com/lichess-org/lila/5a9672eacb870d4d012ae09d95aa4a7fdd5c8dbf/public/images/wbK.svg)'
-              }}
-              onClick={() => setSide(Side.Random)}/>
+              className={`${pieceTheme} ${(side === Side.Random) ? selectedSideButtonClasses : unselectedSideButtonClasses}`}
+              title='Random'
+              onClick={() => setSide(Side.Random)}
+            >
+              <div className="split-kings-container">
+                <piece className="king white left-half" />
+                <piece className="king black right-half" />
+              </div>
+            </button>
+
             <button
-              className={(side === Side.Black) ? selectedSideButtonClasses : unselectedSideButtonClasses}
-              title='BLACK'
-              style={{
-                backgroundImage: 'url(https://raw.githubusercontent.com/lichess-org/lila/5a9672eacb870d4d012ae09d95aa4a7fdd5c8dbf/public/piece/cburnett/bK.svg)'
-              }}
-              onClick={() => setSide(Side.Black)}/>
+              className={`${pieceTheme} ${(side === Side.Black) ? selectedSideButtonClasses : unselectedSideButtonClasses}`}
+              title='Black'
+              onClick={() => setSide(Side.Black)}
+            >
+              <piece className="king black" />
+            </button>
           </div>
-          <button onClick={sendChallenge}>send challenge</button>
+          <button
+            className='inverted'
+            onClick={who !== `~${urbit.ship}` ? sendChallenge : undefined}
+            style={{
+              opacity: who === `~${urbit.ship}` ? 0.5 : 1.0,
+              cursor: who === `~${urbit.ship}` ? 'default' : 'pointer'
+            }}
+          >
+            Send Challenge
+          </button>
         </div>
       </Popup>
     </div>

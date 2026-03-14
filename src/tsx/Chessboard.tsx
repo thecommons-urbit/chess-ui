@@ -4,16 +4,15 @@ import { Chessground } from 'chessground'
 import { Api as CgApi } from 'chessground/api'
 import { Config as CgConfig } from 'chessground/config'
 import * as cg from 'chessground/types'
-import Popup from 'reactjs-popup'
 import { CHESS } from '../ts/constants/chess'
 import { CHESSGROUND } from '../ts/constants/chessground'
-import { URBIT_CHESS } from '../ts/constants/urbitChess'
 import { getChessDests, isChessPromotion } from '../ts/helpers/chess'
 import { getCgColor } from '../ts/helpers/chessground'
-import { pokeAction, move, castle, acceptDraw, declineDraw } from '../ts/helpers/urbitChess'
+import { pokeAction, movePoke, castlePoke, declineDrawPoke, claimSpecialDrawPoke, declineUndoPoke } from '../ts/helpers/urbitChess'
 import useChessStore from '../ts/state/chessStore'
+import usePreferenceStore from '../ts/state/preferenceStore'
 import { PromotionMove } from '../ts/types/chessground'
-import { Side, CastleSide, PromotionRole, Rank, File, GameID, ActiveGameInfo } from '../ts/types/urbitChess'
+import { Side, CastleSide, PromotionRole, Result, Rank, File, GameID, GameInfo, ActiveGameInfo, ArchivedGameInfo } from '../ts/types/urbitChess'
 
 //
 // Declare custom HTML elements used by Chessground
@@ -40,27 +39,33 @@ export function Chessboard () {
   const [chess, setChess] = useState<ChessInstance>(new Chess())
   const [promotionMove, setPromotionMove] = useState<PromotionMove | null>(null)
   const [renderWorkaround, forceRenderWorkaround] = useState<number>(Date.now())
-  const { urbit, displayGame, declinedDraw, offeredDraw, setDisplayGame, practiceBoard, setPracticeBoard } = useChessStore()
+  const { urbit, displayGame, setDisplayGame, displayIndex } = useChessStore()
+  const { pieceTheme, boardTheme } = usePreferenceStore()
 
   //
   // Non-state constants
   //
 
   const orientation: Side = (displayGame !== null)
-    ? (urbit.ship === displayGame.info.white.substring(1))
+    ? (urbit.ship === displayGame.white.substring(1))
       ? Side.White
       : Side.Black
     : Side.White
   const sideToMove: Side = (displayGame !== null)
-    ? (displayGame.position.split(' ')[1] === WHITE)
+    ? ((displayGame.moves.length % 2) === 0)
       ? Side.White
       : Side.Black
     : getCgColor(chess.turn()) as Side
-  const boardTitle = (displayGame !== null)
-    ? (orientation === Side.White)
-      ? `${CHESS.pieceWhiteKnight} ${displayGame.info.white} vs. ${CHESS.pieceBlackKnight} ${displayGame.info.black}`
-      : `${CHESS.pieceBlackKnight} ${displayGame.info.black} vs. ${CHESS.pieceWhiteKnight} ${displayGame.info.white}`
-    : `~${window.ship}'s practice board`
+  const isViewOnly = displayGame !== null &&
+    (displayGame.archived ||
+      ((displayGame.moves !== null) &&
+        (displayGame.moves.length > 0) &&
+        ((displayGame.moves.length - 1) > displayIndex)))
+  const toShowDests = !isViewOnly
+
+  if (api) {
+    api.state.viewOnly = isViewOnly
+  }
 
   //
   // React hook helper functions
@@ -70,20 +75,14 @@ export function Chessboard () {
     setApi(Chessground(boardRef.current, CHESSGROUND.baseConfig))
   }
 
-  const initPracticeBoard = () => {
-    const storedBoard = localStorage.getItem('practiceBoard')
-    if (storedBoard !== null) {
-      setPracticeBoard(storedBoard)
-    }
-  }
-
   const updateChess = () => {
-    const practiceBoard = localStorage.getItem('practiceBoard')
-
-    if (displayGame !== null) {
-      chess.load(displayGame.position)
-    } else if (practiceBoard !== null) {
-      chess.load(practiceBoard)
+    // active game
+    if (displayGame !== null && !displayGame.archived) {
+      chess.load((displayGame as ActiveGameInfo).position)
+    // archived game with moves made
+    } else if ((displayGame !== null) && (displayGame.moves !== null) && (displayGame.moves.length > 0)) {
+      chess.load(displayGame.moves[displayGame.moves.length - 1].fen)
+    // no display game - load default position
     } else {
       chess.load(CHESS.defaultFEN)
     }
@@ -111,16 +110,16 @@ export function Chessboard () {
       }
 
       const attemptUrbitMove = async (flag: string) => {
-        const gameID: GameID = displayGame.info.gameID
+        const gameID: GameID = displayGame.gameID
 
         if (flag === FLAGS.KSIDE_CASTLE) {
-          await pokeAction(urbit, castle(gameID, CastleSide.King), onError)
+          await pokeAction(urbit, castlePoke(gameID, CastleSide.King), onError)
         } else if (flag === FLAGS.QSIDE_CASTLE) {
-          await pokeAction(urbit, castle(gameID, CastleSide.Queen), onError)
+          await pokeAction(urbit, castlePoke(gameID, CastleSide.Queen), onError)
         } else {
           await pokeAction(
             urbit,
-            move(
+            movePoke(
               gameID,
               orig.charAt(1) as Rank,
               orig.charAt(0) as File,
@@ -130,13 +129,19 @@ export function Chessboard () {
             onError)
         }
 
-        if (displayGame.gotDrawOffer) {
-          await pokeAction(urbit, declineDraw(gameID), null, () => { declinedDraw(gameID) })
+        //  XX: should moving decline draw offer in backend instead?
+        if ((displayGame as ActiveGameInfo).gotDrawOffer) {
+          await pokeAction(urbit, declineDrawPoke(gameID))
+        }
+        //  XX: should moving decline undo request in backend instead?
+        if ((displayGame as ActiveGameInfo).gotUndoRequest) {
+          await pokeAction(urbit, declineUndoPoke(gameID))
         }
       }
 
       if (moveAttempt !== null) {
         if (displayGame !== null) {
+          console.assert(!displayGame.archived, 'display error 421')
           attemptUrbitMove(moveAttempt.flags)
         }
 
@@ -162,7 +167,7 @@ export function Chessboard () {
       lastMove: null,
       orientation: orientation,
       movable: {
-        color: (displayGame !== null) ? orientation : 'both' as const,
+        color: (displayGame !== null && displayGame.white !== displayGame.black) ? orientation : 'both' as const,
         events: {
           after: (orig: cg.Key, dest: cg.Key, metadata: cg.MoveMetadata) => {
             if (isChessPromotion(orig as Square, dest as Square, chess)) {
@@ -171,7 +176,10 @@ export function Chessboard () {
               attemptMove(orig, dest)
             }
 
-            forceRenderWorkaround(Date.now())
+            if (displayGame == null) {
+              console.assert(!displayGame.archived, 'display error 420')
+              forceRenderWorkaround(Date.now())
+            }
           }
         }
       }
@@ -181,33 +189,26 @@ export function Chessboard () {
 
   const updateBoard = () => {
     const stateConfig: CgConfig = {
-      fen: chess.fen(),
+      fen: displayGame == null
+        ? chess.fen()
+        : ((displayGame.moves == null) || (displayGame.moves.length === 0))
+          ? CHESS.defaultFEN
+          : displayGame.moves[displayIndex].fen,
+      lastMove: (displayGame == null || displayGame.moves == null || (displayGame.moves.length === 0))
+        ? null
+        : [
+          displayGame.moves[displayIndex].from,
+          displayGame.moves[displayIndex].to
+        ],
       turnColor: sideToMove as cg.Color,
       check: chess.in_check(),
+      selected: null,
       movable: {
-        dests: getChessDests(chess) as cg.Dests
+        dests: getChessDests(chess) as cg.Dests,
+        showDests: toShowDests
       }
     }
     api?.set(stateConfig)
-  }
-
-  const savePracticeBoard = () => {
-    if (displayGame === null) {
-      localStorage.setItem('practiceBoard', chess.fen())
-      setPracticeBoard(chess.fen())
-    }
-  }
-
-  const resetPracticeBoard = () => {
-    if (practiceBoard === null) {
-      localStorage.removeItem('practiceBoard')
-      chess.load(CHESS.defaultFEN)
-      forceRenderWorkaround(Date.now())
-      const config: CgConfig = {
-        lastMove: null
-      }
-      api?.set(config)
-    }
   }
 
   //
@@ -217,7 +218,6 @@ export function Chessboard () {
   useEffect(
     () => {
       initBoard()
-      initPracticeBoard()
     },
     [boardRef])
 
@@ -239,15 +239,14 @@ export function Chessboard () {
   useEffect(
     () => {
       updateBoard()
-      savePracticeBoard()
     },
-    [promotionMove, renderWorkaround])
+    [displayIndex])
 
   useEffect(
     () => {
-      resetPracticeBoard()
+      updateBoard()
     },
-    [practiceBoard])
+    [promotionMove, renderWorkaround])
 
   //
   // HTML element helper functions
@@ -257,19 +256,25 @@ export function Chessboard () {
     setPromotionMove(null)
   }
 
-  const acceptDrawOnClick = async () => {
-    const gameID = displayGame.info.gameID
-    await pokeAction(urbit, acceptDraw(gameID))
-  }
-
-  const declineDrawOnClick = async () => {
-    const gameID = displayGame.info.gameID
-    await pokeAction(urbit, declineDraw(gameID), null, () => { declinedDraw(gameID) })
-  }
-
   //
   // HTML element generation functions
   //
+
+  const infoText = () => {
+    if ((displayGame !== null) && displayGame.archived) {
+      switch ((displayGame as ArchivedGameInfo).result) {
+        case Result.WhiteVictory: {
+          return 'winner: ' + displayGame.white
+        }
+        case Result.BlackVictory: {
+          return 'winner: ' + displayGame.black
+        }
+        default: {
+          return 'draw'
+        }
+      }
+    }
+  }
 
   const promotionTiles = () => {
     const { orig, dest } = promotionMove
@@ -297,11 +302,11 @@ export function Chessboard () {
         })
 
         const attemptUrbitMove = async () => {
-          const gameID: GameID = displayGame.info.gameID
+          const gameID: GameID = displayGame.gameID
 
           await pokeAction(
             urbit,
-            move(
+            movePoke(
               gameID,
               orig.charAt(1) as Rank,
               orig.charAt(0) as File,
@@ -310,13 +315,19 @@ export function Chessboard () {
               piece.urbitRole),
             onError)
 
-          if (displayGame.gotDrawOffer) {
-            await pokeAction(urbit, declineDraw(gameID), null, () => { declinedDraw(gameID) })
+          //  XX: should moving decline draw offer in backend instead?
+          if ((displayGame as ActiveGameInfo).gotDrawOffer) {
+            await pokeAction(urbit, declineDrawPoke(gameID))
+          }
+          //  XX: should moving decline undo request in backend instead?
+          if ((displayGame as ActiveGameInfo).gotUndoRequest) {
+            await pokeAction(urbit, declineUndoPoke(gameID))
           }
         }
 
         if (attemptMove !== null) {
           if (displayGame !== null) {
+            console.assert(!displayGame.archived, 'display error 422')
             attemptUrbitMove()
           }
         } else {
@@ -343,45 +354,24 @@ export function Chessboard () {
     return (
       <div
         className='chess-promotion cg-wrap'
-        style={{ zIndex: '3', pointerEvents: 'auto' }}
         onClick={cancelPromotion}>
         {promotionTiles()}
       </div>
     )
   }
 
-  const renderDrawPopup = (game: ActiveGameInfo) => {
-    const opponent = (orientation === Side.White) ? game.info.black : game.info.white
-
-    return (
-      <Popup open={game.gotDrawOffer}>
-        <div>
-          <p>{`${opponent} has offered a draw`}</p>
-          <br/>
-          <div className='draw-resolution row'>
-            <button className="accept" role="button" onClick={acceptDrawOnClick}>accept</button>
-            <button className="reject" role="button" onClick={declineDrawOnClick}>decline</button>
-          </div>
-        </div>
-      </Popup>
-    )
-  }
-
   return (
     <div className='game-container'>
-      <div className='title-container'>
-        <p className='title-text' style={{ fontSize: URBIT_CHESS.lengthToFontSize.get(boardTitle.length) }}>
-          {`${boardTitle}`}
-        </p>
-      </div>
-      <div className='board-container'>
+      <div className={`board-container ${boardTheme} ${pieceTheme}`}>
         <div ref={boardRef} className='chessboard cg-wrap' />
-        { (promotionMove !== null) ? renderPromotionInterface() : <div/> }
+        { ((displayGame !== null) && (promotionMove !== null))
+          ? renderPromotionInterface()
+          : <div/>
+        }
       </div>
-      <div className='turn-container'>
-        <p className='turn-text'>{`${sideToMove} to move...`}</p>
+      <div className='info-container'>
+        <p className='info-text'>{infoText()}</p>
       </div>
-      { (displayGame !== null) ? renderDrawPopup(displayGame) : <div/> }
     </div>
   )
 }

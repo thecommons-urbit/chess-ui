@@ -1,0 +1,35 @@
+.blue2 cg-board {
+  background-image: url('../assets/boards/blue2.svg')
+}
+
+.clay cg-board {
+  background-image: url('../assets/boards/clay.svg')
+}
+
+.default cg-board {
+  background-image: url('../assets/boards/default.svg')
+}
+
+.emerald cg-board {
+  background-image: url('../assets/boards/emerald.svg')
+}
+
+.grey cg-board {
+  background-image: url('../assets/boards/grey.svg')
+}
+
+.marble cg-board {
+  background-image: url('../assets/boards/marble.svg')
+}
+
+.powder cg-board {
+  background-image: url('../assets/boards/powder.svg')
+}
+
+.purple cg-board {
+  background-image: url('../assets/boards/purple.svg')
+}
+
+.rosebud cg-board {
+  background-image: url('../assets/boards/rosebud.svg')
+}

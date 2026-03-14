@@ -39,21 +39,21 @@
   },
   "engines": {
     "node": ">=10",
-    "npm": "^9.4.1"
+    "npm": "^9.7.1"
   },
   "dependencies": {
     "@urbit/http-api": "^2.3.0",
+    "@urbit/sigil-js": "^2.2.0",
     "@urbit/vite-plugin-urbit": "^2.0.0",
-    "@vitejs/plugin-react": "^4.2.0",
+    "@vitejs/plugin-react": "^4.3.4",
     "chess.js": "^0.13.0",
     "chessground": "^9.0.0",
     "react": "^18.2.0",
-    "react-beforeunload": "^2.5.3",
+    "react-beforeunload": "^2.6.0",
     "react-dom": "^18.2.0",
-    "react-tabs": "^6.0.0",
     "reactjs-popup": "^2.0.0",
     "urbit-ob": "^5.0.0",
-    "vite": "5.2.0",
+    "vite": "^6.2.5",
     "zustand": "^4.5.0"
   },
   "devDependencies": {
